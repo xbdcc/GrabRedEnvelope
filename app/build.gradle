@@ -1,0 +1,63 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    signingConfigs {
+        def keystorePropertiesFile=rootProject.file("buildsystem/keystore.properties")
+        def keystoreProperties=new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    compileSdkVersion 21
+    buildToolsVersion '21.1.2'
+
+    defaultConfig {
+        applicationId "com.carlos.grabredenvelope"
+        minSdkVersion 18
+        targetSdkVersion 21
+        versionCode 5
+        versionName "1.0.4"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    //修改APK名字
+    android.applicationVariants.all{ variant ->
+        variant.outputs.each{ output ->
+            def outputFile=output.outputFile
+            if(outputFile!=null && outputFile.name.endsWith('.apk')){
+                //这里修改apk名字
+                def fileName = "QiangHongBao_${defaultConfig.versionName}.apk"
+                output.outputFile=new File(outputFile.parent,fileName)
+            }
+        }
+    }
+
+
+    // 使用Java1.8
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile files('libs/gesture/slf4j-api-1.7.1.jar')
+}
