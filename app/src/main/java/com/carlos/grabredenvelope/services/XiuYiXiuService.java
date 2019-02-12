@@ -131,7 +131,7 @@ public class XiuYiXiuService {
     }
 
     public int delayedTime(){
-        return PreferencesUtils.getXiuYiXiuDelay()*100;
+        return PreferencesUtils.INSTANCE.getXiuYiXiuDelay()*100;
     }
 
 }

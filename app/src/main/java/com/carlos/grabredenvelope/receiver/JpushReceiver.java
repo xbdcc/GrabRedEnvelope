@@ -47,10 +47,10 @@ public class JpushReceiver extends BroadcastReceiver {
             String message=bundle.getString(JPushInterface.EXTRA_MESSAGE);
             if(message.equals("start")){
                 Log.d(TAG,"可以用");
-                PreferencesUtils.setUseStatus(true);
+                PreferencesUtils.INSTANCE.setUseStatus(true);
             }else if(message.equals("stop")){
                 Log.d(TAG,"不可以使用");
-                PreferencesUtils.setUseStatus(false);
+                PreferencesUtils.INSTANCE.setUseStatus(false);
             }
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {

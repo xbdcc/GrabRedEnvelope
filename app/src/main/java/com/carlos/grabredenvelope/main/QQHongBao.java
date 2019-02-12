@@ -65,7 +65,7 @@ public class QQHongBao extends BaseActivity implements SeekBar.OnSeekBarChangeLi
         back();
 
         mCbQqControl.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            PreferencesUtils.setQQUseStatus(isChecked);
+            PreferencesUtils.INSTANCE.setQqUseStatus(isChecked);
             Log.d(TAG,"check---"+isChecked);
         });
 
@@ -78,16 +78,16 @@ public class QQHongBao extends BaseActivity implements SeekBar.OnSeekBarChangeLi
 
 
     private void loadSaveData(){
-        mCbQqControl.setChecked(PreferencesUtils.getQQUseStatus());
-        t_putong=PreferencesUtils.getQQPutongDelay();
+        mCbQqControl.setChecked(PreferencesUtils.INSTANCE.getQqUseStatus());
+        t_putong= PreferencesUtils.INSTANCE.getQqPutongDelay();
         mTvQqPutong.setText("普通红包延迟时间：" + t_putong + "s");
         mSbQqPutong.setProgress((t_putong - 1));
 
-        t_kouling=PreferencesUtils.getQQKoulingDelay();
+        t_kouling= PreferencesUtils.INSTANCE.getQqKoulingDelay();
         mTvQqKouling.setText("口令红包延迟时间：" + t_kouling + "s");
         mSbQqKouling.setProgress(t_kouling - 3);
 
-        t_lingqu=PreferencesUtils.getQQLingquDelay();
+        t_lingqu= PreferencesUtils.INSTANCE.getQqLingquDelay();
         mSbQqLingqu.setProgress(t_lingqu-3);
         if(t_lingqu==11){
             mTvQqLingqu.setText("红包领取页关闭时间："+"不关闭");
@@ -102,12 +102,12 @@ public class QQHongBao extends BaseActivity implements SeekBar.OnSeekBarChangeLi
             case R.id.sb_qq_putong:
                 t_putong=progress+1;
                 mTvQqPutong.setText("普通红包延迟时间：" + t_putong + "s");
-                PreferencesUtils.setQQPutongDelay(t_putong);
+                PreferencesUtils.INSTANCE.setQqPutongDelay(t_putong);
                 break;
             case R.id.sb_qq_kouling:
                 t_kouling=progress+3;
                 mTvQqKouling.setText("口令红包延迟时间："+t_kouling+"s");
-                PreferencesUtils.setQQKoulingDelay(t_kouling);
+                PreferencesUtils.INSTANCE.setQqKoulingDelay(t_kouling);
                 break;
             case R.id.sb_qq_lingqu:
                 t_lingqu=progress+3;
@@ -116,7 +116,7 @@ public class QQHongBao extends BaseActivity implements SeekBar.OnSeekBarChangeLi
                 }else{
                     mTvQqLingqu.setText("红包领取页关闭时间："+t_lingqu+"s");
                 }
-                PreferencesUtils.setQQLingquDelay(t_lingqu);
+                PreferencesUtils.INSTANCE.setQqLingquDelay(t_lingqu);
                 break;
         }
     }

@@ -55,13 +55,13 @@ public class QiangHongBaoService extends AccessibilityService {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.d("service oncreate.");
+        LogUtil.INSTANCE.d("service oncreate.");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtil.d("service onstartcommand.");
-        Notification.Builder builder = new Notification.Builder(MyApplication.getAppContext());
+        LogUtil.INSTANCE.d("service onstartcommand.");
+        Notification.Builder builder = new Notification.Builder(MyApplication.Companion.getAppContext());
         Intent notificationIntent = new Intent(this, MainActivity.class);
 
         builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, 0))
@@ -82,7 +82,7 @@ public class QiangHongBaoService extends AccessibilityService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtil.d("service ondestroy.");
+        LogUtil.INSTANCE.d("service ondestroy.");
     }
 
     @Override
@@ -96,23 +96,23 @@ public class QiangHongBaoService extends AccessibilityService {
             isStopUse=true;
 //            return;
         }
-        Log.d(TAG,"state"+PreferencesUtils.getUsestatus());
-        if(!PreferencesUtils.getUsestatus()){
+        Log.d(TAG,"state"+ PreferencesUtils.INSTANCE.getUsestatus());
+        if(!PreferencesUtils.INSTANCE.getUsestatus()){
             Log.d(TAG,"use---停止使用");
             isStopUse=true;
 //            return;
         }
 
         Log.d(TAG,"use---"+isStopUse);
-        LogUtil.d( "....");
+        LogUtil.INSTANCE.d( "....");
         if(!isStopUse){
             nodeRoot=getRootInActiveWindow();
             try{
 //            QQHongBaoService qqHongBaoService=new QQHongBaoService(getApplicationContext(),event,nodeRoot);
-                if(PreferencesUtils.getQQUseStatus()){
+                if(PreferencesUtils.INSTANCE.getQqUseStatus()){
                     QQHongBaoService qqHongBaoService=new QQHongBaoService(this,getApplicationContext(),event,nodeRoot);
                 }
-                if(PreferencesUtils.getXiuYiXiuUseStatus()){
+                if(PreferencesUtils.INSTANCE.getXiuYiXiuUseStatus()){
                     XiuYiXiuService xiuYiXiuService=new XiuYiXiuService(getApplicationContext(),event,nodeRoot);
                 }else{
                     Log.d(TAG,"支付宝自动咻一咻功能未开启");

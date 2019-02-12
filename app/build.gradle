@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
 def keystorePropertiesFile=rootProject.file("buildsystem/keystore.properties")
 def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) {
@@ -29,6 +33,17 @@ android {
                 includeCompileClasspath = true    //加上这行即可
             }
         }
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "6021faf9512753430d2c0b30", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
     }
     buildTypes {
         release {
@@ -46,6 +61,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+
+
 }
 
 //修改APK名字
@@ -62,4 +79,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile 'com.jakewharton:butterknife:7.0.1'
+    implementation 'cn.jiguang.sdk:jpush:3.1.8'  // 此处以JPush 3.1.6 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:1.2.7'  // 此处以JCore 1.2.5 版本为例。
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
