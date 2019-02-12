@@ -1,11 +1,14 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+
+def keystorePropertiesFile=rootProject.file("buildsystem/keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     signingConfigs {
-        def keystorePropertiesFile=rootProject.file("buildsystem/keystore.properties")
-        def keystoreProperties=new Properties()
-        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
@@ -14,7 +17,6 @@ android {
         }
     }
     compileSdkVersion 21
-    buildToolsVersion '21.1.2'
 
     defaultConfig {
         applicationId "com.carlos.grabredenvelope"
@@ -22,6 +24,11 @@ android {
         targetSdkVersion 21
         versionCode 5
         versionName "1.0.4"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true    //加上这行即可
+            }
+        }
     }
     buildTypes {
         release {
@@ -33,19 +40,6 @@ android {
         }
     }
 
-    //修改APK名字
-    android.applicationVariants.all{ variant ->
-        variant.outputs.each{ output ->
-            def outputFile=output.outputFile
-            if(outputFile!=null && outputFile.name.endsWith('.apk')){
-                //这里修改apk名字
-                def fileName = "QiangHongBao_${defaultConfig.versionName}.apk"
-                output.outputFile=new File(outputFile.parent,fileName)
-            }
-        }
-    }
-
-
     // 使用Java1.8
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -54,10 +48,18 @@ android {
 
 }
 
+//修改APK名字
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "QiangHongBao_${versionName}.apk"
+//        outputFileName = "QiangHongBao_${rootProject.ext.android.versionName}.apk"
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile files('libs/gesture/slf4j-api-1.7.1.jar')
 }
