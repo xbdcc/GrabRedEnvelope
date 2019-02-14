@@ -3,11 +3,10 @@ package com.carlos.grabredenvelope.main
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.provider.Settings
 import android.util.Log
 import android.view.accessibility.AccessibilityManager
@@ -16,9 +15,12 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
 import cn.jpush.android.api.JPushInterface
+import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.util.*
-import java.util.*
+import com.carlos.grabredenvelope.util.ControlUse
+import com.carlos.grabredenvelope.util.ToastUtils
+import com.carlos.grabredenvelope.util.Update
+import com.carlos.grabredenvelope.util.Utility
 
 /**
  * Created by 小不点 on 2016/2/14.
@@ -26,12 +28,12 @@ import java.util.*
 open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateChangeListener {
 
     private var listView: ListView? = null
-    private var list: ArrayList<String>? = null
+    private lateinit var list: Array<String>
     private lateinit var cIntent: Intent
     private var adapter: ArrayAdapter<String>? = null
 
     //AccessibilityService 管理
-    private var accessibilityManager: AccessibilityManager? = null
+    private lateinit var accessibilityManager: AccessibilityManager
 
     /**
      * 获取 QiangHongBaoService 是否启用状态
@@ -39,7 +41,7 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
      */
     private val isServiceEnabled: Boolean
         get() {
-            val accessibilityServiceInfoList = accessibilityManager!!.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
+            val accessibilityServiceInfoList = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
             for (info in accessibilityServiceInfoList) {
                 if (info.id == "$packageName/.services.QiangHongBaoService") {
                     Log.d(TAG, "ture")
@@ -69,23 +71,24 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
         Log.d(TAG, "oncreate")
         //监听AccessibilityService 变化
         accessibilityManager = getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-        accessibilityManager!!.addAccessibilityStateChangeListener(this)
+        accessibilityManager.addAccessibilityStateChangeListener(this)
 
         //        Update update=new Update(MainActivity.this,1);
         //        update.update();
 
-        listView = findViewById(R.id.listview) as ListView
-        list = ArrayList()
-        list!!.add(s(R.string.menu_service))
-        list!!.add(s(R.string.menu_hongbao_record))
-        list!!.add(s(R.string.menu_qq_hongbao))
-        list!!.add(s(R.string.menu_weixin_hongbao))
-        list!!.add(s(R.string.menu_zhifubao_xiuyixiu))
-        list!!.add(s(R.string.menu_qq_shuayishua))
-        list!!.add(s(R.string.about))
-        list!!.add(s(R.string.advice))
-        list!!.add(s(R.string.update))
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list!!)
+        listView = findViewById(R.id.listview)
+//        list = ArrayList()
+//        list!!.add(s(R.string.menu_service))
+//        list!!.add(s(R.string.menu_hongbao_record))
+//        list!!.add(s(R.string.menu_qq_hongbao))
+//        list!!.add(s(R.string.menu_weixin_hongbao))
+//        list!!.add(s(R.string.menu_zhifubao_xiuyixiu))
+//        list!!.add(s(R.string.menu_qq_shuayishua))
+//        list!!.add(s(R.string.about))
+//        list!!.add(s(R.string.advice))
+//        list!!.add(s(R.string.update))
+        list = resources.getStringArray(R.array.list)
+        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
         listView!!.adapter = adapter
         Utility.setListViewHeightBasedOnChildren(listView!!)
 
@@ -93,9 +96,7 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
             cIntent = Intent()
             when (position) {
                 0 -> {
-                    cIntent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-                    startActivity(cIntent)
-
+                    startActivity(cIntent.setAction(Settings.ACTION_ACCESSIBILITY_SETTINGS))
 
                     if (isServiceEnabled) {
                         Toast.makeText(this@MainActivity, "找到抢红包，然后关闭服务。", Toast.LENGTH_SHORT).show()
@@ -104,28 +105,30 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
                     }
                 }
                 1 -> {
-                    cIntent!!.setClass(this@MainActivity, HongBaoRecrodActivity::class.java)
-                    startActivity(cIntent)
+                    startActivity(cIntent.setClass(this@MainActivity, WechatEnvelopeActivity::class.java))
                 }
                 2 -> {
-                    cIntent!!.setClass(this@MainActivity, QQHongBao::class.java)
-                    startActivity(cIntent)
+                    ToastUtils.showToast(applicationContext, "关于")
+                    startActivity(cIntent.setClass(this@MainActivity, About::class.java))
                 }
-                3 -> ToastUtils.showToast(this@MainActivity, "待完善")
+                3 -> {
+                    val update = Update(this@MainActivity, 2)
+                    update.update()
+                }
+
                 4 -> {
-                    cIntent!!.setClass(this@MainActivity, XiuYiXiu::class.java)
+                    cIntent.setClass(this@MainActivity, XiuYiXiu::class.java)
                     startActivity(cIntent)
                 }
                 5 -> ToastUtils.showToast(this@MainActivity, "待开发")
                 6 -> {
                     val registrationId = JPushInterface.getRegistrationID(this)
-                    Log.e("1099", "run:--------->registrationId： $registrationId")
-                    LogUtil.d("1099"+"run:--------->registrationId： $registrationId")
+                    LogUtils.d("1099"+"run:--------->registrationId： $registrationId")
 
                     JPushInterface.setAlias(this, 1,"xbd")
 
                     ToastUtils.showToast(applicationContext, "关于")
-                    cIntent!!.setClass(this@MainActivity, About::class.java)
+                    cIntent.setClass(this@MainActivity, About::class.java)
                     startActivity(cIntent)
                 }
                 7 -> ToastUtils.showToast(this@MainActivity, "待开发")
@@ -136,52 +139,7 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
             }
         }
 
-        setAlias()
     }
-
-    private val  MSG_SET_ALIAS = 1001
-    private fun setAlias() {
-
-//        val bundle = intent.getExtras();
-//        val title = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID)
-//        LogUtil.d("title:"+title)
-
-        // 调用 Handler 来异步设置别名
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, "xbd"))
-    }
-
-
-
-    private var mHandler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            JPushInterface.setAliasAndTags(getApplicationContext(),
-                    "xbd",
-                    null,
-                    null)
-            LogUtil.d("TAG:"+msg.what+"-" + msg.data)
-        }
-    }
-
-//    private val mAliasCallback = TagAliasCallback { code, alias, tags ->
-//        val logs: String
-//        when (code) {
-//            0 -> {
-//                logs = "Set tag and alias success"
-//                Log.i(ContentValues.TAG, logs)
-//            }
-//            6002 -> {
-//                logs = "Failed to set alias and tags due to timeout. Try again after 60s."
-//                Log.i(ContentValues.TAG, logs)
-//                // 延迟 60 秒来调用 Handler 设置别名
-//                mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60)
-//            }
-//            else -> {
-//                logs = "Failed with errorCode = $code"
-//                Log.e(ContentValues.TAG, logs)
-//            }
-//        }// 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-//    }
 
 
     override fun onResume() {
@@ -220,11 +178,9 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
      */
     private fun updateServiceStatus() {
         if (isServiceEnabled) {
-            list!![0] = "关闭服务"
-            //            Log.d(TAG,"关闭服务");
+            list[0] = "关闭服务"
         } else {
-            list!![0] = "开启服务"
-            //            Log.d(TAG,"开启服务");
+            list[0] = "开启服务"
         }
     }
 
@@ -238,27 +194,4 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
         updateServiceStatus()
     }
 
-    companion object {
-
-        private val TAG = "MainActivity---"
-    }
-
-
-    //    @Override
-    //    public boolean onKeyDown(int keyCode, KeyEvent event) {
-    //        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-    //            long exitTime=0;
-    //            if ((System.currentTimeMillis() - exitTime) > 2000)  //System.currentTimeMillis()无论何时调用，肯定大于2000
-    //            {
-    //                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-    //                exitTime = System.currentTimeMillis();
-    //            } else {
-    //                finish();
-    //                System.exit(0);
-    //            }
-    //
-    //            return true;
-    //        }
-    //        return super.onKeyDown(keyCode, event);
-    //    }
 }

@@ -20,12 +20,12 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-    compileSdkVersion 21
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "com.carlos.grabredenvelope"
         minSdkVersion 18
-        targetSdkVersion 21
+        targetSdkVersion 28
         versionCode 5
         versionName "1.0.4"
         javaCompileOptions {
@@ -76,12 +76,10 @@ android.applicationVariants.all { variant ->
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:21.0.0'
-    compile 'com.jakewharton:butterknife:7.0.1'
+
     implementation 'cn.jiguang.sdk:jpush:3.1.8'  // 此处以JPush 3.1.6 版本为例。
     implementation 'cn.jiguang.sdk:jcore:1.2.7'  // 此处以JCore 1.2.5 版本为例。
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.github.xbdcc:Cutils:0.0.5'
 }
 repositories {
     mavenCentral()

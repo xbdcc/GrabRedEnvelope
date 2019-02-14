@@ -14,6 +14,13 @@
     <string name="advice">意见反馈（待开发）</string>
     <string name="update">检测更新</string>
 
+    <string-array name="list">
+        <item>开启服务</item>
+        <item>微信红包</item>
+        <item>关于</item>
+        <item>检测更新</item>
+    </string-array>
+
 
     <string name="sure">确定</string>
     <string name="cancel">取消</string>

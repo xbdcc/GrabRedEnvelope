@@ -7,9 +7,9 @@ import android.content.Context
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.dao.QQ_Hongbao
 import com.carlos.grabredenvelope.util.DatabaseHelper
-import com.carlos.grabredenvelope.util.LogUtil
 import com.carlos.grabredenvelope.util.PreferencesUtils
 import com.carlos.grabredenvelope.util.WakeupTools
 import java.text.SimpleDateFormat
@@ -51,24 +51,24 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
         eventType = event.eventType
 
         if (packageName == PACKAGE_QQ) {
-            //            LogUtil.d("检测到QQ服务");
+            //            LogUtils.d("检测到QQ服务");
             //            Log.i(TAG,"event------->"+event);
             when (eventType) {
                 AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> {
-                    LogUtil.d("检测到QQ通知")
+                    LogUtils.d("检测到QQ通知")
                     val texts = event.text
                     Log.i(TAG, "检测到QQ通知，文本为------------>$texts")
                     if (!texts.isEmpty()) {
                         val text = texts.toString()
                         if (text.contains(QQ_NOTIFICATION_TIP)) {
-                            //                            LogUtil.d( "准备打开通知栏");
+                            //                            LogUtils.d( "准备打开通知栏");
                             WakeupTools.wakeUpAndUnlock(context)
                             isHasReceived = true
                             //以下是精华，将QQ的通知栏消息打开
                             val notification = event.parcelableData as Notification
                             val pendingIntent = notification.contentIntent
                             try {
-                                LogUtil.d("准备打开通知栏")
+                                LogUtils.d("准备打开通知栏")
                                 pendingIntent.send()
                             } catch (e: PendingIntent.CanceledException) {
                                 e.printStackTrace()
@@ -78,32 +78,32 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                     }
                 }
                 AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                    LogUtil.d("检测到QQ界面改变")
+                    LogUtils.d("检测到QQ界面改变")
                     //                    if(className.equals(CLASS_QQ_LIST)){
                     //                        grabHongBao();
                     //                    }
                     closeResult()
                 }
                 AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                    LogUtil.d("检测到QQ内容改变")
+                    LogUtils.d("检测到QQ内容改变")
                     //                    AccessibilityNodeInfo nodeInfo=nodeRoot;
-                    //                    LogUtil.d("nodeInfo--------->"+nodeInfo);
+                    //                    LogUtils.d("nodeInfo--------->"+nodeInfo);
                     //                    if(nodeInfo==null){
-                    //                        LogUtil.d("rootWindow为空");
+                    //                        LogUtils.d("rootWindow为空");
                     //                        return;
                     //                    }
                     //                    closeResult();
                     grabHongBao()
 
                     //                    if(nodeInfo==null){
-                    //                        LogUtil.d("rootWindow为空");
+                    //                        LogUtils.d("rootWindow为空");
                     //                        return;
                     //                    }
                     //                    nodeInfo.findAccessibilityNodeInfosByViewId("fdf");
                     //输入红包口令
                     val node_input = nodeInfo!!.findAccessibilityNodeInfosByText(QQ_CLICK_TO_PASTE_PASSWORD)
                     if (node_input != null) {
-                        LogUtil.d("点击输入口令个数" + node_input.size)
+                        LogUtils.d("点击输入口令个数" + node_input.size)
                         size = node_input.size
                         if (size > 0) {
                             val parent = node_input[size - 1].parent
@@ -112,7 +112,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                                 isHasInput = true
                                 delayedControl(2)
                                 parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                                //                            LogUtil.d( "点击输入红包口令");
+                                //                            LogUtils.d( "点击输入红包口令");
                             }
                         }
                         //                        for(int i=node_input.size()-1;i>=0;i--){
@@ -122,14 +122,14 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                         //                                isHasInput=true;
                         //                                delayedControl(2);
                         //                                parent.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                        ////                            LogUtil.d( "点击输入红包口令");
+                        ////                            LogUtils.d( "点击输入红包口令");
                         //                            }
                         //                        }
                     }
 
                     //发送红包口令
                     val node_send = nodeInfo!!.findAccessibilityNodeInfosByText(QQ_HONG_BAO_SEND)
-                    LogUtil.d("点击发送输入的口令个数" + node_send.size)
+                    LogUtils.d("点击发送输入的口令个数" + node_send.size)
                     size = node_send.size
                     if (size > 0) {
                         val parent = node_send[size - 1]
@@ -140,7 +140,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                             isHasInput = false
                             isHasOpened = true
                             parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                            LogUtil.d("点击发送输入的红包口令")
+                            LogUtils.d("点击发送输入的红包口令")
                             isFinished = true
                         }
                     }
@@ -153,35 +153,35 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                     //                            isHasInput=false;
                     //                            isHasOpened=true;
                     //                            parent.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                    //                            LogUtil.d( "点击发送输入的红包口令");
+                    //                            LogUtils.d( "点击发送输入的红包口令");
                     //                            isFinished=true;
                     //                        }
                     //                    }
 
                     //聊天页面出现红包
                     val node_hongbao = nodeInfo!!.findAccessibilityNodeInfosByText(QQ_NOTIFICATION_TIP)
-                    LogUtil.d("聊天页面出现的红包" + node_hongbao.size)
+                    LogUtils.d("聊天页面出现的红包" + node_hongbao.size)
                     size = node_hongbao.size
                     if (size > 0) {
                         val parent = node_hongbao[size - 1]
-                        LogUtil.d("子节点：" + node_hongbao[size - 1])
+                        LogUtils.d("子节点：" + node_hongbao[size - 1])
                         isHasReceived = true
                         isHasReceivedList = true
                         parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                        LogUtil.d("点击聊天页面中的红包")
+                        LogUtils.d("点击聊天页面中的红包")
                     }
                     //                    for(int i=node_hongbao.size()-1;i>=0;i--){
                     //                        AccessibilityNodeInfo parent=node_hongbao.get(i);
-                    //                        LogUtil.d( "子节点：" + node_hongbao.get(i));
+                    //                        LogUtils.d( "子节点：" + node_hongbao.get(i));
                     //                        isHasReceived=true;
                     //                        isHasReceivedList=true;
                     //                        parent.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                    //                        LogUtil.d( "点击聊天页面中的红包");
+                    //                        LogUtils.d( "点击聊天页面中的红包");
                     ////                        if(isHasInput){
                     ////                            isHasInput=false;
                     ////                            isHasSent=true;
                     ////                            parent.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                    ////                            LogUtil.d( "点击发送输入的红包口令");
+                    ////                            LogUtils.d( "点击发送输入的红包口令");
                     ////                        }
                     //                    }
 
@@ -189,10 +189,10 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                     val length = nodeInfo!!.childCount
 
                     nodeInfo = event.source
-                    LogUtil.d("子节点个数$length")
+                    LogUtils.d("子节点个数$length")
                     for (i in 0 until length) {
                         //                        AccessibilityNodeInfo node=nodeInfo.getChild(i);
-                        //                        LogUtil.d( "子节点："+node);
+                        //                        LogUtils.d( "子节点："+node);
                         //                        //已经拆开红包，关闭中。
                         //                        if(node!=null&&isHasOpened&&node.getClassName().equals("android.widget.ImageButton")){
                         //                            try {
@@ -203,7 +203,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                         //                            node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                         //                        }
                         //                        if(node.getText().toString().contains(QQ_NOTIFICATION_TIP)){
-                        //                            LogUtil.d("--------->聊天中出现红包");
+                        //                            LogUtils.d("--------->聊天中出现红包");
                         //                            node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                         //                        }
                         //                        if (node.getClassName().equals("android.widget.EditText")){
@@ -236,7 +236,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
         //没有发送按钮，不是领红包页面
         list = nodeInfo!!.findAccessibilityNodeInfosByText("搜索")
         if (list!!.size < 1) {
-            LogUtil.d("不是领红包页面")
+            LogUtils.d("不是领红包页面")
             return
         }
 
@@ -244,7 +244,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
         //        if(size>0){
         //            AccessibilityNodeInfo parent=list.get(size-1);
         //            parent.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
-        //            LogUtil.d( "点击聊天页面中的111111红包");
+        //            LogUtils.d( "点击聊天页面中的111111红包");
         //        }
 
     }
@@ -254,20 +254,20 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
         //        WakeupTools.wakeUpAndUnlock(context);//解锁
         nodeInfo = nodeRoot
         if (nodeInfo == null) {
-            LogUtil.d("rootWindow为空")
+            LogUtils.d("rootWindow为空")
             return
         }
 
         //没有发送按钮，不是领红包页面
         list = nodeInfo!!.findAccessibilityNodeInfosByText("发送")
         if (list!!.size < 1) {
-            LogUtil.d("不是领红包页面")
+            LogUtils.d("不是领红包页面")
             return
         }
 
 
-        LogUtil.d("--->" + nodeInfo!!)
-        LogUtil.d("--->" + nodeInfo!!.className)
+        LogUtils.d("--->" + nodeInfo!!)
+        LogUtils.d("--->" + nodeInfo!!.className)
         //        //设置0.3秒内随机抢
         //        Random random=new Random();
         //        int time=random.nextInt(300);
@@ -293,7 +293,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                 parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                 isHasClicked = true
                 isHasOpened = true
-                LogUtil.d("isfinish-------->$isFinished")
+                LogUtils.d("isfinish-------->$isFinished")
             }
             //        //最新的红包领起
             //        for(int i=list.size()-1;i>=0;i--){
@@ -306,14 +306,14 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
             //                parent.performAction(AccessibilityNodeInfo.ACTION_CLICK);
             //                isHasClicked=true;
             //                isHasOpened=true;
-            //                LogUtil.d("isfinish-------->"+isFinished);
+            //                LogUtils.d("isfinish-------->"+isFinished);
             ////                isFinished=true;
-            ////                LogUtil.d("点击领红包");
+            ////                LogUtils.d("点击领红包");
             ////                if(isHasReceived){
             ////                    parent.performAction(AccessibilityNodeInfo.ACTION_CLICK);
             //////                    isHasReceived=false;
             ////                    isHasClicked=true;
-            ////                    LogUtil.d("点击领红包");
+            ////                    LogUtils.d("点击领红包");
             ////                }
             //
             //                break;
@@ -328,59 +328,59 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
         //领取最新的红包
         if (size > 0) {
             val node_child = list!![size - 1]
-            LogUtil.d("-----123$node_child")
+            LogUtils.d("-----123$node_child")
             val text = node_child.parent.contentDescription.toString()
-            LogUtil.d("--------123$text")
+            LogUtils.d("--------123$text")
             if (text.contains("\u0014\n" + "\u0014")) {
-                LogUtil.d("--->发不出口令抢不到红包")
+                LogUtils.d("--->发不出口令抢不到红包")
             } else if (text.contains("\u0014\n")) {
-                LogUtil.d("--->能发出不能领")
+                LogUtils.d("--->能发出不能领")
             } else if (node_child != null && node_child.className == "android.widget.TextView"
                     && node_child.text.toString() == QQ_HONG_BAO_PASSWORD) {
                 if (!isSingerClick) {
                     isSingerClick = true
                     isHasClicked = true
-                    LogUtil.d("点击领红包")
+                    LogUtils.d("点击领红包")
                     WakeupTools.wakeUpAndUnlock(context)//解锁
                     delayedControl(1)
                     node_child.parent.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                     if (isHasReceived) {
                         isHasReceived = false
                         isHasClicked = true
-                        LogUtil.d("点击领红包---")
+                        LogUtils.d("点击领红包---")
                         parent!!.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                     }
                 }
             }//            else if(text.contains("\u0014")){
-            //                LogUtil.d("--->发不出能领");
+            //                LogUtils.d("--->发不出能领");
             //            }
             //            Log.i(TAG, "----------------->口令红包：" + node_child);
             //        for(int i=list.size()-1;i>=0;i--){
             ////            AccessibilityNodeInfo node_child=list.get(i).getParent();
             //            AccessibilityNodeInfo node_child=list.get(i);
-            //            LogUtil.d("-----123"+node_child);
+            //            LogUtils.d("-----123"+node_child);
             //            String text=node_child.getParent().getContentDescription().toString();
-            //            LogUtil.d("--------123"+text);
+            //            LogUtils.d("--------123"+text);
             //            if(text.contains("\u0014\n" + "\u0014")){
-            //                LogUtil.d("--->发不出口令抢不到红包");
+            //                LogUtils.d("--->发不出口令抢不到红包");
             //            }else if(text.contains("\u0014\n")){
-            //                LogUtil.d("--->能发出不能领");
+            //                LogUtils.d("--->能发出不能领");
             //            }
             ////            else if(text.contains("\u0014")){
-            ////                LogUtil.d("--->发不出能领");
+            ////                LogUtils.d("--->发不出能领");
             ////            }
             ////            Log.i(TAG, "----------------->口令红包：" + node_child);
             //            else if(node_child!=null&&node_child.getClassName().equals("android.widget.TextView")
             //                    &&node_child.getText().toString().equals(QQ_HONG_BAO_PASSWORD)){
             //                isHasClicked=true;
-            //                LogUtil.d( "点击领红包");
+            //                LogUtils.d( "点击领红包");
             //                WakeupTools.wakeUpAndUnlock(context);//解锁
             //                delayedControl(1);
             //                node_child.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
             //                if(isHasReceived){
             //                    isHasReceived=false;
             //                    isHasClicked=true;
-            //                    LogUtil.d( "点击领红包");
+            //                    LogUtils.d( "点击领红包");
             //                    parent.performAction(AccessibilityNodeInfo.ACTION_CLICK);
             //                }
             //                break;
@@ -391,13 +391,13 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
     private fun closeResult() {
         nodeInfo = nodeRoot
         if (nodeInfo == null) {
-            LogUtil.d("rootWindow为空")
+            LogUtils.d("rootWindow为空")
             return
         }
-        LogUtil.d("isFinished$isFinished")
+        LogUtils.d("isFinished$isFinished")
         if (isFinished) {
             list = nodeInfo!!.findAccessibilityNodeInfosByText("查看领取详情")
-            LogUtil.d("需要关闭的页面：" + list!!.size)
+            LogUtils.d("需要关闭的页面：" + list!!.size)
             isSingerClick = false
 
             saveHongbao()
@@ -415,7 +415,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
             //                    list.get(i).performAction(AccessibilityNodeInfo.ACTION_CLICK);
             //                }
             ////                isFinished = false;
-            ////                LogUtil.d( "isfinish-------->" + isFinished);
+            ////                LogUtils.d( "isfinish-------->" + isFinished);
             //            }
             isFinished = false
         }
@@ -432,26 +432,26 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
         when (state) {
             0 -> {
                 time = PreferencesUtils.qqPutongDelay * 1000
-                LogUtil.d("------>putong$time")
+                LogUtils.d("------>putong$time")
             }
             1 -> time = 1 * 1000
             2 -> {
                 //                delayedTime(1*1000);
                 time = 1 * 1000
-                LogUtil.d("------>点击口令$time")
+                LogUtils.d("------>点击口令$time")
             }
             3 -> {
                 //                delayedTime(PreferencesUtils.getQQKoulingDelay()-2);
                 time = (PreferencesUtils.qqKoulingDelay - 2) * 1000
-                LogUtil.d("------>发送口令$time")
+                LogUtils.d("------>发送口令$time")
             }
             4 -> {
                 time = PreferencesUtils.qqLingquDelay * 1000
-                LogUtil.d("------>关闭窗口$time")
+                LogUtils.d("------>关闭窗口$time")
             }
         }
         delayedTime(time)
-        LogUtil.d("延迟时间：-------->$time")
+        LogUtils.d("延迟时间：-------->$time")
     }
 
     /**
@@ -471,7 +471,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
             4 -> {
             }
         }//                time=PreferencesUtils.getQQPutongDelay()*1000;
-        //                LogUtil.d("------>putong"+time);
+        //                LogUtils.d("------>putong"+time);
         //设置0.1秒内随机抢
         //                Random random=new Random();
         //                time=random.nextInt(100);
@@ -493,7 +493,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
     }
 
     fun delayedTime(time: Int) {
-        LogUtil.d("延迟时间：-------->$time")
+        LogUtils.d("延迟时间：-------->$time")
         try {
             Thread.sleep(time.toLong())
         } catch (e: InterruptedException) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
           package="com.carlos.grabredenvelope">
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -37,8 +36,8 @@
                 android:resource="@xml/accessible_service_config"/>
         </service>
 
-        <activity android:name="com.carlos.grabredenvelope.main.HongBaoRecrodActivity"/>
-        <activity android:name="com.carlos.grabredenvelope.main.QQHongBao"/>
+        <!--<activity android:name="com.carlos.grabredenvelope.main.HongBaoRecrodActivity"/>-->
+        <activity android:name="com.carlos.grabredenvelope.main.WechatEnvelopeActivity"/>
         <activity android:name="com.carlos.grabredenvelope.main.XiuYiXiu"/>
         <activity android:name="com.carlos.grabredenvelope.main.About"/>
         <activity android:name="com.carlos.grabredenvelope.receiver.MessageActivity"/>
