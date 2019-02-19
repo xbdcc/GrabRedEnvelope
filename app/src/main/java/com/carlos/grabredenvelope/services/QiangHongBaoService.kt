@@ -35,7 +35,7 @@ class QiangHongBaoService : AccessibilityService() {
     //    private final static String QQ_CLICK_TO_PASTE_PASSWORD = "点击输入口令";
     //    private final static String QQ_HONG_BAO_SEND="发送";
 
-    private var nodeRoot: AccessibilityNodeInfo? = null
+    private lateinit var nodeRoot: AccessibilityNodeInfo
     //    private AccessibilityNodeInfo nodeInfo;
     //
     //    private String packageName;
@@ -61,11 +61,16 @@ class QiangHongBaoService : AccessibilityService() {
         val notificationIntent = Intent(this, MainActivity::class.java)
 
         builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, 0))
-                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher)) // set the large icon in the drop down list.
-                .setContentTitle("ATAP") // set the caption in the drop down list.
-                .setSmallIcon(R.mipmap.ic_launcher) // set the small icon in state.
-                .setContentText("ATAP") // set context content.
-                .setWhen(System.currentTimeMillis()) // set the time for the notification to occur.
+            .setLargeIcon(
+                BitmapFactory.decodeResource(
+                    this.resources,
+                    R.mipmap.ic_launcher
+                )
+            ) // set the large icon in the drop down list.
+            .setContentTitle("RedEnvelope") // set the caption in the drop down list.
+            .setSmallIcon(R.mipmap.ic_launcher) // set the small icon in state.
+            .setContentText("RedEnvelope") // set context content.
+            .setWhen(System.currentTimeMillis()) // set the time for the notification to occur.
 
         val notification = builder.build()
         notification.defaults = Notification.DEFAULT_SOUND// set default sound.
@@ -102,15 +107,17 @@ class QiangHongBaoService : AccessibilityService() {
         if (!isStopUse) {
             nodeRoot = rootInActiveWindow
             try {
-                //            QQHongBaoService qqHongBaoService=new QQHongBaoService(getApplicationContext(),event,nodeRoot);
-                if (PreferencesUtils.qqUseStatus) {
-                    val qqHongBaoService = QQHongBaoService(this, applicationContext, event, nodeRoot!!)
-                }
-                if (PreferencesUtils.xiuYiXiuUseStatus) {
-                    val xiuYiXiuService = XiuYiXiuService(applicationContext, event, nodeRoot!!)
-                } else {
-                    Log.d(TAG, "支付宝自动咻一咻功能未开启")
-                }
+                WechatService(applicationContext, event, nodeRoot)
+
+//                if (PreferencesUtils.qqUseStatus) {
+//                    QQHongBaoService(this, applicationContext, event, nodeRoot)
+//                }
+//                if (PreferencesUtils.xiuYiXiuUseStatus) {
+//                    XiuYiXiuService(event, nodeRoot)
+//                } else {
+//                    Log.d(TAG, "支付宝自动咻一咻功能未开启")
+//                }
+
 
             } catch (e: Exception) {
                 Log.e(TAG, "异常错误")
@@ -428,7 +435,10 @@ class QiangHongBaoService : AccessibilityService() {
             kl.disableKeyguard()
             //获取电源管理器对象
             val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-            val wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_DIM_WAKE_LOCK, "wakeup")
+            val wl = pm.newWakeLock(
+                PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_DIM_WAKE_LOCK,
+                "wakeup"
+            )
             //点亮屏幕
             wl.acquire()
             //释放资源

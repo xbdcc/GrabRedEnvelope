@@ -16,25 +16,29 @@ import java.net.URL
 /**
  * Created by 小不点 on 2016/2/20.
  */
-class DownloadAsyncTask(private val context: Context, private val handler: Handler, private val file: File) : AsyncTask<String, Int, Void>() {
-    private var dialog: ProgressDialog? = null
+class DownloadAsyncTask(
+    private val context: Context,
+    private val handler: Handler,
+    private val file: File
+) : AsyncTask<String, Int, Void>() {
+    private lateinit var dialog: ProgressDialog
 
     /**
      * 显示下载进度条
      */
     override fun onPreExecute() {
         dialog = ProgressDialog(context)
-        dialog!!.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
-        dialog!!.setCanceledOnTouchOutside(false)
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL)
+        dialog.setCanceledOnTouchOutside(false)
         //		dialog.setMax(100);
         //		dialog.setProgressNumberFormat("%1d kb/%2d kb");
-        dialog!!.setTitle("下载进度")
+        dialog.setTitle("下载进度")
         if (show()!!) {
-            dialog!!.window!!.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
+            dialog.window!!.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
         }
-        dialog!!.setMessage("请保持网络稳定，等待下载完成再取消！")
+        dialog.setMessage("请保持网络稳定，等待下载完成再取消！")
         //        dialog.setMessage("下载途中有时可能会卡住一段时间，请耐心等待一会儿，下载完会提示是否安装，还有许多待完善的地方");
-        dialog!!.show()
+        dialog.show()
     }
 
     fun show(): Boolean? {
@@ -108,10 +112,10 @@ class DownloadAsyncTask(private val context: Context, private val handler: Handl
     }
 
     override fun onProgressUpdate(vararg values: Int?) {
-        dialog!!.progress = values[0]!!
+        dialog.progress = values[0]!!
     }
 
     override fun onPostExecute(result: Void) {
-        dialog!!.dismiss()
+        dialog.dismiss()
     }
 }

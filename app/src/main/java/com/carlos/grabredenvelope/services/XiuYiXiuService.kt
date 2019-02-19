@@ -1,6 +1,5 @@
 package com.carlos.grabredenvelope.services
 
-import android.content.Context
 import android.os.Handler
 import android.os.Message
 import android.util.Log
@@ -12,7 +11,10 @@ import java.util.*
 /**
  * Created by 小不点 on 2016/2/20.
  */
-class XiuYiXiuService(private val context: Context, private val event: AccessibilityEvent, private val nodeRoot: AccessibilityNodeInfo) {
+class XiuYiXiuService(
+    private val event: AccessibilityEvent,
+    private val nodeRoot: AccessibilityNodeInfo
+) {
     private var node: AccessibilityNodeInfo? = null
     //是否能够不停点击咻咻的开关
     private var isCanCyclingClick = false
@@ -113,13 +115,13 @@ class XiuYiXiuService(private val context: Context, private val event: Accessibi
 
     companion object {
 
-        private val TAG = "HongbaoService"
+        private const val TAG = "HongbaoService"
 
         //支付宝包名
-        private val PACKAGE_ALIPAY = "com.eg.android.AlipayGphone"
+        private const val PACKAGE_ALIPAY = "com.eg.android.AlipayGphone"
         //
-        private val WINDOW_XIUXIU = "com.alipay.android.wallet.newyear.activity.MonkeyYearActivity"
-        private val MSG_NODE_CLICK = 0x110
+        private const val WINDOW_XIUXIU = "com.alipay.android.wallet.newyear.activity.MonkeyYearActivity"
+        private const val MSG_NODE_CLICK = 0x110
     }
 
 }

@@ -18,7 +18,12 @@ import java.util.*
 /**
  * Created by 小不点 on 2016/2/18.
  */
-class QQHongBaoService(internal var acc: AccessibilityService, private val context: Context, private val event: AccessibilityEvent, private val nodeRoot: AccessibilityNodeInfo) {
+class QQHongBaoService(
+    internal var acc: AccessibilityService,
+    private val context: Context,
+    private val event: AccessibilityEvent,
+    private val nodeRoot: AccessibilityNodeInfo
+) {
     private var nodeInfo: AccessibilityNodeInfo? = null
     private val parent: AccessibilityNodeInfo? = null
     private val child: AccessibilityNodeInfo? = null
@@ -101,7 +106,8 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                     //                    }
                     //                    nodeInfo.findAccessibilityNodeInfosByViewId("fdf");
                     //输入红包口令
-                    val node_input = nodeInfo!!.findAccessibilityNodeInfosByText(QQ_CLICK_TO_PASTE_PASSWORD)
+                    val node_input =
+                        nodeInfo!!.findAccessibilityNodeInfosByText(QQ_CLICK_TO_PASTE_PASSWORD)
                     if (node_input != null) {
                         LogUtils.d("点击输入口令个数" + node_input.size)
                         size = node_input.size
@@ -159,7 +165,8 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                     //                    }
 
                     //聊天页面出现红包
-                    val node_hongbao = nodeInfo!!.findAccessibilityNodeInfosByText(QQ_NOTIFICATION_TIP)
+                    val node_hongbao =
+                        nodeInfo!!.findAccessibilityNodeInfosByText(QQ_NOTIFICATION_TIP)
                     LogUtils.d("聊天页面出现的红包" + node_hongbao.size)
                     size = node_hongbao.size
                     if (size > 0) {
@@ -260,7 +267,7 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
 
         //没有发送按钮，不是领红包页面
         list = nodeInfo!!.findAccessibilityNodeInfosByText("发送")
-        if (list!!.size < 1) {
+        if (list!!.isEmpty()) {
             LogUtils.d("不是领红包页面")
             return
         }
@@ -335,8 +342,8 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
                 LogUtils.d("--->发不出口令抢不到红包")
             } else if (text.contains("\u0014\n")) {
                 LogUtils.d("--->能发出不能领")
-            } else if (node_child != null && node_child.className == "android.widget.TextView"
-                    && node_child.text.toString() == QQ_HONG_BAO_PASSWORD) {
+            } else if (node_child.className == "android.widget.TextView" && node_child.text.toString() == QQ_HONG_BAO_PASSWORD
+            ) {
                 if (!isSingerClick) {
                     isSingerClick = true
                     isHasClicked = true
@@ -402,7 +409,8 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
 
             saveHongbao()
 
-            list = nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/close_btn")
+            list =
+                nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/close_btn")
             if (PreferencesUtils.qqLingquDelay !== 11) {
                 delayedControl(4)
             }
@@ -505,7 +513,8 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
 
     private fun saveHongbao() {
 
-        list = nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/hb_error_tv")//红包被领完
+        list =
+            nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/hb_error_tv")//红包被领完
         //如果没有被领完才保存记录
         if (list!!.size < 1) {
             val qq_hongbao = QQ_Hongbao()
@@ -514,15 +523,18 @@ class QQHongBaoService(internal var acc: AccessibilityService, private val conte
             val time = dateFormat.format(date)
             qq_hongbao.time = time
 
-            list = nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/sender_info")//谁发送的红包
+            list =
+                nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/sender_info")//谁发送的红包
             val send_info = list!![0].text.toString()
             qq_hongbao.send_info = send_info
 
-            list = nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/wish_word")//红包种类
+            list =
+                nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/wish_word")//红包种类
             val wish_word = list!![0].text.toString()
             qq_hongbao.wish_word = wish_word
 
-            list = nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/hb_count_tv")//红包金额
+            list =
+                nodeInfo!!.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/hb_count_tv")//红包金额
             val hb_count_tv = list!![0].text.toString()
             qq_hongbao.hb_count_tv = hb_count_tv
 

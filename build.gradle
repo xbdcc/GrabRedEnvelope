@@ -17,6 +17,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 task clean(type: Delete) {

@@ -19,7 +19,10 @@ object WakeupTools {
         kl.disableKeyguard()
         //获取电源管理器对象
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_DIM_WAKE_LOCK, "wakeup")
+        val wl = pm.newWakeLock(
+            PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.SCREEN_DIM_WAKE_LOCK,
+            "wakeup"
+        )
         //点亮屏幕
         wl.acquire()
         //释放资源

@@ -9,6 +9,12 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
+
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
+    <!--<uses-permission android:name="android.permission.INTERNET"/>-->
+
     <application
         android:name="com.carlos.grabredenvelope.util.MyApplication"
         android:allowBackup="true"
@@ -59,6 +65,8 @@
             </intent-filter>
         </receiver>
 
+        <meta-data android:value="${UMENG_APPKEY}" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

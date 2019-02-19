@@ -4,10 +4,15 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-def keystorePropertiesFile=rootProject.file("buildsystem/keystore.properties")
+def keystorePropertiesFile = rootProject.file("buildsystem/keystore.properties")
 def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
 }
 
 android {
@@ -28,11 +33,7 @@ android {
         targetSdkVersion 28
         versionCode 5
         versionName "1.0.4"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath = true    //加上这行即可
-            }
-        }
+        flavorDimensions "5" //和versionCode相同
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -40,46 +41,55 @@ android {
         }
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
-                JPUSH_APPKEY : "6021faf9512753430d2c0b30", //JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : localProperties.getProperty('JPUSH_APPKEY'), //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
         }
         debug {
             signingConfig signingConfigs.release
+
         }
     }
 
-    // 使用Java1.8
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-
+//    //多渠道打包
+//    productFlavors {
+//        dev {          //开发测试版本
+//            manifestPlaceholders = [
+//                    UMENG_APPKEY: localProperties.getProperty('UMENG_APPKEY_DEV'),
+//            ]
+//        }
+//        production {   //正式发布版本
+//            manifestPlaceholders = [
+//                    UMENG_APPKEY: localProperties.getProperty('UMENG_APPKEY'),
+//            ]
+//        }
+//    }
 
 }
 
 //修改APK名字
-
 android.applicationVariants.all { variant ->
     variant.outputs.all {
         outputFileName = "QiangHongBao_${versionName}.apk"
-//        outputFileName = "QiangHongBao_${rootProject.ext.android.versionName}.apk"
     }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'cn.jiguang.sdk:jpush:3.1.8'  // 此处以JPush 3.1.6 版本为例。
-    implementation 'cn.jiguang.sdk:jcore:1.2.7'  // 此处以JCore 1.2.5 版本为例。
-    implementation 'com.github.xbdcc:Cutils:0.0.5'
+    implementation 'cn.jiguang.sdk:jpush:3.1.8'
+    implementation 'cn.jiguang.sdk:jcore:1.2.7'
+    implementation 'com.github.xbdcc:Cutils:0.0.6'
+    implementation 'com.umeng.umsdk:analytics:8.0.0'
+    implementation 'com.umeng.umsdk:common:2.0.0'
 }
 repositories {
     mavenCentral()

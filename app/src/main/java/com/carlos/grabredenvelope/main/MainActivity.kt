@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
 import cn.jpush.android.api.JPushInterface
+import com.carlos.cutils.thirdparty.AlipayReward
+import com.carlos.cutils.thirdparty.WechatReward
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.util.ControlUse
@@ -41,9 +43,11 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
      */
     private val isServiceEnabled: Boolean
         get() {
-            val accessibilityServiceInfoList = accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
+            val accessibilityServiceInfoList =
+                accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
             for (info in accessibilityServiceInfoList) {
-                if (info.id == "$packageName/.services.QiangHongBaoService") {
+                if (info.id == "$packageName/.services.WechatService") {
+//                if (info.id == "$packageName/.services.QiangHongBaoService") {
                     Log.d(TAG, "ture")
                     return true
                 }
@@ -70,7 +74,8 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
 
         Log.d(TAG, "oncreate")
         //监听AccessibilityService 变化
-        accessibilityManager = getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        accessibilityManager =
+            getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
         accessibilityManager.addAccessibilityStateChangeListener(this)
 
         //        Update update=new Update(MainActivity.this,1);
@@ -92,55 +97,65 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
         listView!!.adapter = adapter
         Utility.setListViewHeightBasedOnChildren(listView!!)
 
-        listView!!.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            cIntent = Intent()
-            when (position) {
-                0 -> {
-                    startActivity(cIntent.setAction(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+        listView!!.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, view, position, id ->
+                cIntent = Intent()
+                when (position) {
+                    0 -> {
+                        startActivity(cIntent.setAction(Settings.ACTION_ACCESSIBILITY_SETTINGS))
 
-                    if (isServiceEnabled) {
-                        Toast.makeText(this@MainActivity, "找到抢红包，然后关闭服务。", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this@MainActivity, "找到抢红包，然后开启服务。", Toast.LENGTH_SHORT).show()
+                        if (isServiceEnabled) {
+                            Toast.makeText(this@MainActivity, "找到抢红包，然后关闭服务。", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            Toast.makeText(this@MainActivity, "找到抢红包，然后开启服务。", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                    1 -> {
+                        startActivity(
+                            cIntent.setClass(
+                                this@MainActivity,
+                                WechatEnvelopeActivity::class.java
+                            )
+                        )
+                    }
+                    2 -> {
+
+                        AlipayReward(this)
+//                        ToastUtils.showToast(applicationContext, "关于")
+//                        startActivity(cIntent.setClass(this@MainActivity, About::class.java))
+                    }
+                    3 -> {
+                        WechatReward(this)
+//                        val update = Update(this@MainActivity, 2)
+//                        update.update()
+                    }
+
+                    4 -> {
+                        cIntent.setClass(this@MainActivity, XiuYiXiu::class.java)
+                        startActivity(cIntent)
+                    }
+                    5 -> ToastUtils.showToast(this@MainActivity, "待开发")
+                    6 -> {
+                        val registrationId = JPushInterface.getRegistrationID(this)
+                        LogUtils.d("1099" + "run:--------->registrationId： $registrationId")
+
+                        JPushInterface.setAlias(this, 1, "xbd")
+
+                        ToastUtils.showToast(applicationContext, "关于")
+                        cIntent.setClass(this@MainActivity, About::class.java)
+                        startActivity(cIntent)
+                    }
+                    7 -> ToastUtils.showToast(this@MainActivity, "待开发")
+                    8 -> {
+                        val update = Update(this@MainActivity, 2)
+                        update.update()
                     }
                 }
-                1 -> {
-                    startActivity(cIntent.setClass(this@MainActivity, WechatEnvelopeActivity::class.java))
-                }
-                2 -> {
-                    ToastUtils.showToast(applicationContext, "关于")
-                    startActivity(cIntent.setClass(this@MainActivity, About::class.java))
-                }
-                3 -> {
-                    val update = Update(this@MainActivity, 2)
-                    update.update()
-                }
-
-                4 -> {
-                    cIntent.setClass(this@MainActivity, XiuYiXiu::class.java)
-                    startActivity(cIntent)
-                }
-                5 -> ToastUtils.showToast(this@MainActivity, "待开发")
-                6 -> {
-                    val registrationId = JPushInterface.getRegistrationID(this)
-                    LogUtils.d("1099"+"run:--------->registrationId： $registrationId")
-
-                    JPushInterface.setAlias(this, 1,"xbd")
-
-                    ToastUtils.showToast(applicationContext, "关于")
-                    cIntent.setClass(this@MainActivity, About::class.java)
-                    startActivity(cIntent)
-                }
-                7 -> ToastUtils.showToast(this@MainActivity, "待开发")
-                8 -> {
-                    val update = Update(this@MainActivity, 2)
-                    update.update()
-                }
             }
-        }
 
     }
-
 
     override fun onResume() {
         super.onResume()
@@ -163,12 +178,12 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
 
     private fun show_dialog() {
         val dialog = AlertDialog.Builder(this).setTitle("提示")
-                .setMessage("本软件设定使用时限已到时间，谢谢使用，请点击确定退出。如想继续用可联系小不点，谢谢！").setCancelable(false)
-                .setPositiveButton("确定") { dialog, which ->
-                    // TODO 自动生成的方法存根
-                    finish()
-                }
-                .create()
+            .setMessage("本软件设定使用时限已到时间，谢谢使用，请点击确定退出。如想继续用可联系小不点，谢谢！").setCancelable(false)
+            .setPositiveButton("确定") { dialog, which ->
+                // TODO 自动生成的方法存根
+                finish()
+            }
+            .create()
         //		dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         dialog.show()
     }

@@ -34,9 +34,14 @@ object DialogUtils {
      * @param sureListener
      * @param cancelListener
      */
-    fun showAlertDialog(context: Context, title: String, message: String,
-                        sureListener: OnClickSureListener, cancelListener: OnClickCancelListener) {
-        val dialog = AlertDialog.Builder(context).setTitle(title).setMessage(message).setPositiveButton(R.string.sure) { arg0, arg1 -> sureListener.onClickSure() }.setNegativeButton(R.string.cancel) { arg0, arg1 -> cancelListener.onClickCancel() }.create()
+    fun showAlertDialog(
+        context: Context, title: String, message: String,
+        sureListener: OnClickSureListener, cancelListener: OnClickCancelListener
+    ) {
+        val dialog = AlertDialog.Builder(context).setTitle(title).setMessage(message)
+            .setPositiveButton(R.string.sure) { arg0, arg1 -> sureListener.onClickSure() }
+            .setNegativeButton(R.string.cancel) { arg0, arg1 -> cancelListener.onClickCancel() }
+            .create()
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
     }
@@ -47,11 +52,17 @@ object DialogUtils {
      * @param titile
      * @param message
      */
-    fun showDialogNotCancel(context: Context, titile: String, message: String, sureListener: OnClickSureListener, cancelListener: OnClickCancelListener) {
+    fun showDialogNotCancel(
+        context: Context,
+        titile: String,
+        message: String,
+        sureListener: OnClickSureListener,
+        cancelListener: OnClickCancelListener
+    ) {
         val dialog = AlertDialog.Builder(context).setTitle(titile)
-                .setMessage(message).setCancelable(false)
-                .setPositiveButton("确定") { dialog, which -> sureListener.onClickSure() }
-                .setNegativeButton("取消") { dialog, which -> cancelListener.onClickCancel() }.create()
+            .setMessage(message).setCancelable(false)
+            .setPositiveButton("确定") { dialog, which -> sureListener.onClickSure() }
+            .setNegativeButton("取消") { dialog, which -> cancelListener.onClickCancel() }.create()
 
         dialog.window!!.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
         dialog.show()
@@ -59,9 +70,9 @@ object DialogUtils {
 
     fun show_dialog(context: Context, title: String, message: String?) {
         val dialog = AlertDialog.Builder(context).setTitle(title)
-                .setMessage(message).setCancelable(false)
-                .setPositiveButton("确定") { dialog, which -> System.exit(0) }
-                .create()
+            .setMessage(message).setCancelable(false)
+            .setPositiveButton("确定") { dialog, which -> System.exit(0) }
+            .create()
 
         dialog.window!!.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT)
         dialog.show()
