@@ -105,7 +105,11 @@ class QiangHongBaoService : AccessibilityService() {
         Log.d(TAG, "use---$isStopUse")
         LogUtils.d("....")
         if (!isStopUse) {
+            LogUtils.d("rootIn:" + rootInActiveWindow)
+            if (rootInActiveWindow == null)
+                return
             nodeRoot = rootInActiveWindow
+
             try {
                 WechatService(applicationContext, event, nodeRoot)
 
@@ -120,7 +124,7 @@ class QiangHongBaoService : AccessibilityService() {
 
 
             } catch (e: Exception) {
-                Log.e(TAG, "异常错误")
+                Log.e(TAG, "异常错误:",e)
             }
 
         }

@@ -59,19 +59,19 @@ android {
         }
     }
 
-//    //多渠道打包
-//    productFlavors {
-//        dev {          //开发测试版本
-//            manifestPlaceholders = [
-//                    UMENG_APPKEY: localProperties.getProperty('UMENG_APPKEY_DEV'),
-//            ]
-//        }
-//        production {   //正式发布版本
-//            manifestPlaceholders = [
-//                    UMENG_APPKEY: localProperties.getProperty('UMENG_APPKEY'),
-//            ]
-//        }
-//    }
+    //多渠道打包
+    productFlavors {
+        dev {          //开发测试版本
+            manifestPlaceholders = [
+                    UMENG_APPKEY: localProperties.getProperty('UMENG_APPKEY_DEV'),
+            ]
+        }
+        production {   //正式发布版本
+            manifestPlaceholders = [
+                    UMENG_APPKEY: localProperties.getProperty('UMENG_APPKEY'),
+            ]
+        }
+    }
 
 }
 

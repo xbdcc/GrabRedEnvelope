@@ -6,7 +6,7 @@
     android:accessibilityFeedbackType="feedbackAllMask"
     android:notificationTimeout="10"
     android:settingsActivity="com.example.qianghongbao.main.MainActivity"
-    android:accessibilityFlags="flagDefault"
+    android:accessibilityFlags="flagDefault|flagRetrieveInteractiveWindows|flagIncludeNotImportantViews"
     android:canRetrieveWindowContent="true"/>
 
 
