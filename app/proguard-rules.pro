@@ -17,6 +17,7 @@
 #}
 
 
+#umeng
 -keep class com.umeng.** {*;}
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
@@ -25,3 +26,7 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+#bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

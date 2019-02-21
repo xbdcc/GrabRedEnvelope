@@ -31,9 +31,10 @@
         </activity>
 
         <service
-            android:name="com.carlos.grabredenvelope.services.QiangHongBaoService"
+            android:name="com.carlos.grabredenvelope.services.WechatService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:process=":remote">
+            android:label="@string/grab_wechat_envelope"
+            >
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
             </intent-filter>
@@ -41,6 +42,21 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessible_service_config"/>
         </service>
+
+
+
+        <!--<service-->
+            <!--android:name="com.carlos.grabredenvelope.services.QiangHongBaoService2"-->
+            <!--android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"-->
+            <!--android:label="xbd"-->
+            <!--&gt;-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.accessibilityservice.AccessibilityService"/>-->
+            <!--</intent-filter>-->
+            <!--<meta-data-->
+                <!--android:name="android.accessibilityservice"-->
+                <!--android:resource="@xml/wechat_service"/>-->
+        <!--</service>-->
 
         <!--<activity android:name="com.carlos.grabredenvelope.main.HongBaoRecrodActivity"/>-->
         <activity android:name="com.carlos.grabredenvelope.main.WechatEnvelopeActivity"/>

@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+apply plugin: 'kotlinx-serialization'
+
 
 def keystorePropertiesFile = rootProject.file("buildsystem/keystore.properties")
 def keystoreProperties = new Properties()
@@ -45,6 +46,7 @@ android {
                 JPUSH_APPKEY : localProperties.getProperty('JPUSH_APPKEY'), //JPush 上注册的包名对应的 Appkey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
+
     }
     buildTypes {
         release {
@@ -84,12 +86,18 @@ android.applicationVariants.all { variant ->
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
 
     implementation 'cn.jiguang.sdk:jpush:3.1.8'
     implementation 'cn.jiguang.sdk:jcore:1.2.7'
-    implementation 'com.github.xbdcc:Cutils:0.0.6'
+    implementation 'com.github.xbdcc:Cutils:0.0.8'
     implementation 'com.umeng.umsdk:analytics:8.0.0'
     implementation 'com.umeng.umsdk:common:2.0.0'
+    implementation 'com.tencent.bugly:crashreport:2.8.6'
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
+
 }
 repositories {
     mavenCentral()

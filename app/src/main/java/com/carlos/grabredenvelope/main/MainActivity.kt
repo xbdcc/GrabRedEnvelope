@@ -46,8 +46,8 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
             val accessibilityServiceInfoList =
                 accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
             for (info in accessibilityServiceInfoList) {
-//                if (info.id == "$packageName/.services.WechatService") {
-                if (info.id == "$packageName/.services.QiangHongBaoService") {
+                if (info.id == "$packageName/.services.WechatService") {
+//                if (info.id == "$packageName/.services.QiangHongBaoService") {
                     Log.d(TAG, "ture")
                     return true
                 }

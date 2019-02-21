@@ -2,7 +2,7 @@ package com.carlos.grabredenvelope.main
 
 import android.widget.ImageButton
 import android.widget.TextView
-import com.carlos.cutils.activity.CBaseActivity
+import com.carlos.cutils.base.CBaseActivity
 import com.carlos.grabredenvelope.R
 import com.umeng.analytics.MobclickAgent
 

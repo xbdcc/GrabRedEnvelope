@@ -8,7 +8,7 @@ import android.content.SharedPreferences
  */
 object PreferencesUtils {
 
-    private val context = MyApplication.appContext
+    private val context = MyApplication.instance.applicationContext
     private var editor: SharedPreferences.Editor? = null
 
     /**

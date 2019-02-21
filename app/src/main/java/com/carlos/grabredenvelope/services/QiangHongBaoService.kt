@@ -16,6 +16,7 @@ import com.carlos.cutils.util.LogUtils
 
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.main.MainActivity
+import com.carlos.grabredenvelope.main.RedEnvelopePreferences
 import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.util.MyApplication
 import com.carlos.grabredenvelope.util.PreferencesUtils
@@ -26,28 +27,7 @@ import com.carlos.grabredenvelope.util.PreferencesUtils
 class QiangHongBaoService : AccessibilityService() {
     var isStopUse: Boolean = false
 
-    //
-    //    private static final String PACKAGE_QQ = "com.tencent.mobileqq";//QQ包名
-    //    private static final String CLASS_QQ_LIST="com.tencent.mobileqq.activity.SplashActivity";//QQ聊天列表页
-    //    private final static String QQ_NOTIFICATION_TIP = "[QQ红包]";
-    //    private final static String QQ_DEFAULT_CLICK_OPEN = "点击拆开";
-    //    private final static String QQ_HONG_BAO_PASSWORD = "口令红包";
-    //    private final static String QQ_CLICK_TO_PASTE_PASSWORD = "点击输入口令";
-    //    private final static String QQ_HONG_BAO_SEND="发送";
-
     private lateinit var nodeRoot: AccessibilityNodeInfo
-    //    private AccessibilityNodeInfo nodeInfo;
-    //
-    //    private String packageName;
-    //    private String className;
-    //    private int eventType;
-    //
-    //    private boolean isHasReceived;//通知或聊天页面收到红包
-    //    private boolean isHasClicked;//点击红包
-    //    private boolean isHasInput;//输入红包口令
-    //    private boolean isHasOpened;//发送红包口令
-    //    private boolean isHasReceivedList;//从聊天页面收到后点击红包
-
 
     override fun onCreate() {
         super.onCreate()
@@ -57,7 +37,7 @@ class QiangHongBaoService : AccessibilityService() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         var flags = flags
         LogUtils.d("service onstartcommand.")
-        val builder = Notification.Builder(MyApplication.appContext)
+        val builder = Notification.Builder(MyApplication.instance.applicationContext)
         val notificationIntent = Intent(this, MainActivity::class.java)
 
         builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, 0))
@@ -102,6 +82,11 @@ class QiangHongBaoService : AccessibilityService() {
             //            return;
         }
 
+        if (!RedEnvelopePreferences.useStatus) {
+            isStopUse = true
+            //            return;
+        }
+
         Log.d(TAG, "use---$isStopUse")
         LogUtils.d("....")
         if (!isStopUse) {
@@ -111,7 +96,7 @@ class QiangHongBaoService : AccessibilityService() {
             nodeRoot = rootInActiveWindow
 
             try {
-                WechatService(applicationContext, event, nodeRoot)
+//                WechatService(applicationContext, event, nodeRoot)
 
 //                if (PreferencesUtils.qqUseStatus) {
 //                    QQHongBaoService(this, applicationContext, event, nodeRoot)
