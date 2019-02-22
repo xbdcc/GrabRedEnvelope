@@ -2,10 +2,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/accessibility_description"
     android:accessibilityEventTypes="typeAllMask"
-    android:packageNames="com.tencent.mobileqq,com.eg.android.AlipayGphone,com.example.xiuxiu,com.tencent.mm"
+    android:packageNames="com.tencent.mm"
     android:accessibilityFeedbackType="feedbackAllMask"
     android:notificationTimeout="10"
     android:settingsActivity="com.example.qianghongbao.main.MainActivity"
+    android:canRequestEnhancedWebAccessibility = "true"
     android:accessibilityFlags="flagDefault"
     android:canRetrieveWindowContent="true"/>
 

@@ -1,13 +1,15 @@
 package com.carlos.grabredenvelope.dao
 
-import org.greenrobot.greendao.annotation.Entity
-import org.greenrobot.greendao.annotation.Id
+import cn.bmob.v3.BmobObject
 
 /**
  * Created by Carlos on 2019/2/21.
  */
-@Entity
 data class WechatRedEnvelopeVO(
-    @Id
-    val id: Int
-)
+    var send_info: String,
+    var wish_word: String,
+    var count: String,
+    var time: String,
+    var wechatId: String,
+    var imei: String
+) : BmobObject()

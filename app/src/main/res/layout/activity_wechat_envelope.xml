@@ -28,10 +28,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_small"
-                    android:text="QQ红包监控开关："
+                    android:text="微信红包监控开关："
                     android:layout_centerHorizontal="true"/>
                 <CheckBox
                     android:id="@+id/cb_qq_control"
+                    android:layout_width="60dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:checked="false"
+                    android:button="@mipmap/switch_off"/>
+
+            </LinearLayout>
+            <View
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                style="@style/view_line"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/text_size_small"
+                android:text="提示：服务需开启才有效，监控可选择。"
+                android:gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="通知监控开关："
+                    android:layout_centerHorizontal="true"/>
+                <CheckBox
+                    android:id="@+id/cb_wechat_notification_control"
                     android:layout_width="60dp"
                     android:gravity="center"
                     android:layout_height="wrap_content"
@@ -40,14 +76,27 @@
                     android:button="@drawable/switch_course_control"/>
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textSize="@dimen/text_size_small"
-                android:text="提示：服务和监控同时开启才能自动抢。"
-                android:gravity="center"
-                />
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="聊天列表页监控开关："
+                    android:layout_centerHorizontal="true"/>
+                <CheckBox
+                    android:id="@+id/cb_wechat_chat_control"
+                    android:layout_width="60dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:checked="true"
+                    android:button="@drawable/switch_course_control"/>
+            </LinearLayout>
             <View
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -71,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_small"
-                    android:text="普通红包延迟时间："
+                    android:text="打开红包延迟时间："
                     />
 
                 <SeekBar
@@ -80,23 +129,6 @@
                     android:id="@+id/sb_qq_putong"
                     android:layout_marginTop="10dp"
                     android:max="9"/>
-
-                <TextView
-                    android:id="@+id/tv_qq_kouling"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_small"
-                    android:text="口令红包延迟时间："
-                    />
-
-                <SeekBar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sb_qq_kouling"
-                    android:layout_marginTop="10dp"
-                    android:max="7"
-                    />
 
                 <TextView
                     android:id="@+id/tv_qq_lingqu"

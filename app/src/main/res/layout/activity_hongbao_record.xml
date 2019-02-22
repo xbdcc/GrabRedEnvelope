@@ -44,7 +44,7 @@
                 android:gravity="center"
                 />
             <Button
-                android:id="@+id/b_clear_old"
+                android:onClick="clearOld"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="@dimen/margin_space"

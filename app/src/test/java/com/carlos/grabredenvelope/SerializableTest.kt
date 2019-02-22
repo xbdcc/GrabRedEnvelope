@@ -19,7 +19,7 @@ class SerializableTest {
 
 
         val data = JSON.parse(WechatControlVO.serializer(), json)
-        println("isMonitor:${data.isMonitor}")
+        println("isMonitor:${data.isMonitorChat}")
 
 
         var json2 = JSON.parse(WechatControlVO.serializer(), "")

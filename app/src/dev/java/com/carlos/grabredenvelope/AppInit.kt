@@ -3,7 +3,6 @@ package com.carlos.grabredenvelope
 import android.content.Context
 import cn.jpush.android.api.JPushInterface
 import com.carlos.grabredenvelope.local.LocalConstants
-import com.carlos.grabredenvelope.util.MyApplication
 import com.tencent.bugly.crashreport.CrashReport
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure

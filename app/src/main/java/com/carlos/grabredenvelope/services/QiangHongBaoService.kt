@@ -15,10 +15,10 @@ import android.view.accessibility.AccessibilityNodeInfo
 import com.carlos.cutils.util.LogUtils
 
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.main.MainActivity
-import com.carlos.grabredenvelope.main.RedEnvelopePreferences
+import com.carlos.grabredenvelope.activity.MainActivity
+import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import com.carlos.grabredenvelope.util.ControlUse
-import com.carlos.grabredenvelope.util.MyApplication
+import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.util.PreferencesUtils
 
 /**

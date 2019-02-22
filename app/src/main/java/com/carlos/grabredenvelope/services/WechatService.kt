@@ -8,17 +8,23 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import cn.bmob.v3.exception.BmobException
+import cn.bmob.v3.listener.SaveListener
+import com.carlos.cutils.util.AccessibilityServiceUtils
 import com.carlos.cutils.util.LogUtils
+import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.main.MainActivity
-import com.carlos.grabredenvelope.main.RedEnvelopePreferences
+import com.carlos.grabredenvelope.dao.WechatRedEnvelopeVO
+import com.carlos.grabredenvelope.activity.MainActivity
+import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import com.carlos.grabredenvelope.util.ControlUse
-import com.carlos.grabredenvelope.util.MyApplication
 import com.carlos.grabredenvelope.util.PreferencesUtils
 import com.carlos.grabredenvelope.util.WakeupTools
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Test in 7.0.3
@@ -39,6 +45,7 @@ class WechatService : AccessibilityService() {
 
     private val RED_ENVELOPE_ID = "com.tencent.mm:id/aou" //聊天页面红包点击框控件id
     private val RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/aq6" //聊天页面检测红包已被领控件id
+    private val RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aq7" //聊天页面区分红包id
     private val RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/cyf" //抢红包页面点开控件id
     private val RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/cv0" //抢红包页面退出控件id
 
@@ -47,6 +54,11 @@ class WechatService : AccessibilityService() {
     private val RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b5q" //红包id
     private val RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b5m" //红包RECT id
 
+    private val RED_ENVELOPE_DETAIL_SEND_ID = "com.tencent.mm:id/csu" //红包发送人id
+    private val RED_ENVELOPE_WISH_WORD_ID = "com.tencent.mm:id/csw" //红包文字id
+    private val RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/csy" //红包金额id
+
+    private val WECHAR_ID = "com.tencent.mm:id/dag" //微信id
 
     private var isHasReceived: Boolean = false//true已经通知或聊天列表页面收到红包
     private var isHasClicked: Boolean = false//true点击了聊天页面红包
@@ -122,8 +134,6 @@ class WechatService : AccessibilityService() {
 
             LogUtils.d("data:" + RedEnvelopePreferences.wechatControl)
 
-            if (!RedEnvelopePreferences.wechatControl.isMonitor) return
-
             if (WECHAT_PACKAGE != event.packageName) return
             LogUtils.d("" + event.className + "-" + event.eventType)
             LogUtils.d(RedEnvelopePreferences.wechatControl.toString())
@@ -142,6 +152,7 @@ class WechatService : AccessibilityService() {
                     LogUtils.d("内容改变")
                     grabRedEnvelope()
                     monitorChat()
+                    getWechatCode(event)
                 }
             }
         } catch (e: Exception) {
@@ -166,13 +177,13 @@ class WechatService : AccessibilityService() {
         if (texts.toString().contains(RED_ENVELOPE_TITLE)) {
             LogUtils.d("monitorNotification:红包")
             WakeupTools.wakeUpAndUnlock(applicationContext)
-            isHasReceived = true
             //以下是精华，将QQ的通知栏消息打开
             val notification = event.parcelableData as Notification
             val pendingIntent = notification.contentIntent
             try {
                 LogUtils.d("准备打开通知栏")
                 pendingIntent.send()
+                isHasReceived = true
             } catch (e: PendingIntent.CanceledException) {
                 LogUtils.e("error:$e")
             }
@@ -205,19 +216,26 @@ class WechatService : AccessibilityService() {
      */
     private fun grabRedEnvelope() {
         LogUtils.d("grabRedEnvelope")
+
         val envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_ID)
         if (envelopes.size < 1) return
-        if (isHasClicked) return
 
         /* 发现红包点击进入领取红包页面 */
         for (envelope in envelopes.reversed()) {
-            if (envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_BEEN_GRAB_ID).size < 1) {
-                LogUtils.d("发现红包：$envelope")
-                envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                isHasClicked = true
-//                break
-            }
+            if (AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_BEEN_GRAB_ID, envelope))
+                continue
+            if (!AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_FLAG_ID, envelope))
+                continue
+
+//            if (envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_BEEN_GRAB_ID).size >0)
+//                continue
+//            if (envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_FLAG_ID).size<1)
+//                continue
+            LogUtils.d("发现红包：$envelope")
+            envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+//            break
         }
+        isHasReceived = false
     }
 
     /**
@@ -227,12 +245,11 @@ class WechatService : AccessibilityService() {
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
 
         var envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_OPEN_ID)
-        if (envelopes.size < 1) {
+        if (envelopes.isEmpty()) {
             envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
             /* 进入红包页面点击退出按钮 */
             for (envelope in envelopes.reversed()) {
-                if (isHasClicked)
-                    envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
             }
         } else {
             /* 进入红包页面点击开按钮 */
@@ -242,10 +259,10 @@ class WechatService : AccessibilityService() {
                     LogUtils.d("delay open time:$delayTime")
                     delay(delayTime)
                     envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    isHasClicked = true
                 }
             }
         }
-        isHasReceived = false
     }
 
 
@@ -254,21 +271,13 @@ class WechatService : AccessibilityService() {
      */
     private fun quitEnvelope(event: AccessibilityEvent) {
 
-
         LogUtils.d("quitEnvelope")
         if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
-        LogUtils.d("--------------" + event.className)
 
         val envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_DETAIL_CLOSE_ID)
-        LogUtils.d("--------------" + envelopes)
-
         if (envelopes.size < 1) return
-        LogUtils.d("--------------" + envelopes.size + ":---------" + isHasClicked)
 
         if (!isHasClicked) return //如果不是点击进来的则不退出
-        LogUtils.d("--------------" + envelopes.size + ":---------" + isHasClicked)
-
-        isHasClicked = false
 
         /* 发现红包点击进入领取红包页面 */
         for (envelope in envelopes.reversed()) {
@@ -278,18 +287,51 @@ class WechatService : AccessibilityService() {
                 delay(delayTime)
                 envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
             }
+            saveData()
         }
 
+        isHasClicked = false
 
-//        if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
-//        val envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_DETAIL_CLOSE_ID)
-//        if (envelopes.size < 1) return
-//
-//        /* 发现红包点击进入领取红包页面 */
-//        for (envelope in envelopes.reversed()) {
-//            envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-//        }
+    }
 
+    private fun getWechatCode(event: AccessibilityEvent) {
+        val wechatId = nodeRoot.findAccessibilityNodeInfosByViewId(WECHAR_ID)
+        if (wechatId.isEmpty()) return
+
+        val wechatControlVO = RedEnvelopePreferences.wechatControl
+        wechatControlVO.wechatId = wechatId[0].text.toString()
+        RedEnvelopePreferences.wechatControl = wechatControlVO
+//        LogUtils.d("data------------------:" + RedEnvelopePreferences.wechatControl.toString())
+    }
+
+    private fun saveData() {
+        val sendInfo = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_DETAIL_SEND_ID)
+        val wishWord = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_WISH_WORD_ID)
+        val count = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_COUNT_ID)
+
+        if (sendInfo.isEmpty() or wishWord.isEmpty() or count.isEmpty())
+            return
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val date = Date(System.currentTimeMillis())
+        val wechatRedEnvelopeVO = WechatRedEnvelopeVO(
+            sendInfo[0].text.toString(),
+            wishWord[0].text.toString(),
+            count[0].text.toString(),
+            dateFormat.format(date),
+            RedEnvelopePreferences.wechatControl.wechatId,
+            RedEnvelopePreferences.wechatControl.imei
+        )
+        wechatRedEnvelopeVO.save(object : SaveListener<String>() {
+            override fun done(p0: String?, p1: BmobException?) {
+                if (p1 == null) {
+                    LogUtils.d("添加数据成功，返回objectId为：$p0")
+                } else {
+                    LogUtils.e("创建数据失败：", p1)
+                }
+            }
+
+        })
 
     }
 }

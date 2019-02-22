@@ -1,8 +1,9 @@
-package com.carlos.grabredenvelope.main
+package com.carlos.grabredenvelope.data
 
 import com.carlos.cutils.base.CBasePreferences
+import com.carlos.cutils.util.LogUtils
+import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.dao.WechatControlVO
-import com.carlos.grabredenvelope.util.MyApplication
 import kotlinx.serialization.json.JSON
 
 /**
@@ -22,7 +23,13 @@ object RedEnvelopePreferences :
         get() {
             val data = getString(WECHAT_CONTROL, "")
             if (data.isNullOrEmpty()) return WechatControlVO()
-            return JSON.parse(WechatControlVO.serializer(), data)
+            return try {
+                JSON.parse(WechatControlVO.serializer(), data)
+            }catch (e: Exception) {
+                LogUtils.e("error:", e)
+                setString(WECHAT_CONTROL, JSON.stringify(WechatControlVO.serializer(), WechatControlVO()))
+                WechatControlVO()
+            }
         }
         set(value) {
             setString(WECHAT_CONTROL, JSON.stringify(WechatControlVO.serializer(), value))

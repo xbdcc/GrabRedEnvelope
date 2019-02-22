@@ -1,18 +1,23 @@
-package com.carlos.grabredenvelope.main
+package com.carlos.grabredenvelope.activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Window
 import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
-import com.carlos.cutils.util.LogUtils
+import android.widget.Toast
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.dao.WechatControlVO
+import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 
 /**
  * Created by 小不点 on 2016/5/27.
  */
 class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
+
+    private val WECHAT_SERVICE_NAME = "com.carlos.grabredenvelope/.services.WechatService"
 
     private lateinit var mCbWechatControl: CheckBox
     private lateinit var mCbWechatNotificationControl: CheckBox
@@ -36,6 +41,10 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         initView()
 
         loadSaveData()
+
+        addListener()
+
+
     }
 
     private fun initView() {
@@ -49,10 +58,12 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         mSbWechatLingqu = findViewById(R.id.sb_qq_lingqu)
 
         mCbWechatControl.setOnCheckedChangeListener { buttonView, isChecked ->
-            wechatControlVO.isMonitor = isChecked
-            RedEnvelopePreferences.wechatControl = wechatControlVO
-            LogUtils.d("check---$isChecked")
+            mCbWechatControl.isChecked = !isChecked
+            startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            Toast.makeText(this@WechatEnvelopeActivity, "辅助功能找到（抢微信红包）开启或关闭。", Toast.LENGTH_SHORT)
+                .show()
         }
+
         mCbWechatNotificationControl.setOnCheckedChangeListener { buttonView, isChecked ->
             wechatControlVO.isMonitorNotification = isChecked
             RedEnvelopePreferences.wechatControl = wechatControlVO
@@ -70,7 +81,6 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
     private fun loadSaveData() {
         wechatControlVO = RedEnvelopePreferences.wechatControl
-        mCbWechatControl.isChecked = wechatControlVO.isMonitor
         t_putong = wechatControlVO.delayOpenTime
         mTvWechatPutong.text = "领取红包延迟时间：" + t_putong + "s"
         mSbWechatPutong.progress = t_putong - 1
@@ -84,6 +94,20 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         }
     }
 
+    private fun addListener() {
+        addAccessibilityServiceListener(object : AccessibilityServiceListeners {
+            override fun updateStatus(boolean: Boolean) {
+                updateControlView(boolean)
+            }
+        }, WECHAT_SERVICE_NAME)
+        updateControlView(checkStatus())
+    }
+
+    private fun updateControlView(boolean: Boolean) {
+        if(boolean) mCbWechatControl.setButtonDrawable(R.mipmap.switch_on)
+        else mCbWechatControl.setButtonDrawable(R.mipmap.switch_off)
+    }
+
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
         when (seekBar.id) {
             R.id.sb_qq_putong -> {
@@ -94,25 +118,14 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             }
 
             R.id.sb_qq_lingqu -> {
-                t_lingqu = progress + 3
-                if (progress == 8) {
-                    mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"
-                } else {
-                    mTvWechatLingqu.text = "红包领取页关闭时间：" + t_lingqu + "s"
-                }
+                t_lingqu = progress + 2
+                mTvWechatLingqu.text = "红包领取页关闭延迟时间：" + t_lingqu +"s"
                 wechatControlVO.delayCloseTime = t_lingqu
                 RedEnvelopePreferences.wechatControl = wechatControlVO
-
             }
         }
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        LogUtils.d("wechatdata:$wechatControlVO")
-        LogUtils.d("wechatdata:${RedEnvelopePreferences.wechatControl}")
-    }
     override fun onStartTrackingTouch(seekBar: SeekBar) {
 
     }

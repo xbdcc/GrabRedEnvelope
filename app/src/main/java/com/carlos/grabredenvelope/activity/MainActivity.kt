@@ -1,7 +1,7 @@
-package com.carlos.grabredenvelope.main
+package com.carlos.grabredenvelope.activity
 
+import android.Manifest
 import android.accessibilityservice.AccessibilityServiceInfo
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Context
@@ -15,10 +15,16 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.Toast
 import cn.jpush.android.api.JPushInterface
+import com.carlos.cutils.base.CBaseActivity
+import com.carlos.cutils.listener.PermissionListener
 import com.carlos.cutils.thirdparty.AlipayReward
 import com.carlos.cutils.thirdparty.WechatReward
+import com.carlos.cutils.util.DeviceUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
+import com.carlos.grabredenvelope.data.RedEnvelopePreferences
+import com.carlos.grabredenvelope.main.About
+import com.carlos.grabredenvelope.main.XiuYiXiu
 import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.util.ToastUtils
 import com.carlos.grabredenvelope.util.Update
@@ -27,7 +33,7 @@ import com.carlos.grabredenvelope.util.Utility
 /**
  * Created by 小不点 on 2016/2/14.
  */
-open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateChangeListener {
+open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilityStateChangeListener {
 
     private var listView: ListView? = null
     private lateinit var list: Array<String>
@@ -46,7 +52,7 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
             val accessibilityServiceInfoList =
                 accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
             for (info in accessibilityServiceInfoList) {
-                if (info.id == "$packageName/.services.WechatService") {
+                if (info.id == "$packageName/.services.DingdingService") {
 //                if (info.id == "$packageName/.services.QiangHongBaoService") {
                     Log.d(TAG, "ture")
                     return true
@@ -102,6 +108,7 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
                 cIntent = Intent()
                 when (position) {
                     0 -> {
+
                         startActivity(cIntent.setAction(Settings.ACTION_ACCESSIBILITY_SETTINGS))
 
                         if (isServiceEnabled) {
@@ -111,6 +118,8 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
                             Toast.makeText(this@MainActivity, "找到抢红包，然后开启服务。", Toast.LENGTH_SHORT)
                                 .show()
                         }
+
+
                     }
                     1 -> {
                         startActivity(
@@ -155,6 +164,29 @@ open class MainActivity : Activity(), AccessibilityManager.AccessibilityStateCha
                 }
             }
 
+        getPermissions()
+
+    }
+
+    private fun getPermissions() {
+        requestPermission(100, object : PermissionListener {
+            override fun permissionSuccess() {
+                LogUtils.d(
+                    "permission get success--------------------------" + DeviceUtils.getImei(
+                        this@MainActivity
+                    )
+                )
+                val wechatControlVO =
+                    RedEnvelopePreferences.wechatControl
+                wechatControlVO.imei = DeviceUtils.getImei(this@MainActivity)
+                RedEnvelopePreferences.wechatControl = wechatControlVO
+            }
+
+            override fun permissionFail() {
+
+            }
+
+        }, Manifest.permission.READ_PHONE_STATE)
     }
 
     override fun onResume() {

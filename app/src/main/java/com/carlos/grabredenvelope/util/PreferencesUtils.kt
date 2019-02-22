@@ -2,6 +2,7 @@ package com.carlos.grabredenvelope.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.carlos.grabredenvelope.MyApplication
 
 /**
  * Created by 小不点 on 2016/2/19.

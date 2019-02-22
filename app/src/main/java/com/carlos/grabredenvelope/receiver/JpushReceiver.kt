@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import cn.jpush.android.api.JPushInterface
-import com.carlos.grabredenvelope.main.MainActivity
+import com.carlos.grabredenvelope.activity.MainActivity
 import com.carlos.grabredenvelope.util.PreferencesUtils
 import org.json.JSONArray
 import org.json.JSONException

@@ -7,7 +7,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import cn.jpush.android.api.JPushInterface
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.main.MainActivity
+import com.carlos.grabredenvelope.activity.MainActivity
 
 /**
  * Created by 小不点 on 2016/2/24.

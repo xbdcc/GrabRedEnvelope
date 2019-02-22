@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">抢红包</string>
     <string name="app_name_dev">抢红包DEV</string>
+
+    <string name="grab_wechat_envelope">抢微信红包</string>
+    <string name="grab_dingding_envelope">抢钉钉红包</string>
+
     <string name="accessibility_description">抢红包工具，支持QQ,部分功能已实现。
         打开辅助功能找到抢红包开启服务，QQ设置里面通知栏消息和锁屏显示消息都开启。
         停在某一具体聊天页有效，停在消息列表页无效。为防封号，增加了延迟抢功能。其他功能开发完善中，如有问题关闭重新开启服务或仔细看关于或联系我。</string>

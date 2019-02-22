@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
 import com.carlos.grabredenvelope.R
+import com.carlos.grabredenvelope.activity.MainActivity
 import com.carlos.grabredenvelope.util.PreferencesUtils
 
 /**
