@@ -1,5 +1,7 @@
 package com.carlos.grabredenvelope.activity
 
+import android.content.pm.ActivityInfo
+import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.ImageButton
 import android.widget.TextView
@@ -14,6 +16,11 @@ open class BaseActivity : CBaseAccessibilityActivity() {
 
     private lateinit var mBack: ImageButton
     private lateinit var tv_title: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
 
     override fun onResume() {
         super.onResume()

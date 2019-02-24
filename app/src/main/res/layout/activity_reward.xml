@@ -42,16 +42,16 @@
             android:onClick="alipay"
             android:id="@+id/b_alipay_reward"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:layout_height="35dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@drawable/round_button"
             android:textColor="@drawable/button_text_color"
-            android:text="支付宝开发者"/>
+            android:text="支付宝打赏开发者"/>
 
     </RelativeLayout>
     <View
@@ -80,9 +80,9 @@
             android:onClick="wechatPay"
             android:id="@+id/b_wechat_reward"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:layout_height="35dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:layout_alignParentBottom="true"

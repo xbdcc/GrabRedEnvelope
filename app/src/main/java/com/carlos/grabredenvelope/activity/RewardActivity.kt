@@ -38,7 +38,7 @@ class RewardActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reward)
 
-        title = "捐赠打赏"
+        setMenuTitle("捐赠打赏")
 
         back()
 

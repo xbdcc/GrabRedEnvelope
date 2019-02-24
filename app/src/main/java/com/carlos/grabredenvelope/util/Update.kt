@@ -9,6 +9,7 @@ import android.os.Environment
 import android.os.Handler
 import android.util.Log
 import android.widget.Toast
+import com.carlos.cutils.util.LogUtils
 import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -39,6 +40,7 @@ class Update(private val context: Context, private val type: Int) {
      */
     internal var handler: Handler = object : Handler() {
         override fun handleMessage(msg: android.os.Message) {
+            LogUtils.d("msg-what:" + msg.what)
             when (msg.what) {
                 CAN_BE_UPDATED -> {
                     //                    dialog.dismiss();
@@ -69,7 +71,7 @@ class Update(private val context: Context, private val type: Int) {
     internal val filedir: File
         get() {
             val sd = Environment.getExternalStorageDirectory()
-            val path = sd.path + "/QiangHongBao"
+            val path = sd.path + "/RedEnvelope"
             val filedir = File(path)
             if (!filedir.exists()) {
                 filedir.mkdir()

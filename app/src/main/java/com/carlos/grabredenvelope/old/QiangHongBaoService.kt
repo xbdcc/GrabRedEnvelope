@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.services
+package com.carlos.grabredenvelope.old
 
 import android.accessibilityservice.AccessibilityService
 import android.app.KeyguardManager
@@ -16,7 +16,6 @@ import com.carlos.cutils.util.LogUtils
 
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.activity.MainActivity
-import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.util.PreferencesUtils

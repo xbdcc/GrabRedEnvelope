@@ -15,10 +15,9 @@ class GithubIssuesActivity : WebViewActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_github_issues)
 
+        setMenuTitle("Github意见反馈")
+
         back()
-
-        title = "Github意见反馈"
-
 
         val webView = findViewById<WebView>(R.id.webview)
         initSetting(webView)

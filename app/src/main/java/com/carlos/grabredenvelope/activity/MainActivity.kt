@@ -1,32 +1,22 @@
 package com.carlos.grabredenvelope.activity
 
 import android.Manifest
-import android.accessibilityservice.AccessibilityServiceInfo
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.accessibility.AccessibilityManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.exception.BmobException
-import cn.bmob.v3.listener.QueryListener
 import cn.bmob.v3.listener.SaveListener
 import cn.jpush.android.api.JPushInterface
-import com.carlos.cutils.base.CBaseActivity
 import com.carlos.cutils.listener.PermissionListener
-import com.carlos.cutils.thirdparty.AlipayReward
-import com.carlos.cutils.thirdparty.WechatReward
-import com.carlos.cutils.util.DeviceUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.dao.CommonVO
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
-import com.carlos.grabredenvelope.main.About
+import com.carlos.grabredenvelope.old.About
 import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.util.ToastUtils
 import com.carlos.grabredenvelope.util.Update
@@ -35,34 +25,12 @@ import com.carlos.grabredenvelope.util.Utility
 /**
  * Created by 小不点 on 2016/2/14.
  */
-open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilityStateChangeListener {
+open class MainActivity : BaseActivity() {
 
     private var listView: ListView? = null
     private lateinit var list: Array<String>
     private lateinit var cIntent: Intent
     private var adapter: ArrayAdapter<String>? = null
-
-    //AccessibilityService 管理
-    private lateinit var accessibilityManager: AccessibilityManager
-
-    /**
-     * 获取 QiangHongBaoService 是否启用状态
-     * @return
-     */
-    private val isServiceEnabled: Boolean
-        get() {
-            val accessibilityServiceInfoList =
-                accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
-            for (info in accessibilityServiceInfoList) {
-                if (info.id == "$packageName/.services.DingdingService") {
-//                if (info.id == "$packageName/.services.QiangHongBaoService") {
-                    Log.d(TAG, "ture")
-                    return true
-                }
-            }
-            Log.d(TAG, "false")
-            return false
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,13 +49,6 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
         //        new DelayedUse(MainActivity.this);
 
         Log.d(TAG, "oncreate")
-        //监听AccessibilityService 变化
-        accessibilityManager =
-            getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-        accessibilityManager.addAccessibilityStateChangeListener(this)
-
-        //        Update update=new Update(MainActivity.this,1);
-        //        update.update();
 
         listView = findViewById(R.id.listview)
 //        list = ArrayList()
@@ -110,7 +71,6 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
                 cIntent = Intent()
                 when (position) {
                     0 -> {
-
                         startActivity(
                             cIntent.setClass(
                                 this@MainActivity,
@@ -133,11 +93,21 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
                     1 -> {
 
                         ToastUtils.showToast(applicationContext, "关于")
-                        startActivity(cIntent.setClass(this@MainActivity, AboutActivity::class.java))
+                        startActivity(
+                            cIntent.setClass(
+                                this@MainActivity,
+                                AboutActivity::class.java
+                            )
+                        )
                     }
                     2 -> {
 
-                        startActivity(cIntent.setClass(this@MainActivity, GithubIssuesActivity::class.java))
+                        startActivity(
+                            cIntent.setClass(
+                                this@MainActivity,
+                                GithubIssuesActivity::class.java
+                            )
+                        )
 
                     }
                     3 -> {
@@ -147,7 +117,12 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
                     }
 
                     4 -> {
-                        startActivity(cIntent.setClass(this@MainActivity, RewardActivity::class.java))
+                        startActivity(
+                            cIntent.setClass(
+                                this@MainActivity,
+                                RewardActivity::class.java
+                            )
+                        )
 //                        AlipayReward(this)
 //                        WechatReward(
 //                            this)
@@ -181,8 +156,7 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
     private fun getPermissions() {
         requestPermission(100, object : PermissionListener {
             override fun permissionSuccess() {
-                RedEnvelopePreferences.imei = DeviceUtils.getImei(this@MainActivity)
-                queryImei()
+                uploadData()
             }
 
             override fun permissionFail() {
@@ -192,25 +166,12 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
         }, Manifest.permission.READ_PHONE_STATE)
     }
 
-    private fun queryImei() {
-        val imei = RedEnvelopePreferences.imei
-        LogUtils.d("ime:" + imei)
-        if(imei.isEmpty() or imei.equals("000000000000000")) return
-        val bmobQuery = BmobQuery<CommonVO>()
-        bmobQuery.getObject(RedEnvelopePreferences.imei, object : QueryListener<CommonVO>() {
-            override fun done(commonVO: CommonVO?, e: BmobException?) {
-                if(e!=null) {
-                    LogUtils.e("error:", e)
-                    uploadImei()
-                }
-            }
-        })
-    }
-
-    private fun uploadImei() {
-        val commonVO = CommonVO(RedEnvelopePreferences.imei)
-        commonVO.save(object : SaveListener<String>() {
+    private fun uploadData() {
+        val imei = RedEnvelopePreferences.deviceInformaiton.imei
+        if (imei.isEmpty() or (imei == "000000000000000")) return
+        RedEnvelopePreferences.deviceInformaiton.save(object : SaveListener<String>() {
             override fun done(p0: String?, p1: BmobException?) {
+                LogUtils.d("p0:$p0---p1:$p1")
             }
         })
     }
@@ -246,25 +207,5 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
         dialog.show()
     }
 
-    /**
-     * 更新当前 QiangHongBaoService 显示状态
-     */
-    private fun updateServiceStatus() {
-        if (isServiceEnabled) {
-            list[0] = "关闭服务"
-        } else {
-            list[0] = "开启服务"
-        }
-    }
-
-    override fun onDestroy() {
-        accessibilityManager!!.removeAccessibilityStateChangeListener(this)
-        super.onDestroy()
-        Log.d(TAG, "ondestroy")
-    }
-
-    override fun onAccessibilityStateChanged(enabled: Boolean) {
-        updateServiceStatus()
-    }
 
 }

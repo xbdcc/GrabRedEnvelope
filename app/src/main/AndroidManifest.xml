@@ -22,7 +22,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.carlos.grabredenvelope.activity.MainActivity">
+        <activity android:name="com.carlos.grabredenvelope.activity.MainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -32,8 +33,8 @@
 
         <service
             android:name="com.carlos.grabredenvelope.services.WechatService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:label="@string/grab_wechat_envelope"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             >
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
@@ -45,8 +46,8 @@
 
         <service
             android:name="com.carlos.grabredenvelope.services.DingdingService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:label="@string/grab_dingding_envelope"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             >
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
@@ -56,14 +57,15 @@
                 android:resource="@xml/dingding_service"/>
         </service>
 
-        <!--<activity android:name="com.carlos.grabredenvelope.main.HongBaoRecrodActivity"/>-->
+        <!--<activity android:name="com.carlos.grabredenvelope.old.HongBaoRecrodActivity"/>-->
         <activity android:name="com.carlos.grabredenvelope.activity.WechatEnvelopeActivity"/>
-        <activity android:name="com.carlos.grabredenvelope.main.XiuYiXiu"/>
-        <activity android:name="com.carlos.grabredenvelope.main.About"/>
+        <activity android:name="com.carlos.grabredenvelope.old.XiuYiXiu"/>
+        <activity android:name="com.carlos.grabredenvelope.old.About"/>
         <activity android:name="com.carlos.grabredenvelope.receiver.MessageActivity"/>
         <activity android:name=".activity.GithubIssuesActivity"/>
         <activity android:name=".activity.RewardActivity"/>
         <activity android:name=".activity.AboutActivity"/>
+        <activity android:name=".activity.DingdingEnvelopeActivity"/>
 
         <receiver
             android:name="com.carlos.grabredenvelope.receiver.JpushReceiver"
@@ -81,8 +83,12 @@
             </intent-filter>
         </receiver>
 
-        <meta-data android:value="${UMENG_APPKEY}" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5c6a2a41b465f547ff00034a"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Channel ID"/>
     </application>
 
 </manifest>

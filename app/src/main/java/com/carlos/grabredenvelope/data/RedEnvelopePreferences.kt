@@ -3,6 +3,7 @@ package com.carlos.grabredenvelope.data
 import com.carlos.cutils.base.CBasePreferences
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.MyApplication
+import com.carlos.grabredenvelope.dao.CommonVO
 import com.carlos.grabredenvelope.dao.WechatControlVO
 import kotlinx.serialization.json.JSON
 
@@ -13,11 +14,14 @@ object RedEnvelopePreferences :
     CBasePreferences("redenvelope_preferences", MyApplication.instance.applicationContext) {
 
     private val IMEI = "imei"
+    private val DEVICE_INFORMATION = "device_information"
     private val WECHAT_CONTROL = "wechat_control"
 
     var imei: String
         get() = getString(IMEI, "")
         set(value) = setString(IMEI, value)
+
+    var deviceInformaiton = CommonVO()
 
     var wechatControl: WechatControlVO
         get() {

@@ -1,0 +1,11 @@
+<accessibility-service
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/about"
+    android:accessibilityEventTypes="typeAllMask"
+    android:packageNames="com.alibaba.android.rimet"
+    android:accessibilityFeedbackType="feedbackAllMask"
+    android:notificationTimeout="10"
+    android:settingsActivity="com.carlos.grabredenvelope.activity.DingdingEnvelopeActivity"
+    android:accessibilityFlags="flagDefault"
+    android:canRequestEnhancedWebAccessibility = "true"
+    android:canRetrieveWindowContent="true"/>

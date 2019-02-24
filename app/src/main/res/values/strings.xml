@@ -5,17 +5,42 @@
     <string name="grab_wechat_envelope">抢微信红包</string>
     <string name="grab_dingding_envelope">抢钉钉红包</string>
 
+    <string name="how_to_use">
+        为正常使用，建议APP权限和通知都打开。
+        \n\n使用说明：
+        \n辅助功能开启【抢微信红包】，若使用默认参数则通知或聊天列表页面或群聊发现有红包，则会自动点击红包并拆开跳转到详情页自动关闭。
+        \n通知监控开关说明：需要微信通知权限开启，此时若开启此功能收到通知有红包消息会自动跳转点击。
+        \n聊天列表页监控开关说明：若打开则在微信首页列表也发现红包消息则会跳转到详情页点击。
+        \n\n延迟时间说明：为防止秒抢拉仇恨也为防止微信封号加了延迟功能，延迟可以选择1-9秒，若确实不想延迟可以私我单独打个安装包。
+        \n
+        \n\n已知的bug有：
+        \n若出现文字与红包文字相同则也会点击
+        \n若红包没领完则还会继续点击
+        \n\n
+        \n代码开源仅供学习使用，请勿用作商业用途，GitHub求赏个star
+        \n代码地址：https://github.com/xbdcc/GrabRedEnvelope
+    </string>
+
+
+    <string name="wechat_description">
+        使用指南：使用前仔细看APP使用说明。辅助功能开启【抢微信红包】，APP 抢微信红包设置是否监控通知和聊天列表页面，同时可设置延迟时间。代码开源仅供学习使用，请勿用作商业用途。
+        \n\n如果有遇到说明里除已知bug外的问题, 欢迎通过 GitHub Issue 反馈:https://github.com/xbdcc/GrabRedEnvelope
+        \n\n若觉得还行GitHub求赏个star吧
+        \n\n ——made by 小不点</string>
+
+
+
+    <!--old-->
     <string name="accessibility_description">抢红包工具，支持QQ,部分功能已实现。
         打开辅助功能找到抢红包开启服务，QQ设置里面通知栏消息和锁屏显示消息都开启。
         停在某一具体聊天页有效，停在消息列表页无效。为防封号，增加了延迟抢功能。其他功能开发完善中，如有问题关闭重新开启服务或仔细看关于或联系我。</string>
-
     <string name="menu_service">开启服务</string>
     <string name="menu_hongbao_record">红包记录</string>
     <string name="menu_qq_hongbao">QQ红包（完善中）</string>
     <string name="menu_weixin_hongbao">微信红包（待完善）</string>
     <string name="menu_zhifubao_xiuyixiu">支付宝咻一咻（待完善）</string>
     <string name="menu_qq_shuayishua">QQ刷一刷（待开发）</string>
-    <string name="about">关于</string>
+    <string name="about">开发中，尽情关注后续版本。</string>
     <string name="advice">意见反馈（待开发）</string>
     <string name="update">检测更新</string>
 

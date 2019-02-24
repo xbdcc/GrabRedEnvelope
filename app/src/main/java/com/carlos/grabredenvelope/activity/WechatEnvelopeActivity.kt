@@ -8,6 +8,7 @@ import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.dao.WechatControlVO
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
@@ -37,6 +38,8 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         setContentView(R.layout.activity_wechat_envelope)
 
         back()
+
+        setMenuTitle("抢微信红包设置")
 
         initView()
 
@@ -70,6 +73,7 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         }
         mCbWechatChatControl.setOnCheckedChangeListener { buttonView, isChecked ->
             wechatControlVO.isMonitorChat = isChecked
+            LogUtils.d("ismotior:" + isChecked)
             RedEnvelopePreferences.wechatControl = wechatControlVO
         }
 
@@ -80,6 +84,11 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
     private fun loadSaveData() {
+        mCbWechatNotificationControl.isChecked = RedEnvelopePreferences.wechatControl.isMonitorNotification
+        mCbWechatChatControl.isChecked = RedEnvelopePreferences.wechatControl.isMonitorChat
+        LogUtils.d("wechatControl:" + RedEnvelopePreferences.wechatControl.toString())
+
+
         wechatControlVO = RedEnvelopePreferences.wechatControl
         t_putong = wechatControlVO.delayOpenTime
         mTvWechatPutong.text = "领取红包延迟时间：" + t_putong + "s"

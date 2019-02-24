@@ -1,5 +1,6 @@
-package com.carlos.grabredenvelope.main
+package com.carlos.grabredenvelope.old
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,13 +9,12 @@ import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.activity.MainActivity
 import com.carlos.grabredenvelope.util.PreferencesUtils
 
 /**
  * Created by 小不点 on 2016/2/20.
  */
-class XiuYiXiu : MainActivity() {
+class XiuYiXiu : Activity() {
     private val s_delay = "支付宝咻一咻自动点击延迟时间："
     private var ib_back: ImageButton? = null
     private var cb_xiuyixiu_control: CheckBox? = null

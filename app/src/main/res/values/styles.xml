@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="activity_theme" parent="AppTheme">
+        <item name="android:screenOrientation">landscape</item>
+    </style>
+
     <!-- 分割线-->
     <style name="view_line">
         <item name="android:layout_height">@dimen/line_height</item>

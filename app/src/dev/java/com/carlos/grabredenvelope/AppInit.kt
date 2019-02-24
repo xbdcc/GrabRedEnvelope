@@ -38,7 +38,6 @@ class AppInit {
         // 选用AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
     }
-
     private fun initBugly() {
         CrashReport.initCrashReport(context, LocalConstants.BUGLY_DEV_KEY, false)//DEV环境
     }
