@@ -1,8 +1,11 @@
 # GrabRedEnvelope
 
+## 最新版本下载地址：
+http://xbdcc.cn/GrabRedEnvelope/download.html
+
 ## Gif图片
-![gif1](record/device-2019-02-24-162111.gif)
-![gif2](record/device-2019-02-24-162902.gif)
+![gif1](https://github.com/xbdcc/GrabRedEnvelope/blob/master/record/device-2019-02-24-162111.gif)
+![gif2](https://github.com/xbdcc/GrabRedEnvelope/blob/master/record/device-2019-02-24-162902.gif)
 
 ## 使用指南
 为正常使用，建议APP权限和通知都打开。
