@@ -1,6 +1,7 @@
 package com.carlos.grabredenvelope
 
 import android.content.Context
+import cn.bmob.v3.Bmob
 import cn.jpush.android.api.JPushInterface
 import com.carlos.grabredenvelope.local.LocalConstants
 import com.tencent.bugly.crashreport.CrashReport
@@ -21,6 +22,8 @@ class AppInit {
         initUment()
 
         initBugly()
+
+        initBmob()
     }
 
     private fun initJpush() {
@@ -38,5 +41,9 @@ class AppInit {
 
     private fun initBugly() {
         CrashReport.initCrashReport(context, LocalConstants.BUGLY_DEV_KEY, false)//DEV环境
+    }
+
+    private fun initBmob() {
+        Bmob.initialize(context, LocalConstants.BMOB_DEV_KEY)
     }
 }

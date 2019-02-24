@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include layout="@layout/include_title"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/blue_light"
+            android:text="如果有帮到你就支持下吧，你的打赏是对我最大的鼓励！"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/iv_alipay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_alipay"
+            android:src="@mipmap/alipay"/>
+
+        <TextView
+            android:id="@+id/tv_alipay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/b_alipay_reward"
+            android:layout_centerInParent="true"
+            android:text="长按图片保存二维码"/>
+        <Button
+            android:onClick="alipay"
+            android:id="@+id/b_alipay_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/round_button"
+            android:textColor="@drawable/button_text_color"
+            android:text="支付宝开发者"/>
+
+    </RelativeLayout>
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        style="@style/view_line"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/iv_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_wechat"
+            android:src="@mipmap/wechat"/>
+        <TextView
+            android:id="@+id/tv_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/b_wechat_reward"
+            android:layout_centerInParent="true"
+            android:text="长按图片保存二维码"/>
+        <Button
+            android:onClick="wechatPay"
+            android:id="@+id/b_wechat_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/round_button"
+            android:textColor="@drawable/button_text_color"
+            android:text="微信打赏开发者"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

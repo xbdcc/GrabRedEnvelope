@@ -10,7 +10,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
-        classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

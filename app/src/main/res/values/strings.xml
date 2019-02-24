@@ -20,10 +20,11 @@
     <string name="update">检测更新</string>
 
     <string-array name="list">
-        <item>开启服务</item>
-        <item>微信红包</item>
-        <item>关于</item>
+        <item>抢微信红包设置</item>
+        <item>使用说明</item>
+        <item>GitHub意见反馈</item>
         <item>检测更新</item>
+        <item>捐赠打赏</item>
     </string-array>
 
 

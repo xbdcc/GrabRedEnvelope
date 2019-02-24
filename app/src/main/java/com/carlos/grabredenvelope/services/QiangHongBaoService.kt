@@ -82,11 +82,6 @@ class QiangHongBaoService : AccessibilityService() {
             //            return;
         }
 
-        if (!RedEnvelopePreferences.useStatus) {
-            isStopUse = true
-            //            return;
-        }
-
         Log.d(TAG, "use---$isStopUse")
         LogUtils.d("....")
         if (!isStopUse) {

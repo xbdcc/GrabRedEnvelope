@@ -61,7 +61,9 @@
         <activity android:name="com.carlos.grabredenvelope.main.XiuYiXiu"/>
         <activity android:name="com.carlos.grabredenvelope.main.About"/>
         <activity android:name="com.carlos.grabredenvelope.receiver.MessageActivity"/>
-
+        <activity android:name=".activity.GithubIssuesActivity"/>
+        <activity android:name=".activity.RewardActivity"/>
+        <activity android:name=".activity.AboutActivity"/>
 
         <receiver
             android:name="com.carlos.grabredenvelope.receiver.JpushReceiver"

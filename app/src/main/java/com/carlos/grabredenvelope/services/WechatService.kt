@@ -8,14 +8,18 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.exception.BmobException
+import cn.bmob.v3.listener.QueryListener
 import cn.bmob.v3.listener.SaveListener
 import com.carlos.cutils.util.AccessibilityServiceUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.dao.WechatRedEnvelopeVO
 import com.carlos.grabredenvelope.activity.MainActivity
+import com.carlos.grabredenvelope.dao.CommonVO
+import com.carlos.grabredenvelope.dao.WechatIdVO
+import com.carlos.grabredenvelope.dao.WechatRedEnvelopeVO
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.util.PreferencesUtils
@@ -120,10 +124,6 @@ class WechatService : AccessibilityService() {
                 //            return;
             }
 
-            if (!RedEnvelopePreferences.useStatus) {
-                isStopUse = true
-                //            return;
-            }
 
             if (isStopUse) return
 
@@ -152,7 +152,7 @@ class WechatService : AccessibilityService() {
                     LogUtils.d("内容改变")
                     grabRedEnvelope()
                     monitorChat()
-                    getWechatCode(event)
+                    getWechatCode()
                 }
             }
         } catch (e: Exception) {
@@ -294,14 +294,35 @@ class WechatService : AccessibilityService() {
 
     }
 
-    private fun getWechatCode(event: AccessibilityEvent) {
+    private fun getWechatCode() {
         val wechatId = nodeRoot.findAccessibilityNodeInfosByViewId(WECHAR_ID)
         if (wechatId.isEmpty()) return
 
         val wechatControlVO = RedEnvelopePreferences.wechatControl
         wechatControlVO.wechatId = wechatId[0].text.toString()
         RedEnvelopePreferences.wechatControl = wechatControlVO
-//        LogUtils.d("data------------------:" + RedEnvelopePreferences.wechatControl.toString())
+
+        queryWechatId()
+    }
+
+    private fun queryWechatId() {
+        val bmobQuery = BmobQuery<CommonVO>()
+        val wechatId = RedEnvelopePreferences.wechatControl.wechatId.split("：",":")[1]
+        bmobQuery.getObject(wechatId, object : QueryListener<CommonVO>() {
+            override fun done(commonVO: CommonVO?, e: BmobException?) {
+                if(e!=null) {
+                    uploadWechatId(wechatId)
+                }
+            }
+        })
+    }
+
+    private fun uploadWechatId(wechatId: String) {
+        val wechatIdVO = WechatIdVO(wechatId)
+        wechatIdVO.save(object : SaveListener<String>() {
+            override fun done(p0: String?, p1: BmobException?) {
+            }
+        })
     }
 
     private fun saveData() {
@@ -320,7 +341,7 @@ class WechatService : AccessibilityService() {
             count[0].text.toString(),
             dateFormat.format(date),
             RedEnvelopePreferences.wechatControl.wechatId,
-            RedEnvelopePreferences.wechatControl.imei
+            RedEnvelopePreferences.imei
         )
         wechatRedEnvelopeVO.save(object : SaveListener<String>() {
             override fun done(p0: String?, p1: BmobException?) {

@@ -13,3 +13,7 @@ data class WechatRedEnvelopeVO(
     var wechatId: String,
     var imei: String
 ) : BmobObject()
+
+data class WechatIdVO(
+    var wechatId: String
+) : BmobObject()

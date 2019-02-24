@@ -12,12 +12,12 @@ import kotlinx.serialization.json.JSON
 object RedEnvelopePreferences :
     CBasePreferences("redenvelope_preferences", MyApplication.instance.applicationContext) {
 
-    private val USE_STATUS = "use_status"
+    private val IMEI = "imei"
     private val WECHAT_CONTROL = "wechat_control"
 
-    var useStatus: Boolean
-        get() = getBoolean(USE_STATUS, true)
-        set(value) = setBoolean(USE_STATUS, value)
+    var imei: String
+        get() = getString(IMEI, "")
+        set(value) = setString(IMEI, value)
 
     var wechatControl: WechatControlVO
         get() {
@@ -25,9 +25,12 @@ object RedEnvelopePreferences :
             if (data.isNullOrEmpty()) return WechatControlVO()
             return try {
                 JSON.parse(WechatControlVO.serializer(), data)
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 LogUtils.e("error:", e)
-                setString(WECHAT_CONTROL, JSON.stringify(WechatControlVO.serializer(), WechatControlVO()))
+                setString(
+                    WECHAT_CONTROL,
+                    JSON.stringify(WechatControlVO.serializer(), WechatControlVO())
+                )
                 WechatControlVO()
             }
         }

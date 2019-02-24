@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlinx-serialization'
-apply plugin: 'com.bugtags.library.plugin'
 
 def keystorePropertiesFile = rootProject.file("buildsystem/keystore.properties")
 def keystoreProperties = new Properties()
@@ -33,8 +32,8 @@ android {
         minSdkVersion 18
         targetSdkVersion 28
         versionCode 5
-        versionName "1.0.4"
-        flavorDimensions "5" //和versionCode相同
+        versionName "2.0.0"
+        flavorDimensions "6" //和versionCode相同
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -85,26 +84,6 @@ greendao {
     //generateTests：设置自动生成单元测试用例
 }
 
-//bugtags {
-//    if (localData.exists()) {
-//        //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
-//        appKey localDataProperties["bugtagsAppKey"]  //这里是你的 appKey
-//        appSecret localDataProperties["bugtagsAppSecret"]    //这里是你的 appSecret，管理员在设置页可以查看
-//    }
-//    mappingUploadEnabled true
-//}
-
-//Bugtags 插件配置
-bugtags {
-    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
-    appKey localProperties["BUGTAGS_APPKEY"]    //这里是你的 appKey
-    appSecret localProperties["BUGTAGS_APP_SECRET"]    //这里是你的 appSecret，管理员在设置页可以查看
-    mappingUploadEnabled true
-
-    //网络跟踪功能配置(企业版)
-    //trackingNetworkEnabled true
-}
-
 
 //修改APK名字
 android.applicationVariants.all { variant ->
@@ -136,11 +115,6 @@ dependencies {
 
     //greendao
     implementation 'org.greenrobot:greendao:3.2.2'
-
-    //bugtags debug 包
-    debugImplementation 'com.bugtags.library:bugtags-lib:3.0.0'
-    //bugtags release 包
-    releaseImplementation 'com.bugtags.metrics:bugtags-lib:3.0.0'
 
     //bmob
     implementation 'cn.bmob.android:bmob-sdk:3.6.9'

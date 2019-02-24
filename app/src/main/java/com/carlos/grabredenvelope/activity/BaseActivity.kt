@@ -3,7 +3,6 @@ package com.carlos.grabredenvelope.activity
 import android.view.MotionEvent
 import android.widget.ImageButton
 import android.widget.TextView
-import com.bugtags.library.Bugtags
 import com.carlos.cutils.base.CBaseAccessibilityActivity
 import com.carlos.grabredenvelope.R
 import com.umeng.analytics.MobclickAgent
@@ -19,17 +18,14 @@ open class BaseActivity : CBaseAccessibilityActivity() {
     override fun onResume() {
         super.onResume()
         MobclickAgent.onResume(this)
-        Bugtags.onResume(this)
     }
 
     override fun onPause() {
         super.onPause()
         MobclickAgent.onPause(this)
-        Bugtags.onPause(this)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        Bugtags.onDispatchTouchEvent(this, event)
         return super.dispatchTouchEvent(event)
     }
 

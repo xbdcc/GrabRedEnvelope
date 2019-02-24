@@ -1,6 +1,7 @@
 package com.carlos.grabredenvelope
 
 import android.app.Application
+import cn.bmob.v3.Bmob
 import com.carlos.cutils.util.LogUtils
 
 /**
@@ -17,6 +18,10 @@ class MyApplication : Application() {
 
         initLocal()
 
+//        Bugtags.start("251033fc150b1a586e738abd782988e6", this, Bugtags.BTGInvocationEventBubble);
+
+        //第一：默认初始化
+        Bmob.initialize(this, "2b7a153910938a44794d3b03cc81da24");
     }
 
     private fun initLocal() {

@@ -11,6 +11,5 @@ data class WechatControlVO(
     var isMonitorChat: Boolean = true, //是否监控聊天列表页面
     var delayOpenTime: Int = 1,
     var delayCloseTime: Int = 1,
-    var wechatId: String = "",
-    var imei: String = ""
+    var wechatId: String = ""
 )

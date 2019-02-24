@@ -7,13 +7,15 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.accessibility.AccessibilityManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.Toast
+import cn.bmob.v3.BmobQuery
+import cn.bmob.v3.exception.BmobException
+import cn.bmob.v3.listener.QueryListener
+import cn.bmob.v3.listener.SaveListener
 import cn.jpush.android.api.JPushInterface
 import com.carlos.cutils.base.CBaseActivity
 import com.carlos.cutils.listener.PermissionListener
@@ -22,9 +24,9 @@ import com.carlos.cutils.thirdparty.WechatReward
 import com.carlos.cutils.util.DeviceUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
+import com.carlos.grabredenvelope.dao.CommonVO
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import com.carlos.grabredenvelope.main.About
-import com.carlos.grabredenvelope.main.XiuYiXiu
 import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.util.ToastUtils
 import com.carlos.grabredenvelope.util.Update
@@ -109,41 +111,49 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
                 when (position) {
                     0 -> {
 
-                        startActivity(cIntent.setAction(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-
-                        if (isServiceEnabled) {
-                            Toast.makeText(this@MainActivity, "找到抢红包，然后关闭服务。", Toast.LENGTH_SHORT)
-                                .show()
-                        } else {
-                            Toast.makeText(this@MainActivity, "找到抢红包，然后开启服务。", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-
-
-                    }
-                    1 -> {
                         startActivity(
                             cIntent.setClass(
                                 this@MainActivity,
                                 WechatEnvelopeActivity::class.java
                             )
                         )
+
+//                        startActivity(cIntent.setAction(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+//
+//                        if (isServiceEnabled) {
+//                            Toast.makeText(this@MainActivity, "找到抢红包，然后关闭服务。", Toast.LENGTH_SHORT)
+//                                .show()
+//                        } else {
+//                            Toast.makeText(this@MainActivity, "找到抢红包，然后开启服务。", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+
+
+                    }
+                    1 -> {
+
+                        ToastUtils.showToast(applicationContext, "关于")
+                        startActivity(cIntent.setClass(this@MainActivity, AboutActivity::class.java))
                     }
                     2 -> {
 
-                        AlipayReward(this)
-//                        ToastUtils.showToast(applicationContext, "关于")
-//                        startActivity(cIntent.setClass(this@MainActivity, About::class.java))
+                        startActivity(cIntent.setClass(this@MainActivity, GithubIssuesActivity::class.java))
+
                     }
                     3 -> {
-                        WechatReward(this)
-//                        val update = Update(this@MainActivity, 2)
-//                        update.update()
+                        val update = Update(this@MainActivity, 2)
+                        update.update()
+
                     }
 
                     4 -> {
-                        cIntent.setClass(this@MainActivity, XiuYiXiu::class.java)
-                        startActivity(cIntent)
+                        startActivity(cIntent.setClass(this@MainActivity, RewardActivity::class.java))
+//                        AlipayReward(this)
+//                        WechatReward(
+//                            this)
+
+//                        cIntent.setClass(this@MainActivity, XiuYiXiu::class.java)
+//                        startActivity(cIntent)
                     }
                     5 -> ToastUtils.showToast(this@MainActivity, "待开发")
                     6 -> {
@@ -171,15 +181,8 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
     private fun getPermissions() {
         requestPermission(100, object : PermissionListener {
             override fun permissionSuccess() {
-                LogUtils.d(
-                    "permission get success--------------------------" + DeviceUtils.getImei(
-                        this@MainActivity
-                    )
-                )
-                val wechatControlVO =
-                    RedEnvelopePreferences.wechatControl
-                wechatControlVO.imei = DeviceUtils.getImei(this@MainActivity)
-                RedEnvelopePreferences.wechatControl = wechatControlVO
+                RedEnvelopePreferences.imei = DeviceUtils.getImei(this@MainActivity)
+                queryImei()
             }
 
             override fun permissionFail() {
@@ -189,10 +192,33 @@ open class MainActivity : CBaseActivity(), AccessibilityManager.AccessibilitySta
         }, Manifest.permission.READ_PHONE_STATE)
     }
 
+    private fun queryImei() {
+        val imei = RedEnvelopePreferences.imei
+        LogUtils.d("ime:" + imei)
+        if(imei.isEmpty() or imei.equals("000000000000000")) return
+        val bmobQuery = BmobQuery<CommonVO>()
+        bmobQuery.getObject(RedEnvelopePreferences.imei, object : QueryListener<CommonVO>() {
+            override fun done(commonVO: CommonVO?, e: BmobException?) {
+                if(e!=null) {
+                    LogUtils.e("error:", e)
+                    uploadImei()
+                }
+            }
+        })
+    }
+
+    private fun uploadImei() {
+        val commonVO = CommonVO(RedEnvelopePreferences.imei)
+        commonVO.save(object : SaveListener<String>() {
+            override fun done(p0: String?, p1: BmobException?) {
+            }
+        })
+    }
+
     override fun onResume() {
         super.onResume()
         //监听AccessibilityService 变化
-        updateServiceStatus()
+//        updateServiceStatus()
         adapter!!.notifyDataSetChanged()
         Log.d(TAG, "--->onResume")
         JPushInterface.onResume(this)
