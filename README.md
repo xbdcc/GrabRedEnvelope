@@ -20,6 +20,12 @@ http://xbdcc.cn/GrabRedEnvelope/download.html
 
 代码开源仅供学习使用，请勿用作商业用途，GitHub求赏个star
 
+## 打赏
+<center class="half" padding:110;>
+    <img src="images/alipay.jpg" height="600"/>
+    <img src="images/wechat.jpg" height="600" style="margin-left:45px"/>
+</center>
+
 ## 版本说明
 2016-02-23 v1.0 实现抢QQ红包、QQ特殊口令生成和支付宝咻一咻功能。<br>
 2016-02-24 v1.0.1 修复抢QQ红包bug，完善推送功能。<br>
