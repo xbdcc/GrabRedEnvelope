@@ -31,7 +31,7 @@ android {
         applicationId "com.carlos.grabredenvelope"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 5
+        versionCode 6
         versionName "2.0.0"
         flavorDimensions "6" //和versionCode相同
         ndk {
@@ -88,7 +88,7 @@ greendao {
 //修改APK名字
 android.applicationVariants.all { variant ->
     variant.outputs.all {
-        outputFileName = "QiangHongBao_${versionName}.apk"
+        outputFileName = "GrabRedEnvelope${versionName}.apk"
     }
 }
 
