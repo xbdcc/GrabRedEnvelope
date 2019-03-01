@@ -2,13 +2,15 @@
 
 ## 前言
 相信很多人见过群里总会有人抢红包速度很快，也可能有人用过抢红包外挂，那么他们是什么原理实现的呢？
-目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现对，另外还有一种方式可以通过Xposed直接Hook微信的代码调用。
-通过Hook需要手机Root，并且要反编译结合源码分析，找到关键Hook点。
-今天就简单介绍下Android抢微信红包外挂的实现原理和简单Demo，如果你用Uiautomator或Appium写过Android脚本应该知道实现的过程其实很简单。注：以下是基于Android版微信7.0.3版本。
+
+- 目前一般用得最多的就是通过AccessibilityService无障碍服务监控UI模拟点击实现，此方法不需要手机Root.
+- 另外还有一种方式可以通过Xposed直接Hook微信的代码调用。通过Hook需要手机Root或者安装Xposed虚拟环境，并且要反编译结合源码分析，找到关键Hook点。
+
+今天就简单介绍下不需要Root的方式实现Android抢微信红包，如果你用Uiautomator或Appium写过一些Android脚本应该知道实现的过程其实很简单。注：以下是基于Android版微信7.0.3版本。
 
 ## 知识点
-本章会用到的相关知识工具，如果有不了解的Google一下你就知道：
-DDMS，AccessibilityService，Kotlin语言，
+本篇会用到的相关知识工具，如果有不了解的Google一下你就知道：
+DDMS，AccessibilityService，Kotlin语言
 
 ## UI分析
 - 首先我们打开安装的SDK目录，MAC下可以在Finlder按Shift+Command+G快捷键快速进入。
@@ -19,7 +21,7 @@ DDMS，AccessibilityService，Kotlin语言，
 - 手机发个红包然后查看视图如下，我们可以找到id和text:
 ![微信群聊收到红包UI](../images/demo/monitor_wechat_chat.jpg)
 - 同理我们点击红包，进入红包弹框，可以找到点击拆的ID如图：     
-![拆红包弹框UI](../images/demo/monitor_wechat_chat.jpg)
+![拆红包弹框UI](../images/demo/monitor_wechat_open_redenvelope.jpg)
 
 ## 代码实现
 本例子使用到了'com.github.xbdcc:Cutils:0.0.10'中的一些工具类，代码用Code Style-Kotlin格式化过。

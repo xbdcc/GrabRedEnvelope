@@ -18,9 +18,9 @@ http://xbdcc.cn/GrabRedEnvelope/download.html
 本版本基于微信7.0.3开发，代码开源仅供学习使用，请勿用作商业用途。
 
 ## 打赏
-<center class="half" padding:110;>
+<center class="half">
     <img src="images/alipay.jpg" height="600"/>
-    <img src="images/wechat.jpg" height="600" style="margin-left:45px"/>
+    <img src="images/wechat.jpg" height="600" style="margin-left:15px"/>
 </center>
 
 ## 版本说明
