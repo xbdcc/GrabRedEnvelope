@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.old
+package com.carlos.grabredenvelope.old2016
 
 import android.app.Activity
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.util.PreferencesUtils
 
 /**
  * Created by 小不点 on 2016/2/20.

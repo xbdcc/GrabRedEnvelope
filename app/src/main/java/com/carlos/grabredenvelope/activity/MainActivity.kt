@@ -16,18 +16,50 @@ import com.carlos.cutils.listener.PermissionListener
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
-import com.carlos.grabredenvelope.old.About
+import com.carlos.grabredenvelope.old2016.About
+import com.carlos.grabredenvelope.old2016.ToastUtils
+import com.carlos.grabredenvelope.old2016.Update
+import com.carlos.grabredenvelope.old2016.Utility
 import com.carlos.grabredenvelope.util.ControlUse
-import com.carlos.grabredenvelope.util.ToastUtils
-import com.carlos.grabredenvelope.util.Update
-import com.carlos.grabredenvelope.util.Utility
+
+/**
+ *                             _ooOoo_
+ *                            o8888888o
+ *                            88" . "88
+ *                            (| -_- |)
+ *                            O\  =  /O
+ *                         ____/`---'\____
+ *                       .'  \\|     |//  `.
+ *                      /  \\|||  :  |||//  \
+ *                     /  _||||| -:- |||||-  \
+ *                     |   | \\\  -  /// |   |
+ *                     | \_|  ''\---/''  |   |
+ *                     \  .-\__  `-`  ___/-. /
+ *                   ___`. .'  /--.--\  `. . __
+ *                ."" '<  `.___\_<|>_/___.'  >'"".
+ *               | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *               \  \ `-.   \_ __\ /__ _/   .-` /  /
+ *          ======`-.____`-.___\_____/___.-`____.-'======
+ *                             `=---='
+ *          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ *                     佛祖保佑        永无BUG
+ *            佛曰:
+ *                   写字楼里写字间，写字间里程序员；
+ *                   程序人员写程序，又拿程序换酒钱。
+ *                   酒醒只在网上坐，酒醉还来网下眠；
+ *                   酒醉酒醒日复日，网上网下年复年。
+ *                   但愿老死电脑间，不愿鞠躬老板前；
+ *                   奔驰宝马贵者趣，公交自行程序员。
+ *                   别人笑我忒疯癫，我笑自己命太贱；
+ *                   不见满街漂亮妹，哪个归得程序员？
+ */
 
 /**
  * Created by 小不点 on 2016/2/14.
  */
 open class MainActivity : BaseActivity() {
 
-    private var listView: ListView? = null
+    private lateinit var listView: ListView
     private lateinit var list: Array<String>
     private lateinit var cIntent: Intent
     private var adapter: ArrayAdapter<String>? = null
@@ -36,58 +68,35 @@ open class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
 
-        val controlUse = ControlUse(this@MainActivity)
+        val controlUse = ControlUse(this)
         if (controlUse.stopUse()) {
             show_dialog()
         }
 
-        val update = Update(this@MainActivity, 1)
+        val update = Update(this, 1)
         update.update()
-        //        if(update.hasNewVersion()){
-        //            ControlUse.isStop=true;
-        //        }
-        //        new DelayedUse(MainActivity.this);
+//        val check_update = "https://api.github.com/repos/xbdcc/GrabRedEnvelope/releases/latest"
+//        val check_update = "https://xbdcc.cn/GrabRedEnvelope/update.xml"
+//        UpdateDefaultImpl().updateDefault(this,check_update)
 
         Log.d(TAG, "oncreate")
 
         listView = findViewById(R.id.listview)
-//        list = ArrayList()
-//        list!!.add(s(R.string.menu_service))
-//        list!!.add(s(R.string.menu_hongbao_record))
-//        list!!.add(s(R.string.menu_qq_hongbao))
-//        list!!.add(s(R.string.menu_weixin_hongbao))
-//        list!!.add(s(R.string.menu_zhifubao_xiuyixiu))
-//        list!!.add(s(R.string.menu_qq_shuayishua))
-//        list!!.add(s(R.string.about))
-//        list!!.add(s(R.string.advice))
-//        list!!.add(s(R.string.update))
         list = resources.getStringArray(R.array.list)
         adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
-        listView!!.adapter = adapter
-        Utility.setListViewHeightBasedOnChildren(listView!!)
+        listView.adapter = adapter
+        Utility.setListViewHeightBasedOnChildren(listView)
 
-        listView!!.onItemClickListener =
+        listView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 cIntent = Intent()
                 when (position) {
                     0 -> {
                         startActivity(
                             cIntent.setClass(
-                                this@MainActivity,
-                                WechatEnvelopeActivity::class.java
+                                this@MainActivity, WechatEnvelopeActivity::class.java
                             )
                         )
-
-//                        startActivity(cIntent.setAction(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-//
-//                        if (isServiceEnabled) {
-//                            Toast.makeText(this@MainActivity, "找到抢红包，然后关闭服务。", Toast.LENGTH_SHORT)
-//                                .show()
-//                        } else {
-//                            Toast.makeText(this@MainActivity, "找到抢红包，然后开启服务。", Toast.LENGTH_SHORT)
-//                                .show()
-//                        }
-
 
                     }
                     1 -> {
@@ -101,31 +110,24 @@ open class MainActivity : BaseActivity() {
                         )
                     }
                     2 -> {
-
                         startActivity(
                             cIntent.setClass(
-                                this@MainActivity,
-                                GithubIssuesActivity::class.java
+                                this@MainActivity, GithubIssuesActivity::class.java
                             )
                         )
 
                     }
                     3 -> {
-                        val update = Update(this@MainActivity, 2)
+                        val update = Update(this, 2)
                         update.update()
-
                     }
 
                     4 -> {
                         startActivity(
                             cIntent.setClass(
-                                this@MainActivity,
-                                RewardActivity::class.java
+                                this@MainActivity, RewardActivity::class.java
                             )
                         )
-//                        AlipayReward(this)
-//                        WechatReward(
-//                            this)
 
 //                        cIntent.setClass(this@MainActivity, XiuYiXiu::class.java)
 //                        startActivity(cIntent)
@@ -140,11 +142,6 @@ open class MainActivity : BaseActivity() {
                         ToastUtils.showToast(applicationContext, "关于")
                         cIntent.setClass(this@MainActivity, About::class.java)
                         startActivity(cIntent)
-                    }
-                    7 -> ToastUtils.showToast(this@MainActivity, "待开发")
-                    8 -> {
-                        val update = Update(this@MainActivity, 2)
-                        update.update()
                     }
                 }
             }
@@ -167,11 +164,19 @@ open class MainActivity : BaseActivity() {
     }
 
     private fun uploadData() {
-        val imei = RedEnvelopePreferences.deviceInformaiton.imei
-        if (imei.isEmpty() or (imei == "000000000000000")) return
-        RedEnvelopePreferences.deviceInformaiton.save(object : SaveListener<String>() {
+        val deviceInformationVO = RedEnvelopePreferences.deviceInformaiton
+        if (deviceInformationVO.imei.isEmpty() or (deviceInformationVO.imei == "000000000000000")) return
+        if (deviceInformationVO.isUploaded) return
+
+        LogUtils.d("device:" + deviceInformationVO.toString())
+        deviceInformationVO.save(object : SaveListener<String>() {
             override fun done(p0: String?, p1: BmobException?) {
                 LogUtils.d("p0:$p0---p1:$p1")
+                if (p1 == null) {
+                    val commonVO = RedEnvelopePreferences.deviceInformaiton
+                    commonVO.isUploaded = true
+                    RedEnvelopePreferences.deviceInformaiton = commonVO
+                }
             }
         })
     }
@@ -189,11 +194,6 @@ open class MainActivity : BaseActivity() {
         super.onPause()
         JPushInterface.onPause(this)
     }
-
-    private fun s(id: Int): String {
-        return resources.getString(id)
-    }
-
 
     private fun show_dialog() {
         val dialog = AlertDialog.Builder(this).setTitle("提示")

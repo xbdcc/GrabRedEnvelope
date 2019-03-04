@@ -1,11 +1,10 @@
-package com.carlos.grabredenvelope.old
+package com.carlos.grabredenvelope.old2016
 
 import android.os.Handler
 import android.os.Message
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import com.carlos.grabredenvelope.util.PreferencesUtils
 import java.util.*
 
 /**

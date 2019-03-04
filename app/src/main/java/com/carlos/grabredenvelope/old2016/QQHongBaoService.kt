@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.old
+package com.carlos.grabredenvelope.old2016
 
 import android.accessibilityservice.AccessibilityService
 import android.app.Notification
@@ -8,9 +8,6 @@ import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.carlos.cutils.util.LogUtils
-import com.carlos.grabredenvelope.dao.QQ_Hongbao
-import com.carlos.grabredenvelope.util.DatabaseHelper
-import com.carlos.grabredenvelope.util.PreferencesUtils
 import com.carlos.grabredenvelope.util.WakeupTools
 import java.text.SimpleDateFormat
 import java.util.*

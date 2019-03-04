@@ -1,16 +1,18 @@
-package com.carlos.grabredenvelope.util
+package com.carlos.grabredenvelope.old2016
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.carlos.grabredenvelope.dao.QQ_Hongbao
 import java.util.*
 
 /**
  * Created by 小不点 on 2016/5/29.
  */
-class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class DatabaseHelper(context: Context) : SQLiteOpenHelper(context,
+    DATABASE_NAME, null,
+    DATABASE_VERSION
+) {
     private var db: SQLiteDatabase? = null
 
     private var mQQ_hongbao: QQ_Hongbao? = null
@@ -67,7 +69,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         val db = this.readableDatabase
 
-        val cur = db.query(TABLE_NAME, arrayOf(ID, TIME, SEND_INFO, WISH_WORD, HB_COUNT_TV), null, null, null, null, null)
+        val cur = db.query(
+            TABLE_NAME, arrayOf(
+                ID,
+                TIME,
+                SEND_INFO,
+                WISH_WORD,
+                HB_COUNT_TV
+            ), null, null, null, null, null)
 
         val count = cur!!.count//获取个数
         if (cur != null && count >= 0) {

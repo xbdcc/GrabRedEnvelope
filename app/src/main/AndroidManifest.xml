@@ -59,8 +59,8 @@
 
         <!--<activity android:name="com.carlos.grabredenvelope.old.HongBaoRecrodActivity"/>-->
         <activity android:name="com.carlos.grabredenvelope.activity.WechatEnvelopeActivity"/>
-        <activity android:name="com.carlos.grabredenvelope.old.XiuYiXiu"/>
-        <activity android:name="com.carlos.grabredenvelope.old.About"/>
+        <activity android:name="com.carlos.grabredenvelope.old2016.XiuYiXiu"/>
+        <activity android:name="com.carlos.grabredenvelope.old2016.About"/>
         <activity android:name="com.carlos.grabredenvelope.receiver.MessageActivity"/>
         <activity android:name=".activity.GithubIssuesActivity"/>
         <activity android:name=".activity.RewardActivity"/>

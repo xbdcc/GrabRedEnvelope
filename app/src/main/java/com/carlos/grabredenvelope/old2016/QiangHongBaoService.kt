@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.old
+package com.carlos.grabredenvelope.old2016
 
 import android.accessibilityservice.AccessibilityService
 import android.app.KeyguardManager
@@ -13,12 +13,10 @@ import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.carlos.cutils.util.LogUtils
-
+import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.activity.MainActivity
 import com.carlos.grabredenvelope.util.ControlUse
-import com.carlos.grabredenvelope.MyApplication
-import com.carlos.grabredenvelope.util.PreferencesUtils
 
 /**
  * Created by 小不点 on 2016/2/5.

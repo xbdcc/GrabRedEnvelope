@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.util
+package com.carlos.grabredenvelope.old2016
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -40,41 +40,86 @@ object PreferencesUtils {
      * @return
      */
     val usestatus: Boolean
-        get() = getBoolean(USE_STATUS, true)
+        get() = getBoolean(
+            USE_STATUS,
+            true
+        )
 
     var qqUseStatus: Boolean
-        get() = getBoolean(QQ_USE_STATUS, true)
-        set(value) = setBoolean(QQ_USE_STATUS, value)
+        get() = getBoolean(
+            QQ_USE_STATUS,
+            true
+        )
+        set(value) = setBoolean(
+            QQ_USE_STATUS,
+            value
+        )
 
     var qqPutongDelay: Int
-        get() = getInt(QQ_PUTONG_DELAY, 1)
-        set(value) = setInt(QQ_PUTONG_DELAY, value)
+        get() = getInt(
+            QQ_PUTONG_DELAY,
+            1
+        )
+        set(value) = setInt(
+            QQ_PUTONG_DELAY,
+            value
+        )
 
     var qqKoulingDelay: Int
-        get() = getInt(QQ_KOULING_DELAY, 3)
-        set(value) = setInt(QQ_KOULING_DELAY, value)
+        get() = getInt(
+            QQ_KOULING_DELAY,
+            3
+        )
+        set(value) = setInt(
+            QQ_KOULING_DELAY,
+            value
+        )
 
     var qqLingquDelay: Int
-        get() = getInt(QQ_LINGQU_DELAY, 11)
-        set(value) = setInt(QQ_LINGQU_DELAY, value)
+        get() = getInt(
+            QQ_LINGQU_DELAY,
+            11
+        )
+        set(value) = setInt(
+            QQ_LINGQU_DELAY,
+            value
+        )
 
     //得到QQ红包记录开始时间
     //设置QQ红包记录开始时间
     var qqHongbaoRecordTime: String
         get() = getString(QQ_HONGBAO_RECORD_TIME)
-        set(time) = setString(QQ_HONGBAO_RECORD_TIME, time)
+        set(time) = setString(
+            QQ_HONGBAO_RECORD_TIME,
+            time
+        )
 
     //得到QQ红包记录金额
     val qqHongbaoRecordCount: Float
-        get() = getFloat(QQ_HONGBAO_RECORD_COUNT, 0f)
+        get() = getFloat(
+            QQ_HONGBAO_RECORD_COUNT,
+            0f
+        )
 
     var xiuYiXiuUseStatus: Boolean
-        get() = getBoolean(XIUYIXIU_USE_STATUS, true)
-        set(value) = setBoolean(XIUYIXIU_USE_STATUS, value)
+        get() = getBoolean(
+            XIUYIXIU_USE_STATUS,
+            true
+        )
+        set(value) = setBoolean(
+            XIUYIXIU_USE_STATUS,
+            value
+        )
 
     var xiuYiXiuDelay: Int
-        get() = getInt(QQ_PUTONG_DELAY, 0)
-        set(value) = setInt(QQ_PUTONG_DELAY, value)
+        get() = getInt(
+            QQ_PUTONG_DELAY,
+            0
+        )
+        set(value) = setInt(
+            QQ_PUTONG_DELAY,
+            value
+        )
 
     fun getEditor(): SharedPreferences.Editor {
         return sharedPreferences.edit()
@@ -85,17 +130,24 @@ object PreferencesUtils {
      * @param value
      */
     fun setUseStatus(value: Boolean) {
-        setBoolean(USE_STATUS, value)
+        setBoolean(
+            USE_STATUS,
+            value
+        )
     }
 
     //设置QQ红包记录金额
     fun setQQHongbaoRecordCount(count: Float) {
-        setFloat(QQ_HONGBAO_RECORD_COUNT, count)
+        setFloat(
+            QQ_HONGBAO_RECORD_COUNT,
+            count
+        )
     }
 
 
     fun setString(key: String, value: String) {
-        editor = getEditor()
+        editor =
+            getEditor()
         editor!!.putString(key, value)
         editor!!.commit()
     }
@@ -105,7 +157,8 @@ object PreferencesUtils {
     }
 
     fun setBoolean(key: String, value: Boolean) {
-        editor = getEditor()
+        editor =
+            getEditor()
         editor!!.putBoolean(key, value)
         editor!!.commit()
     }
@@ -115,7 +168,8 @@ object PreferencesUtils {
     }
 
     fun setInt(key: String, value: Int) {
-        editor = getEditor()
+        editor =
+            getEditor()
         editor!!.putInt(key, value)
         editor!!.commit()
     }
@@ -126,7 +180,8 @@ object PreferencesUtils {
 
 
     fun setFloat(key: String, value: Float) {
-        editor = getEditor()
+        editor =
+            getEditor()
         editor!!.putFloat(key, value)
         editor!!.commit()
     }

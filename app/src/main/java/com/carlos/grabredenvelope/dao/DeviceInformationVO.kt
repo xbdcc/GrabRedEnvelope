@@ -1,7 +1,9 @@
-package com.carlos.grabredenvelope
+package com.carlos.grabredenvelope.dao
 
-import android.app.Application
-import com.carlos.cutils.util.LogUtils
+import cn.bmob.v3.BmobObject
+import com.carlos.cutils.util.DeviceUtils
+import com.carlos.grabredenvelope.MyApplication
+import kotlinx.serialization.Serializable
 
 /**
  *                             _ooOoo_
@@ -36,35 +38,21 @@ import com.carlos.cutils.util.LogUtils
 */
 
 /**
- * Created by 小不点 on 2016/2/6.
+ * Created by Carlos on 2019/2/23.
  */
-class MyApplication : Application() {
-
-    override fun onCreate() {
-        super.onCreate()
-
-        instance = this
-
-        AppInit()
-
-        initLocal()
-
-    }
-
-    private fun initLocal() {
-        try {
-            val myInitClass = Class.forName("com.carlos.grabredenvelope.local.LocalInit")
-            val initBuglyMethod = myInitClass.getMethod("init")
-            val myInitObject = myInitClass.newInstance()
-            initBuglyMethod.invoke(myInitObject)
-        } catch (e: Exception) {
-            LogUtils.e("local init error:", e)
-        }
-    }
-
-
-    companion object {
-        lateinit var instance: MyApplication
-            private set
+@Serializable
+data class DeviceInformationVO(
+    var imei: String = DeviceUtils.getImei(MyApplication.instance.applicationContext),
+    val broad: String =DeviceUtils.getPhoneBroad(),
+    val model: String = DeviceUtils.getPhoneModel(),
+    val osVersion: String = DeviceUtils.getOSVersion(),
+    val screenResolution: String = DeviceUtils.getScreenResolution(MyApplication.instance.applicationContext),
+    val appVersionName : String = DeviceUtils.getAppVersionName(MyApplication.instance.applicationContext),
+    val appVersionCode : Int = DeviceUtils.getAppVersionCode(MyApplication.instance.applicationContext),
+    @Transient
+    var isUploaded: Boolean = false
+) : BmobObject() {
+    init {
+        tableName = "tb_device_info"
     }
 }

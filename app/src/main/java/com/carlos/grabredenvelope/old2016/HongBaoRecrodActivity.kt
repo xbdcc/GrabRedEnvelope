@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.old
+package com.carlos.grabredenvelope.old2016
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -10,9 +10,6 @@ import android.widget.SimpleAdapter
 import android.widget.TextView
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.activity.BaseActivity
-import com.carlos.grabredenvelope.util.DatabaseHelper
-import com.carlos.grabredenvelope.util.PreferencesUtils
-import com.carlos.grabredenvelope.util.Utility
 import java.util.*
 
 /**

@@ -17,7 +17,7 @@
         \n若出现文字与红包文字相同则也会点击
         \n若红包没领完则还会继续点击
         \n\n
-        \n代码开源仅供学习使用，请勿用作商业用途，GitHub求赏个star
+        \n代码开源仅供学习使用，请勿用作商业用途
         \n代码地址：https://github.com/xbdcc/GrabRedEnvelope
     </string>
 
@@ -25,7 +25,6 @@
     <string name="wechat_description">
         使用指南：使用前仔细看APP使用说明。辅助功能开启【抢微信红包】，APP 抢微信红包设置是否监控通知和聊天列表页面，同时可设置延迟时间。代码开源仅供学习使用，请勿用作商业用途。
         \n\n如果有遇到说明里除已知bug外的问题, 欢迎通过 GitHub Issue 反馈:https://github.com/xbdcc/GrabRedEnvelope
-        \n\n若觉得还行GitHub求赏个star吧
         \n\n ——made by 小不点</string>
 
 

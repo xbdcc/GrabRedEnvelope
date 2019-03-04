@@ -15,11 +15,10 @@ import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.activity.MainActivity
-import com.carlos.grabredenvelope.dao.WechatIdVO
 import com.carlos.grabredenvelope.dao.WechatRedEnvelopeVO
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import com.carlos.grabredenvelope.util.ControlUse
-import com.carlos.grabredenvelope.util.PreferencesUtils
+import com.carlos.grabredenvelope.old2016.PreferencesUtils
 import com.carlos.grabredenvelope.util.WakeupTools
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -28,8 +27,40 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Test in 7.0.3
+ *                             _ooOoo_
+ *                            o8888888o
+ *                            88" . "88
+ *                            (| -_- |)
+ *                            O\  =  /O
+ *                         ____/`---'\____
+ *                       .'  \\|     |//  `.
+ *                      /  \\|||  :  |||//  \
+ *                     /  _||||| -:- |||||-  \
+ *                     |   | \\\  -  /// |   |
+ *                     | \_|  ''\---/''  |   |
+ *                     \  .-\__  `-`  ___/-. /
+ *                   ___`. .'  /--.--\  `. . __
+ *                ."" '<  `.___\_<|>_/___.'  >'"".
+ *               | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *               \  \ `-.   \_ __\ /__ _/   .-` /  /
+ *          ======`-.____`-.___\_____/___.-`____.-'======
+ *                             `=---='
+ *          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ *                     佛祖保佑        永无BUG
+ *            佛曰:
+ *                   写字楼里写字间，写字间里程序员；
+ *                   程序人员写程序，又拿程序换酒钱。
+ *                   酒醒只在网上坐，酒醉还来网下眠；
+ *                   酒醉酒醒日复日，网上网下年复年。
+ *                   但愿老死电脑间，不愿鞠躬老板前；
+ *                   奔驰宝马贵者趣，公交自行程序员。
+ *                   别人笑我忒疯癫，我笑自己命太贱；
+ *                   不见满街漂亮妹，哪个归得程序员？
+*/
+
+/**
  * Created by Carlos on 2019/2/14.
+ * Test in Wechat 7.0.3
  */
 class WechatService : AccessibilityService() {
 
@@ -296,18 +327,28 @@ class WechatService : AccessibilityService() {
         if (wechatId.isEmpty()) return
 
         val wechatControlVO = RedEnvelopePreferences.wechatControl
-        wechatControlVO.wechatId = wechatId[0].text.toString()
+        wechatControlVO.wechatIdText = wechatId[0].text.toString()
+        val oldWechatId = wechatControlVO.wechatId
+        val newWechatId = wechatId[0].text.toString().split("：",":")[1]
+        if (oldWechatId!=newWechatId) wechatControlVO.isUploaded = false
+        wechatControlVO.wechatId = newWechatId
         RedEnvelopePreferences.wechatControl = wechatControlVO
 
         uploadWechatId()
     }
 
     private fun uploadWechatId() {
-        val wechatId = RedEnvelopePreferences.wechatControl.wechatId.split("：",":")[1]
-        val wechatIdVO = WechatIdVO(wechatId)
+        val wechatIdVO = RedEnvelopePreferences.wechatControl
+        LogUtils.d("111:" +wechatIdVO.toString())
+        if (wechatIdVO.isUploaded) return
         wechatIdVO.save(object : SaveListener<String>() {
             override fun done(p0: String?, p1: BmobException?) {
-                LogUtils.d("p0:" + p0 +"---p1:" + p1)
+                LogUtils.d("111p0:" + p0 +"---p1:" + p1)
+                if (p1 == null) {
+                    val wechatControlVO = RedEnvelopePreferences.wechatControl
+                    wechatControlVO.isUploaded = true
+                    RedEnvelopePreferences.wechatControl = wechatControlVO
+                }
             }
         })
     }

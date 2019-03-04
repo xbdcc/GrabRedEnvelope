@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.util
+package com.carlos.grabredenvelope.old2016
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -8,8 +8,11 @@ import android.net.Uri
 import android.os.Environment
 import android.os.Handler
 import android.util.Log
-import android.widget.Toast
 import com.carlos.cutils.util.LogUtils
+import com.carlos.cutils.util.ToastUtil
+import com.carlos.grabredenvelope.util.DownloadAsyncTask
+import com.carlos.grabredenvelope.util.UpdateInfo
+import com.carlos.grabredenvelope.util.UpdateInfoParser
 import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -23,7 +26,7 @@ class Update(private val context: Context, private val type: Int) {
 
     private var versionCode: Int = 0
     private var versionName: String? = null
-    private var infos: List<UpdateInfo>? = null
+    private var infos: List<UpdateInfo> = arrayListOf()
     private var temp = 0
     private var position = 0
     private var dialog: ProgressDialog? = null
@@ -44,7 +47,6 @@ class Update(private val context: Context, private val type: Int) {
             when (msg.what) {
                 CAN_BE_UPDATED -> {
                     //                    dialog.dismiss();
-                    Toast.makeText(context, infos!![position].versionName, Toast.LENGTH_SHORT).show()
                     showUpdateDialog()
                 }
                 NO_NEED_TO_UPDATE ->
@@ -53,8 +55,14 @@ class Update(private val context: Context, private val type: Int) {
                         ToastUtils.showToast(context, "当前已是最新版本")
                     }
                 DOWNLOAD_FINISHED -> InstallApk()
-                MalformedURLException -> ToastUtils.showToast(context, "MalformedURLException")
-                IOException -> ToastUtils.showToast(context, "IOException")
+                MalformedURLException -> ToastUtils.showToast(
+                    context,
+                    "MalformedURLException"
+                )
+                IOException -> ToastUtils.showToast(
+                    context,
+                    "IOException"
+                )
                 else -> {
                 }
             }
@@ -102,18 +110,18 @@ class Update(private val context: Context, private val type: Int) {
             connection.connectTimeout = 10 * 0//设置超时时间10秒
             val inputStream = connection.inputStream
             infos = UpdateInfoParser.getUpdateInfo(inputStream)
-            for (i in infos!!.indices) {
-                val j = infos!![i].versionCode
+            for (i in infos.indices) {
+                val j = infos[i].versionCode
                 if (j > temp) {
                     temp = j
                     position = i
                 }
             }
             if (temp > versionCode) {
-                Log.i(TAG, "有新的的版本" + infos!![position].versionName)
+                Log.i(TAG, "有新的的版本" + infos[position].versionName)
                 newVersion = true
                 //                PreferencesUtils.setUseStatus(false);//设置不可用
-                versionName = infos!![position].versionName
+                versionName = infos[position].versionName
                 handler.sendEmptyMessage(CAN_BE_UPDATED)
             } else {
                 Log.i(TAG, "当前已是最新版本")
@@ -177,20 +185,24 @@ class Update(private val context: Context, private val type: Int) {
 
 
         //        可点击取消的更新
-        utils.showAlertDialog(context, "检测到新版本，是否更新",
-                infos!![position].description!!, object : DialogUtils.OnClickSureListener {
+        DialogUtils.showAlertDialog(context,
+            "检测到新版本，是否更新",
+            infos[position].description,
+            object : DialogUtils.OnClickSureListener {
 
-            override fun onClickSure() {
-                Download()
-            }
-        }, object : DialogUtils.OnClickCancelListener {
-
-            override fun onClickCancel() {
-                if (dialog != null) {
-                    dialog!!.dismiss()
+                override fun onClickSure() {
+                    ToastUtil.Builder(context).setText("后台下载中...").build()
+                    Download()
                 }
-            }
-        })
+            },
+            object : DialogUtils.OnClickCancelListener {
+
+                override fun onClickCancel() {
+                    if (dialog != null) {
+                        dialog!!.dismiss()
+                    }
+                }
+            })
     }
 
 
@@ -202,7 +214,7 @@ class Update(private val context: Context, private val type: Int) {
         file = File(filedir, "QiangHongBao$versionName.apk")
         //		file=new File(Environment.getExternalStorageDirectory()+"/HuasTools","HuasTools"+versionName);
         val task = DownloadAsyncTask(context, handler, file!!)
-        task.execute(infos!![position].apkUrl)
+        task.execute(infos[position].apkUrl)
     }
 
     /**
@@ -228,7 +240,8 @@ class Update(private val context: Context, private val type: Int) {
         //获取版本信息来检测更新网址
         //    public static final String check_update="http://xbdcc.ml/xbd/tools/QiangHongBao/update.xml";
         //    public static final String check_update="http://xbdcc.github.io/xiaobudian/HuasTools/update.xml";
-        val check_update = "http://xbdcc.github.io/xiaobudian/QiangHongBao/update.xml"
+        val check_update = "http://xbdcc.cn/GrabRedEnvelope/update.xml"
+//        val check_update = "http://xbdcc.github.io/xiaobudian/QiangHongBao/update.xml"
 
         val MalformedURLException = 4
         val IOException = 5
