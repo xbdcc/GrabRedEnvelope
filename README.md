@@ -3,6 +3,9 @@
 ## 最新版本下载地址：
 http://xbdcc.cn/GrabRedEnvelope/download.html
 
+## 实现过程介绍：
+https://github.com/xbdcc/GrabRedEnvelope/blob/master/demo/README.md
+
 ## Gif图片
 ![gif1](https://github.com/xbdcc/GrabRedEnvelope/blob/master/records/record1.gif)
 ![gif2](https://github.com/xbdcc/GrabRedEnvelope/blob/master/records/record2.gif)
@@ -29,5 +32,6 @@ http://xbdcc.cn/GrabRedEnvelope/download.html
 2016-03-29 v1.0.2 优化功能。<br>
 2016-05-31 v1.0.3 修复Android高版本卡顿bug，新增红包记录功能。。<br>
 2016-06-22 v1.0.4 修复bug。<br>
-2019-02-24 v2.0.0 去掉抢QQ红包及支付宝咻一咻功能，加入抢微信红包功能。
+2019-02-24 v2.0.0 去掉抢QQ红包及支付宝咻一咻功能，加入抢微信红包功能。<br>
+2019-03-04 v2.0.1 修复bug。
 

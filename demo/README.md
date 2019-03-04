@@ -79,4 +79,7 @@ DDMS，AccessibilityService，Kotlin语言
 ## 结语
 以上就是实现微信自动抢红包的简单demo，你还可以做些优化做监听通知监听页面判断抢红包，以及延迟点击过滤口令，判断红包是否已抢等。
 
+## Demo完整代码地址
+https://github.com/xbdcc/GrabRedEnvelope/tree/master/demo
+
 
