@@ -83,6 +83,11 @@
             </intent-filter>
         </receiver>
 
+        <provider
+            android:name="cn.bmob.v3.util.BmobContentProvider"
+            android:authorities="${applicationId}.BmobContentProvider">
+        </provider>
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="${UMENG_APPKEY}"/>

@@ -35,4 +35,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
+
+}
+
+
+task hello {
+    doLast {
+        println 'Hello world'
+    }
 }

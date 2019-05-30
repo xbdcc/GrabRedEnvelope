@@ -4,7 +4,9 @@ import android.accessibilityservice.AccessibilityService
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
@@ -17,9 +19,26 @@ import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.activity.MainActivity
 import com.carlos.grabredenvelope.dao.WechatRedEnvelopeVO
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
-import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.old2016.PreferencesUtils
+import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.util.WakeupTools
+import com.carlos.grabredenvelope.util.WechatConstants
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_BEEN_GRAB_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_CLOSE_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_COUNT_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_DETAIL_CLOSE_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_DETAIL_SEND_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_FLAG_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_OPEN_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_RECT_TITLE_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_TITLE
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_TITLE_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_WISH_WORD_ID
+import com.carlos.grabredenvelope.util.WechatConstants.WECHAR_ID
+import com.carlos.grabredenvelope.util.WechatConstants.WECHAT_LUCKYMONEYDETAILUI_ACTIVITY
+import com.carlos.grabredenvelope.util.WechatConstants.WECHAT_LUCKYMONEY_ACTIVITY
+import com.carlos.grabredenvelope.util.WechatConstants.WECHAT_PACKAGE
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -67,30 +86,6 @@ class WechatService : AccessibilityService() {
     var isStopUse: Boolean = false
 
     private lateinit var nodeRoot: AccessibilityNodeInfo
-
-    private val WECHAT_PACKAGE = "com.tencent.mm"
-    private val WECHAT_LUCKYMONEY_ACTIVITY =
-        "$WECHAT_PACKAGE.plugin.luckymoney.ui.LuckyMoneyNotHookReceiveUI" //微信红包弹框
-    private val WECHAT_LUCKYMONEYDETAILUI_ACTIVITY =
-        "$WECHAT_PACKAGE.plugin.luckymoney.ui.LuckyMoneyDetailUI" //微信红包详情页
-
-
-    private val RED_ENVELOPE_ID = "com.tencent.mm:id/aou" //聊天页面红包点击框控件id
-    private val RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/aq6" //聊天页面检测红包已被领控件id
-    private val RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aq7" //聊天页面区分红包id
-    private val RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/cyf" //抢红包页面点开控件id
-    private val RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/cv0" //抢红包页面退出控件id
-
-    private val RED_ENVELOPE_DETAIL_CLOSE_ID = "com.tencent.mm:id/ka" //红包详情页面退出控件id
-    private val RED_ENVELOPE_TITLE = "[微信红包]" //红包文字
-    private val RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b5q" //红包id
-    private val RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b5m" //红包RECT id
-
-    private val RED_ENVELOPE_DETAIL_SEND_ID = "com.tencent.mm:id/csu" //红包发送人id
-    private val RED_ENVELOPE_WISH_WORD_ID = "com.tencent.mm:id/csw" //红包文字id
-    private val RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/csy" //红包金额id
-
-    private val WECHAR_ID = "com.tencent.mm:id/dag" //微信id
 
     private var isHasReceived: Boolean = false//true已经通知或聊天列表页面收到红包
     private var isHasClicked: Boolean = false//true点击了聊天页面红包
@@ -165,6 +160,8 @@ class WechatService : AccessibilityService() {
             if (WECHAT_PACKAGE != event.packageName) return
             LogUtils.d("" + event.className + "-" + event.eventType)
             LogUtils.d(RedEnvelopePreferences.wechatControl.toString())
+
+            WechatConstants.setVersion(getAppVersionName(baseContext, WECHAT_PACKAGE))
 
             when (event.eventType) {
                 AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> {
@@ -382,5 +379,12 @@ class WechatService : AccessibilityService() {
 
         })
 
+    }
+
+    fun getAppVersionName(context: Context, packageName: String = context.packageName) = try {
+        context.packageManager.getPackageInfo(packageName, 0).versionName
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        ""
     }
 }

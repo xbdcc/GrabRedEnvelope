@@ -1,9 +1,14 @@
 package com.carlos.grabredenvelope.demo
 
 import android.accessibilityservice.AccessibilityService
+import android.content.Context
+import android.content.pm.PackageManager
 import android.view.accessibility.AccessibilityEvent
 import com.carlos.cutils.util.AccessibilityServiceUtils
 import com.carlos.cutils.util.LogUtils
+import com.carlos.grabredenvelope.demo.WechatConstants.RED_ENVELOPE_FLAG_ID
+import com.carlos.grabredenvelope.demo.WechatConstants.RED_ENVELOPE_ID
+import com.carlos.grabredenvelope.demo.WechatConstants.RED_ENVELOPE_OPEN_ID
 
 /**
  * Created by Carlos on 2019/2/25.
@@ -15,14 +20,10 @@ class WechatService : AccessibilityService() {
     private val WECHAT_LUCKYMONEY_ACTIVITY =
         "$WECHAT_PACKAGE.plugin.luckymoney.ui.LuckyMoneyNotHookReceiveUI" //微信红包弹框
 
-    private val RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aq7" //聊天页面区分红包id
-    private val RED_ENVELOPE_ID = "com.tencent.mm:id/aou" //聊天页面红包点击框控件id
-    private val RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/cyf" //抢红包页面点开控件id
-
-
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
         if (rootInActiveWindow == null) return
+        WechatConstants.setVersion(getAppVersionName(baseContext, WECHAT_PACKAGE))
 
         when (event.eventType) {
             AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> {
@@ -57,5 +58,13 @@ class WechatService : AccessibilityService() {
     }
 
     override fun onInterrupt() {
+    }
+
+
+    fun getAppVersionName(context: Context, packageName: String = context.packageName) = try {
+        context.packageManager.getPackageInfo(packageName, 0).versionName
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        ""
     }
 }
