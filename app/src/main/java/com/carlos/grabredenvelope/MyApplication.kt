@@ -1,7 +1,6 @@
 package com.carlos.grabredenvelope
 
 import android.app.Application
-import com.carlos.cutils.util.LogUtils
 
 /**
  *                             _ooOoo_
@@ -58,7 +57,7 @@ class MyApplication : Application() {
             val myInitObject = myInitClass.newInstance()
             initBuglyMethod.invoke(myInitObject)
         } catch (e: Exception) {
-            LogUtils.e("local init error:", e)
+//            LogUtils.e("local init error:", e)
         }
     }
 

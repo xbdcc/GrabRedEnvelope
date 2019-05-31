@@ -3,7 +3,6 @@ package com.carlos.grabredenvelope
 import android.content.Context
 import cn.bmob.v3.Bmob
 import cn.jpush.android.api.JPushInterface
-import com.carlos.grabredenvelope.local.LocalConstants
 import com.tencent.bugly.crashreport.CrashReport
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
@@ -39,10 +38,10 @@ class AppInit {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
     }
     private fun initBugly() {
-        CrashReport.initCrashReport(context, LocalConstants.BUGLY_DEV_KEY, false)//DEV环境
+        CrashReport.initCrashReport(context, BuildConfig.BUGLY_KEY_DEV, false)//DEV环境
     }
 
     private fun initBmob() {
-        Bmob.initialize(context, LocalConstants.BMOB_DEV_KEY)
+        Bmob.initialize(context, BuildConfig.BMOB_KEY_DEV)
     }
 }

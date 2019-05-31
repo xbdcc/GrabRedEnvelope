@@ -4,25 +4,24 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlinx-serialization'
 
+
+def defaultPropertiesFile = rootProject.file("buildsystem/default.properties")
+def defaultProperties = new Properties()
+defaultProperties.load(new FileInputStream(defaultPropertiesFile))
+
 def keystorePropertiesFile = rootProject.file("buildsystem/keystore.properties")
-def keystoreProperties = new Properties()
 if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
-def localPropertiesFile = rootProject.file("local.properties")
-def localProperties = new Properties()
-if (localPropertiesFile.exists()) {
-    localProperties.load(new FileInputStream(localPropertiesFile))
+    defaultProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 android {
     signingConfigs {
 
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            keyAlias defaultProperties['keyAlias']
+            keyPassword defaultProperties['keyPassword']
+            storeFile file(defaultProperties['storeFile'])
+            storePassword defaultProperties['storePassword']
         }
     }
     compileSdkVersion 28
@@ -42,7 +41,7 @@ android {
 
         manifestPlaceholders = [
                 JPUSH_PKGNAME: applicationId,
-                JPUSH_APPKEY : localProperties.getProperty('JPUSH_APPKEY'), //JPush 上注册的包名对应的 Appkey.
+                JPUSH_APPKEY : defaultProperties.getProperty('JPUSH_APPKEY'), //JPush 上注册的包名对应的 Appkey.
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -52,38 +51,30 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-
-        }
-        debug {
-            signingConfig signingConfigs.release
-
         }
     }
+
 
     //多渠道打包
     productFlavors {
         dev {          //开发测试版本
             manifestPlaceholders = [
-                    UMENG_APPKEY: localProperties.getProperty('UMENG_APPKEY_DEV'),
+                    UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY_DEV'),
             ]
+            buildConfigField("String", "BUGLY_KEY_DEV", "\"${defaultProperties['BUGLY_KEY_DEV']}\"")
+            buildConfigField("String", "BMOB_KEY_DEV", "\"${defaultProperties['BMOB_KEY_DEV']}\"")
+
         }
         production {   //正式发布版本
             manifestPlaceholders = [
-                    UMENG_APPKEY: localProperties.getProperty('UMENG_APPKEY'),
+                    UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY'),
             ]
+            buildConfigField("String", "BUGLY_KEY", "\"${defaultProperties['BUGLY_KEY']}\"")
+            buildConfigField("String", "BMOB_KEY", "\"${defaultProperties['BMOB_KEY']}\"")
         }
     }
 
 }
-
-greendao {
-    schemaVersion 1//数据库版本号
-    daoPackage 'com.carlos.grabredenvelope.db'//设置DaoMaster、DaoSession、Dao包名
-    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
-    //targetGenDirTest：设置生成单元测试目录
-    //generateTests：设置自动生成单元测试用例
-}
-
 
 //修改APK名字
 android.applicationVariants.all { variant ->
@@ -95,8 +86,8 @@ android.applicationVariants.all { variant ->
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
 
@@ -111,10 +102,7 @@ dependencies {
     implementation 'com.umeng.umsdk:common:2.0.0'
 
     //bugly
-    implementation 'com.tencent.bugly:crashreport:2.8.6'
-
-    //greendao
-    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.tencent.bugly:crashreport:3.0.0'
 
     //bmob
     implementation 'cn.bmob.android:bmob-sdk:3.6.9'
@@ -128,3 +116,5 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+

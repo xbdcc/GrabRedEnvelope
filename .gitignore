@@ -5,8 +5,10 @@
 /.idea/libraries
 .DS_Store
 /build
+
 /captures
-/buildsystem
+/buildsystem/keystore.properties
+/buildsystem/qianghongbao.jks
 /xbd
 /app/src/production
 app/src/main/java/com/carlos/grabredenvelope/local
