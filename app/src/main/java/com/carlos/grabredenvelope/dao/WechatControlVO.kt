@@ -1,6 +1,5 @@
 package com.carlos.grabredenvelope.dao
 
-import cn.bmob.v3.BmobObject
 import kotlinx.serialization.Serializable
 
 /**
@@ -33,7 +32,7 @@ import kotlinx.serialization.Serializable
  *                   奔驰宝马贵者趣，公交自行程序员。
  *                   别人笑我忒疯癫，我笑自己命太贱；
  *                   不见满街漂亮妹，哪个归得程序员？
-*/
+ */
 
 /**
  * Created by Carlos on 2019/2/21.
@@ -47,14 +46,5 @@ data class WechatControlVO(
     @Transient
     var delayOpenTime: Int = 1,
     @Transient
-    var delayCloseTime: Int = 1,
-    @Transient
-    var wechatIdText: String = "",
-    var wechatId: String = "",
-    @Transient
-    var isUploaded: Boolean = false
-): BmobObject() {
-    init {
-        tableName = "tb_wechat_id"
-    }
-}
+    var delayCloseTime: Int = 1
+)

@@ -25,11 +25,8 @@ object WechatConstants {
     var RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b5q" //红包id
     var RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b5m" //红包RECT id
 
-    var RED_ENVELOPE_DETAIL_SEND_ID = "com.tencent.mm:id/csu" //红包发送人id
-    var RED_ENVELOPE_WISH_WORD_ID = "com.tencent.mm:id/csw" //红包文字id
     var RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/csy" //红包金额id
 
-    var WECHAR_ID = "com.tencent.mm:id/dag" //微信id
 
     fun setVersion(version: String) {
         LogUtils.d("version:" + version)
@@ -53,11 +50,8 @@ object WechatConstants {
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b5q" //红包id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b5m" //红包RECT id
 
-                RED_ENVELOPE_DETAIL_SEND_ID = "com.tencent.mm:id/csu" //红包发送人id
-                RED_ENVELOPE_WISH_WORD_ID = "com.tencent.mm:id/csw" //红包文字id
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/csy" //红包金额id
 
-                WECHAR_ID = "com.tencent.mm:id/dag" //微信id
             }
             "7.0.4" -> {
 
@@ -79,11 +73,8 @@ object WechatConstants {
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b6g" //红包id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b6c" //红包RECT id
 
-                RED_ENVELOPE_DETAIL_SEND_ID = "com.tencent.mm:id/cug" //红包发送人id
-                RED_ENVELOPE_WISH_WORD_ID = "com.tencent.mm:id/cui" //红包文字id
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/cuk" //红包金额id
 
-                WECHAR_ID = "com.tencent.mm:id/dcf" //微信id
             }
         }
     }

@@ -3,7 +3,6 @@ package com.carlos.grabredenvelope.data
 import com.carlos.cutils.base.CBasePreferences
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.MyApplication
-import com.carlos.grabredenvelope.dao.DeviceInformationVO
 import com.carlos.grabredenvelope.dao.WechatControlVO
 import kotlinx.serialization.json.JSON
 
@@ -37,7 +36,7 @@ import kotlinx.serialization.json.JSON
  *                   奔驰宝马贵者趣，公交自行程序员。
  *                   别人笑我忒疯癫，我笑自己命太贱；
  *                   不见满街漂亮妹，哪个归得程序员？
-*/
+ */
 
 /**
  * Created by Carlos on 2019/2/21.
@@ -45,33 +44,7 @@ import kotlinx.serialization.json.JSON
 object RedEnvelopePreferences :
     CBasePreferences("redenvelope_preferences", MyApplication.instance.applicationContext) {
 
-    private val IMEI = "imei"
-    private val DEVICE_INFORMATION = "device_information"
     private val WECHAT_CONTROL = "wechat_control"
-
-    var imei: String
-        get() = getString(IMEI, "")
-        set(value) = setString(IMEI, value)
-
-    var deviceInformaiton: DeviceInformationVO
-        get() {
-            val data = getString(DEVICE_INFORMATION, "")
-            if (data.isNullOrEmpty()) return DeviceInformationVO()
-            return try {
-                JSON.parse(DeviceInformationVO.serializer(), data)
-            } catch (e: Exception) {
-                LogUtils.e("error:", e)
-                setString(
-                    DEVICE_INFORMATION,
-                    JSON.stringify(DeviceInformationVO.serializer(), DeviceInformationVO())
-                )
-                DeviceInformationVO()
-            }
-        }
-        set(value) {
-            setString(DEVICE_INFORMATION, JSON.stringify(DeviceInformationVO.serializer(), value))
-        }
-
 
     var wechatControl: WechatControlVO
         get() {

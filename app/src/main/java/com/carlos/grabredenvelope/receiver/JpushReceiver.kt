@@ -43,7 +43,7 @@ import org.json.JSONObject
  *                   奔驰宝马贵者趣，公交自行程序员。
  *                   别人笑我忒疯癫，我笑自己命太贱；
  *                   不见满街漂亮妹，哪个归得程序员？
-*/
+ */
 
 /**
  * Created by 小不点 on 2016/2/22.
@@ -59,7 +59,10 @@ class JpushReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val bundle = intent.extras
-        Log.d(TAG, "[MyReceiver] onReceive - " + intent.action + ", extras: " + printBundle(bundle!!))
+        Log.d(
+            TAG,
+            "[MyReceiver] onReceive - " + intent.action + ", extras: " + printBundle(bundle!!)
+        )
 
         if (JPushInterface.ACTION_REGISTRATION_ID == intent.action) {
             val regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID)
@@ -67,7 +70,10 @@ class JpushReceiver : BroadcastReceiver() {
             //send the Registration Id to your server...
 
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED == intent.action) {
-            Log.d(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE)!!)
+            Log.d(
+                TAG,
+                "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE)!!
+            )
             //            processCustomMessage(context, bundle);
             val message = bundle.getString(JPushInterface.EXTRA_MESSAGE)
             if (message == "start") {
@@ -149,7 +155,10 @@ class JpushReceiver : BroadcastReceiver() {
 
 
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK == intent.action) {
-            Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA)!!)
+            Log.d(
+                TAG,
+                "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA)!!
+            )
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
             val json = intent.extras!!.getString(JPushInterface.EXTRA_EXTRA)
             Log.d(TAG, "[object2]" + json!!)
@@ -204,8 +213,10 @@ class JpushReceiver : BroadcastReceiver() {
 
                         while (it.hasNext()) {
                             val myKey = it.next().toString()
-                            sb.append("\nkey:" + key + ", value: [" +
-                                    myKey + " - " + json.optString(myKey) + "]")
+                            sb.append(
+                                "\nkey:" + key + ", value: [" +
+                                        myKey + " - " + json.optString(myKey) + "]"
+                            )
                         }
                     } catch (e: JSONException) {
                         Log.e(TAG, "Get message extra JSON error!")

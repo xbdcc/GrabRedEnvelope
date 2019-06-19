@@ -43,7 +43,7 @@ import java.io.File
  *                   奔驰宝马贵者趣，公交自行程序员。
  *                   别人笑我忒疯癫，我笑自己命太贱；
  *                   不见满街漂亮妹，哪个归得程序员？
-*/
+ */
 
 /**
  * Created by Carlos on 2019/2/23.
@@ -85,7 +85,8 @@ class RewardActivity : BaseActivity() {
                 val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.alipay)
                 BitmapUtils.saveBitmap(this@RewardActivity, output, bitmap)
             }
-            Toast.makeText(this@RewardActivity, "已保存到:" + output.absolutePath, Toast.LENGTH_LONG).show()
+            Toast.makeText(this@RewardActivity, "已保存到:" + output.absolutePath, Toast.LENGTH_LONG)
+                .show()
             true
         }
 
@@ -96,7 +97,8 @@ class RewardActivity : BaseActivity() {
                 val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.wechat)
                 BitmapUtils.saveBitmap(this@RewardActivity, output, bitmap)
             }
-            Toast.makeText(this@RewardActivity, "已保存到:" + output.absolutePath, Toast.LENGTH_LONG).show()
+            Toast.makeText(this@RewardActivity, "已保存到:" + output.absolutePath, Toast.LENGTH_LONG)
+                .show()
             true
         }
     }

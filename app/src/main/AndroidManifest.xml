@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
 
+    <!-- Umeng -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -32,7 +33,7 @@
         </activity>
 
         <service
-            android:name="com.carlos.grabredenvelope.services.WechatService"
+            android:name="com.carlos.grabredenvelope.services.WechatServiceNew"
             android:label="@string/grab_wechat_envelope"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             >
@@ -82,11 +83,6 @@
                 <category android:name="com.carlos.grabredenvelope"/>
             </intent-filter>
         </receiver>
-
-        <provider
-            android:name="cn.bmob.v3.util.BmobContentProvider"
-            android:authorities="${applicationId}.BmobContentProvider">
-        </provider>
 
         <meta-data
             android:name="UMENG_APPKEY"

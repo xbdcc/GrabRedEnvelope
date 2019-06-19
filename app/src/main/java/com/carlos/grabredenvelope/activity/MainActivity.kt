@@ -9,8 +9,6 @@ import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import cn.bmob.v3.exception.BmobException
-import cn.bmob.v3.listener.SaveListener
 import cn.jpush.android.api.JPushInterface
 import com.carlos.cutils.listener.PermissionListener
 import com.carlos.cutils.util.LogUtils
@@ -146,39 +144,6 @@ open class MainActivity : BaseActivity() {
                 }
             }
 
-        getPermissions()
-
-    }
-
-    private fun getPermissions() {
-        requestPermission(100, object : PermissionListener {
-            override fun permissionSuccess() {
-                uploadData()
-            }
-
-            override fun permissionFail() {
-
-            }
-
-        }, Manifest.permission.READ_PHONE_STATE)
-    }
-
-    private fun uploadData() {
-        val deviceInformationVO = RedEnvelopePreferences.deviceInformaiton
-        if (deviceInformationVO.imei.isEmpty() or (deviceInformationVO.imei == "000000000000000")) return
-        if (deviceInformationVO.isUploaded) return
-
-        LogUtils.d("device:" + deviceInformationVO.toString())
-        deviceInformationVO.save(object : SaveListener<String>() {
-            override fun done(p0: String?, p1: BmobException?) {
-                LogUtils.d("p0:$p0---p1:$p1")
-                if (p1 == null) {
-                    val commonVO = RedEnvelopePreferences.deviceInformaiton
-                    commonVO.isUploaded = true
-                    RedEnvelopePreferences.deviceInformaiton = commonVO
-                }
-            }
-        })
     }
 
     override fun onResume() {

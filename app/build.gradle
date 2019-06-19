@@ -62,7 +62,7 @@ android {
                     UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY_DEV'),
             ]
             buildConfigField("String", "BUGLY_KEY_DEV", "\"${defaultProperties['BUGLY_KEY_DEV']}\"")
-            buildConfigField("String", "BMOB_KEY_DEV", "\"${defaultProperties['BMOB_KEY_DEV']}\"")
+//            buildConfigField("String", "UMENG_APPKEY_DEV", "\"${defaultProperties['UMENG_APPKEY_DEV']}\"")
 
         }
         production {   //正式发布版本
@@ -70,7 +70,7 @@ android {
                     UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY'),
             ]
             buildConfigField("String", "BUGLY_KEY", "\"${defaultProperties['BUGLY_KEY']}\"")
-            buildConfigField("String", "BMOB_KEY", "\"${defaultProperties['BMOB_KEY']}\"")
+//            buildConfigField("String", "UMENG_APPKEY", "\"${defaultProperties['UMENG_APPKEY']}\"")
         }
     }
 
@@ -91,7 +91,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
 
-    implementation 'com.github.xbdcc:Cutils:0.0.11'
+    implementation 'com.github.xbdcc:Cutils:0.0.15'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.1.8'
@@ -104,13 +104,9 @@ dependencies {
     //bugly
     implementation 'com.tencent.bugly:crashreport:3.0.0'
 
-    //bmob
-    implementation 'cn.bmob.android:bmob-sdk:3.6.9'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'com.squareup.okio:okio:2.1.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+
+//    compile 'com.tencent.bugly:crashreport_upgrade:1.4.0'
+//    compile 'com.tencent.bugly:nativecrashreport:3.7.1'
 
 }
 repositories {

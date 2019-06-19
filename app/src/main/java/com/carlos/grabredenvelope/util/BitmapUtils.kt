@@ -41,7 +41,7 @@ import java.io.FileOutputStream
  *                   奔驰宝马贵者趣，公交自行程序员。
  *                   别人笑我忒疯癫，我笑自己命太贱；
  *                   不见满街漂亮妹，哪个归得程序员？
-*/
+ */
 
 /**
  * Created by 小不点 on 2016/2/23.
@@ -83,7 +83,12 @@ object BitmapUtils {
             //记录到系统媒体数据库，通过系统的gallery可以即时查看
             context.contentResolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values)
             //通知系统去扫描
-            context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(output)))
+            context.sendBroadcast(
+                Intent(
+                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                    Uri.fromFile(output)
+                )
+            )
         } catch (e: Exception) {
         }
 

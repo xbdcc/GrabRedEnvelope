@@ -2,7 +2,6 @@ package com.carlos.grabredenvelope.activity
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.view.MotionEvent
 import android.widget.ImageButton
 import android.widget.TextView
 import com.carlos.cutils.base.CBaseAccessibilityActivity
@@ -39,7 +38,7 @@ import com.umeng.analytics.MobclickAgent
  *                   奔驰宝马贵者趣，公交自行程序员。
  *                   别人笑我忒疯癫，我笑自己命太贱；
  *                   不见满街漂亮妹，哪个归得程序员？
-*/
+ */
 
 /**
  * Created by 小不点 on 2016/5/27.
@@ -62,10 +61,6 @@ open class BaseActivity : CBaseAccessibilityActivity() {
     override fun onPause() {
         super.onPause()
         MobclickAgent.onPause(this)
-    }
-
-    override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
-        return super.dispatchTouchEvent(event)
     }
 
     fun back() {

@@ -14,8 +14,8 @@ import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.activity.MainActivity
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
-import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.old2016.PreferencesUtils
+import com.carlos.grabredenvelope.util.ControlUse
 
 /**
  *                             _ooOoo_
@@ -47,7 +47,7 @@ import com.carlos.grabredenvelope.old2016.PreferencesUtils
  *                   奔驰宝马贵者趣，公交自行程序员。
  *                   别人笑我忒疯癫，我笑自己命太贱；
  *                   不见满街漂亮妹，哪个归得程序员？
-*/
+ */
 
 /**
  * Created by Carlos on 2019/2/14.

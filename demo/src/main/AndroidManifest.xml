@@ -17,7 +17,7 @@
         </activity>
 
         <service
-            android:name=".WechatService"
+            android:name=".WechatServiceNew"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             >

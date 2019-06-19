@@ -6,7 +6,7 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Message
 import android.widget.Toast
-import com.carlos.cutils.util.DeviceUtils
+import com.carlos.cutils.util.AppUtils
 import com.carlos.cutils.util.InstallUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.cutils.util.NetUtils
@@ -46,7 +46,11 @@ internal class UpdateDefaultImpl {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what) {
-                GET_UPDATE_DATA_FAIL -> Toast.makeText(context.get(), "获3333333取更新数据失败", Toast.LENGTH_SHORT).show()
+                GET_UPDATE_DATA_FAIL -> Toast.makeText(
+                    context.get(),
+                    "获3333333取更新数据失败",
+                    Toast.LENGTH_SHORT
+                ).show()
                 GET_UPDATE_DATA_SUCCESS -> {
                     download(this)
                 }
@@ -67,7 +71,7 @@ internal class UpdateDefaultImpl {
         this.context = WeakReference(context)
         showLoadingDialog()
         Thread {
-//            checkGithub(url)
+            //            checkGithub(url)
             checkVersion(url)
         }.start()
     }
@@ -90,9 +94,9 @@ internal class UpdateDefaultImpl {
         val asset = jsonObject.getJSONArray("assets").getJSONObject(0)
         val appName = asset.getString("name")
         val appVersion = BuildConfig.VERSION_NAME
-        LogUtils.d("appVersion：" + appVersion + "lastVersion：" + lastVersion )
+        LogUtils.d("appVersion：" + appVersion + "lastVersion：" + lastVersion)
 
-        if( appVersion >= lastVersion) {
+        if (appVersion >= lastVersion) {
             LogUtils.d("this is the latest version.")
             return
         }
@@ -123,15 +127,16 @@ internal class UpdateDefaultImpl {
                     position = i
                 }
             }
-            if (temp > DeviceUtils.getAppVersionCode(MyApplication.instance.applicationContext)) {
+            if (temp > AppUtils.getVersionCode(MyApplication.instance.applicationContext)) {
                 LogUtils.i("有新的的版本" + infos[position].versionName)
                 //                PreferencesUtils.setUseStatus(false);//设置不可用
                 versionName = infos[position].versionName
 
                 downloadUrl = infos[position].apkUrl
                 LogUtils.d("downL:" + downloadUrl)
-                savePath = context.get()?.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.path +
-                        File.separator + infos[position].versionName +".apk"
+                savePath =
+                    context.get()?.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.path +
+                            File.separator + infos[position].versionName + ".apk"
                 LogUtils.d("savePath:$savePath")
 
                 handler.sendEmptyMessage(GET_UPDATE_DATA_SUCCESS)
@@ -140,7 +145,7 @@ internal class UpdateDefaultImpl {
                 LogUtils.i("当前已是最新版本")
 //                handler.sendEmptyMessage(Update.NO_NEED_TO_UPDATE)
             }
-        }  catch (e: IOException) {
+        } catch (e: IOException) {
             e.printStackTrace()
             LogUtils.e("error:", e)
 //            handler.sendEmptyMessage(GET_UPDATE_DATA_FAIL)

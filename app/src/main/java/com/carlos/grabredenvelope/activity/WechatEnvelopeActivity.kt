@@ -43,7 +43,7 @@ import com.carlos.grabredenvelope.data.RedEnvelopePreferences
  *                   奔驰宝马贵者趣，公交自行程序员。
  *                   别人笑我忒疯癫，我笑自己命太贱；
  *                   不见满街漂亮妹，哪个归得程序员？
-*/
+ */
 
 /**
  * Created by 小不点 on 2016/5/27.
@@ -116,7 +116,8 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
 
     private fun loadSaveData() {
-        mCbWechatNotificationControl.isChecked = RedEnvelopePreferences.wechatControl.isMonitorNotification
+        mCbWechatNotificationControl.isChecked =
+            RedEnvelopePreferences.wechatControl.isMonitorNotification
         mCbWechatChatControl.isChecked = RedEnvelopePreferences.wechatControl.isMonitorChat
         LogUtils.d("wechatControl:" + RedEnvelopePreferences.wechatControl.toString())
 
@@ -145,7 +146,7 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun updateControlView(boolean: Boolean) {
-        if(boolean) mCbWechatControl.setButtonDrawable(R.mipmap.switch_on)
+        if (boolean) mCbWechatControl.setButtonDrawable(R.mipmap.switch_on)
         else mCbWechatControl.setButtonDrawable(R.mipmap.switch_off)
     }
 
@@ -160,7 +161,7 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
             R.id.sb_qq_lingqu -> {
                 t_lingqu = progress + 2
-                mTvWechatLingqu.text = "红包领取页关闭延迟时间：" + t_lingqu +"s"
+                mTvWechatLingqu.text = "红包领取页关闭延迟时间：" + t_lingqu + "s"
                 wechatControlVO.delayCloseTime = t_lingqu
                 RedEnvelopePreferences.wechatControl = wechatControlVO
             }
