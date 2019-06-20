@@ -13,7 +13,6 @@ import cn.jpush.android.api.JPushInterface
 import com.carlos.cutils.listener.PermissionListener
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import com.carlos.grabredenvelope.old2016.About
 import com.carlos.grabredenvelope.old2016.ToastUtils
 import com.carlos.grabredenvelope.old2016.Update
@@ -144,7 +143,22 @@ open class MainActivity : BaseActivity() {
                 }
             }
 
+        getPermissions()
     }
+
+    private fun getPermissions() {
+        requestPermission(100, object : PermissionListener {
+            override fun permissionSuccess() {
+
+            }
+
+            override fun permissionFail() {
+
+            }
+
+        }, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE)
+    }
+
 
     override fun onResume() {
         super.onResume()

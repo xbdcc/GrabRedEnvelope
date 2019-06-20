@@ -4,9 +4,9 @@
     android:accessibilityEventTypes="typeAllMask"
     android:packageNames="com.tencent.mm"
     android:accessibilityFeedbackType="feedbackAllMask"
-    android:notificationTimeout="1000"
+    android:notificationTimeout="100"
     android:settingsActivity="com.carlos.grabredenvelope.demo.MainActivity"
-    android:accessibilityFlags="flagReportViewIds"
+    android:accessibilityFlags="flagDefault"
     android:canRetrieveWindowContent="true"
     android:canPerformGestures = "true"
     />

@@ -4,10 +4,11 @@
     android:accessibilityEventTypes="typeAllMask"
     android:packageNames="com.tencent.mm"
     android:accessibilityFeedbackType="feedbackAllMask"
-    android:notificationTimeout="10"
+    android:notificationTimeout="100"
     android:settingsActivity="com.carlos.grabredenvelope.activity.WechatEnvelopeActivity"
     android:canRequestEnhancedWebAccessibility = "true"
     android:accessibilityFlags="flagDefault"
+    android:canPerformGestures = "true"
     android:canRetrieveWindowContent="true"/>
 
 

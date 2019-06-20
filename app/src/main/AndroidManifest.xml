@@ -33,7 +33,7 @@
         </activity>
 
         <service
-            android:name="com.carlos.grabredenvelope.services.WechatServiceNew"
+            android:name="com.carlos.grabredenvelope.services.WechatService"
             android:label="@string/grab_wechat_envelope"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             >
@@ -84,12 +84,12 @@
             </intent-filter>
         </receiver>
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="${UMENG_APPKEY}"/>
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="Channel ID"/>
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="${UMENG_APPKEY}"/>-->
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="Channel ID"/>-->
     </application>
 
 </manifest>

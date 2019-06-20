@@ -5,7 +5,6 @@ import android.accessibilityservice.GestureDescription
 import android.graphics.Path
 import android.os.Build
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import com.carlos.cutils.util.AccessibilityServiceUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.demo.WechatConstants.RED_ENVELOPE_FLAG_ID
@@ -37,8 +36,9 @@ class WechatServiceNew : AccessibilityService() {
         if (event == null) return
         if (rootInActiveWindow == null) return
 
-        LogUtils.d("envent:" + event)
-        LogUtils.d("envent:" + event.eventType)
+//        LogUtils.d("envent:" + event)
+//        LogUtils.d("envent:" + event.eventType)
+        LogUtils.d(" event class--------:" + event.className)
 
         openRedEnvelope(event)
 
@@ -49,19 +49,17 @@ class WechatServiceNew : AccessibilityService() {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
                 LogUtils.d("界面改变:$event")
                 openRedEnvelope(event)
+                openRedEnvelopeNew(event)
             }
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
                 LogUtils.d("内容改变:$event")
 
                 clickRedEnvelope()
 
-                openRedEnvelopeNew(event)
+//                openRedEnvelopeNew(event)
 
             }
-//            AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-//                LogUtils.d("TYPE_WINDOW_STATE_CHANGED:$event")
-//                openRedEnvelope(event)
-//            }
+
         }
 
     }
@@ -71,29 +69,33 @@ class WechatServiceNew : AccessibilityService() {
         //如果没找到红包就不继续往下执行
         if (!AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_FLAG_ID, rootInActiveWindow)) return
         //点击红包
-        AccessibilityServiceUtils.findAndClickOneById(RED_ENVELOPE_ID, rootInActiveWindow)
+        AccessibilityServiceUtils.findAndClickFirstOneById(RED_ENVELOPE_ID, rootInActiveWindow)
         isHasClicked = false
     }
 
     private fun openRedEnvelope(event: AccessibilityEvent) {
         //如果当前页面不是微信红包弹出框则不继续往下执行
         if (WECHAT_LUCKYMONEY_ACTIVITY != event.className) return
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return
         if(rootInActiveWindow == null) return
         if (isHasClicked)
-            AccessibilityServiceUtils.findAndClickOneById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
-
+            AccessibilityServiceUtils.findAndClickFirstOneById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
         isHasClicked = true
-
     }
 
     private fun openRedEnvelopeNew(event: AccessibilityEvent) {
         LogUtils.d("isHasClicked:" + isHasClicked)
         LogUtils.d("Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
         if (isHasClicked) return
+
+        LogUtils.d(" event class2--------:" + event.className)
+        LogUtils.d("WECHAT_LUCKYMONEY_ACTIVITY--------:" + WECHAT_LUCKYMONEY_ACTIVITY)
+
+        if (WECHAT_LUCKYMONEY_ACTIVITY != event.className) return
+        LogUtils.d("isHasClicked222:" + isHasClicked)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) return
         GlobalScope.launch {
-            val delayTime = 8000L
+            val delayTime = 1000L
             delay(delayTime)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -142,17 +144,5 @@ class WechatServiceNew : AccessibilityService() {
         LogUtils.e("onInterrupt")
     }
 
-    fun getNodes(accessibilityNodeInfo: AccessibilityNodeInfo) {
-        for (index in 0 until accessibilityNodeInfo.childCount) {
-            val nodeInfo = accessibilityNodeInfo.getChild(index)
-            LogUtils.d("nodeinfo:$nodeInfo")
-            if (nodeInfo != null)
-                getNodes(nodeInfo)
-        }
-    }
-
-    private fun openRedEnvelope() {
-
-    }
 
 }

@@ -58,19 +58,19 @@ android {
     //多渠道打包
     productFlavors {
         dev {          //开发测试版本
-            manifestPlaceholders = [
-                    UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY_DEV'),
-            ]
+//            manifestPlaceholders = [
+////                    UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY_DEV'),
+//            ]
             buildConfigField("String", "BUGLY_KEY_DEV", "\"${defaultProperties['BUGLY_KEY_DEV']}\"")
-//            buildConfigField("String", "UMENG_APPKEY_DEV", "\"${defaultProperties['UMENG_APPKEY_DEV']}\"")
+            buildConfigField("String", "UMENG_APPKEY_DEV", "\"${defaultProperties['UMENG_APPKEY_DEV']}\"")
 
         }
         production {   //正式发布版本
-            manifestPlaceholders = [
-                    UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY'),
-            ]
+//            manifestPlaceholders = [
+////                    UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY'),
+//            ]
             buildConfigField("String", "BUGLY_KEY", "\"${defaultProperties['BUGLY_KEY']}\"")
-//            buildConfigField("String", "UMENG_APPKEY", "\"${defaultProperties['UMENG_APPKEY']}\"")
+            buildConfigField("String", "UMENG_APPKEY", "\"${defaultProperties['UMENG_APPKEY']}\"")
         }
     }
 

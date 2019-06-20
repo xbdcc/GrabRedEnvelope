@@ -1,6 +1,7 @@
 package com.carlos.grabredenvelope.services
 
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.GestureDescription
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
@@ -8,6 +9,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.Path
+import android.os.Build
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.carlos.cutils.util.AccessibilityServiceUtils
@@ -76,11 +79,13 @@ class WechatService : AccessibilityService() {
 
     var isStopUse: Boolean = false
 
-    private lateinit var nodeRoot: AccessibilityNodeInfo
-
     private var isHasReceived: Boolean = false//true已经通知或聊天列表页面收到红包
-    private var isHasClicked: Boolean = false//true点击了聊天页面红包
+    private var isHasClicked: Boolean = false//true点击弹出红包框
+    private var isHasOpened: Boolean = false//true点击了拆开红包按钮
 
+
+    private val WECHAT_LAUNCHER_UI = "com.tencent.mm.ui.LauncherUI"
+    private var currentClassName = WECHAT_LAUNCHER_UI
 
     override fun onCreate() {
         super.onCreate()
@@ -141,9 +146,9 @@ class WechatService : AccessibilityService() {
 
             if (isStopUse) return
 
-            if (rootInActiveWindow == null)
-                return
-            nodeRoot = rootInActiveWindow
+            if (event.className.toString().startsWith("com.tencent.mm")) {
+                currentClassName = event.className.toString()
+            }
 
 
             LogUtils.d("data:" + RedEnvelopePreferences.wechatControl)
@@ -162,9 +167,12 @@ class WechatService : AccessibilityService() {
                 AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
                     LogUtils.d("界面改变")
                     openRedEnvelope(event)
+                    openRedEnvelopeNew(event)
                     quitEnvelope(event)
                 }
                 AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
+                    if (rootInActiveWindow == null)
+                        return
                     LogUtils.d("内容改变")
                     grabRedEnvelope()
                     monitorChat()
@@ -175,7 +183,6 @@ class WechatService : AccessibilityService() {
         } finally {
 
         }
-
     }
 
 
@@ -212,7 +219,7 @@ class WechatService : AccessibilityService() {
     private fun monitorChat() {
         LogUtils.d("monitorChat")
         if (!RedEnvelopePreferences.wechatControl.isMonitorChat) return
-        val lists = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_RECT_TITLE_ID)
+        val lists = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_RECT_TITLE_ID)
         for (envelope in lists) {
             val redEnvelope = envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_TITLE_ID)
             if (redEnvelope.isNotEmpty()) {
@@ -232,7 +239,7 @@ class WechatService : AccessibilityService() {
     private fun grabRedEnvelope() {
         LogUtils.d("grabRedEnvelope")
 
-        val envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_ID)
+        val envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_ID)
         if (envelopes.size < 1) return
 
         /* 发现红包点击进入领取红包页面 */
@@ -248,6 +255,7 @@ class WechatService : AccessibilityService() {
 //                continue
             LogUtils.d("发现红包：$envelope")
             envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            isHasClicked = true
 //            break
         }
         isHasReceived = false
@@ -257,11 +265,12 @@ class WechatService : AccessibilityService() {
      * 拆开红包
      */
     private fun openRedEnvelope(event: AccessibilityEvent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
 
-        var envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_OPEN_ID)
+        var envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_OPEN_ID)
         if (envelopes.isEmpty()) {
-            envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
+            envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
             /* 进入红包页面点击退出按钮 */
             for (envelope in envelopes.reversed()) {
                 envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
@@ -274,7 +283,7 @@ class WechatService : AccessibilityService() {
                     LogUtils.d("delay open time:$delayTime")
                     delay(delayTime)
                     envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                    isHasClicked = true
+                    isHasOpened = true
                 }
             }
         }
@@ -289,10 +298,10 @@ class WechatService : AccessibilityService() {
         LogUtils.d("quitEnvelope")
         if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
 
-        val envelopes = nodeRoot.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_DETAIL_CLOSE_ID)
+        val envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_DETAIL_CLOSE_ID)
         if (envelopes.size < 1) return
 
-        if (!isHasClicked) return //如果不是点击进来的则不退出
+        if (!isHasOpened) return //如果不是点击进来的则不退出
 
         /* 发现红包点击进入领取红包页面 */
         for (envelope in envelopes.reversed()) {
@@ -304,7 +313,7 @@ class WechatService : AccessibilityService() {
             }
         }
 
-        isHasClicked = false
+        isHasOpened = false
 
     }
 
@@ -314,5 +323,49 @@ class WechatService : AccessibilityService() {
     } catch (e: PackageManager.NameNotFoundException) {
         e.printStackTrace()
         ""
+    }
+
+    private fun openRedEnvelopeNew(event: AccessibilityEvent) {
+        LogUtils.d("Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
+        if (!isHasClicked) return
+        if (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName) return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            LogUtils.d("sdk:" + Build.VERSION.SDK_INT)
+            val metrics = resources.displayMetrics
+            val dpi = metrics.densityDpi
+            val path = Path()
+            LogUtils.d("dpi:" + dpi)
+
+            LogUtils.d("envent:" + event)
+            if (640 == dpi) { //1440
+                path.moveTo(720f, 1575f)
+            } else if (320 == dpi) {//720p
+                path.moveTo(360f, 780f)
+            } else if (480 == dpi) {//1080p
+                path.moveTo(540f, 1309f) //小米mix5
+            } else if (440 == dpi) {//1080*2160
+                path.moveTo(450f, 1250f)
+            } else if (420 == dpi) {//420一加5T
+                path.moveTo(540f, 1330f)
+            }
+            val build = GestureDescription.Builder()
+            val gestureDescription =
+                build.addStroke(GestureDescription.StrokeDescription(path, 500, 100)).build()
+
+            dispatchGesture(gestureDescription, object : GestureResultCallback() {
+
+                override fun onCompleted(gestureDescription: GestureDescription?) {
+                    super.onCompleted(gestureDescription)
+                    LogUtils.d("onCompleted")
+                }
+
+                override fun onCancelled(gestureDescription: GestureDescription?) {
+                    super.onCancelled(gestureDescription)
+                    LogUtils.d("onCancelled")
+                }
+
+            }, null)
+        }
+        isHasClicked = true
     }
 }
