@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlinx-serialization'
 
+apply from: 'tinker-support.gradle'
 
 def defaultPropertiesFile = rootProject.file("buildsystem/default.properties")
 def defaultProperties = new Properties()
@@ -30,9 +31,9 @@ android {
         applicationId "com.carlos.grabredenvelope"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 7
-        versionName "2.0.1"
-        flavorDimensions "7" //和versionCode相同
+        versionCode 8
+        versionName "2.1.0"
+        flavorDimensions "8" //和versionCode相同
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -58,17 +59,11 @@ android {
     //多渠道打包
     productFlavors {
         dev {          //开发测试版本
-//            manifestPlaceholders = [
-////                    UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY_DEV'),
-//            ]
             buildConfigField("String", "BUGLY_KEY_DEV", "\"${defaultProperties['BUGLY_KEY_DEV']}\"")
             buildConfigField("String", "UMENG_APPKEY_DEV", "\"${defaultProperties['UMENG_APPKEY_DEV']}\"")
 
         }
         production {   //正式发布版本
-//            manifestPlaceholders = [
-////                    UMENG_APPKEY: defaultProperties.getProperty('UMENG_APPKEY'),
-//            ]
             buildConfigField("String", "BUGLY_KEY", "\"${defaultProperties['BUGLY_KEY']}\"")
             buildConfigField("String", "UMENG_APPKEY", "\"${defaultProperties['UMENG_APPKEY']}\"")
         }
@@ -102,11 +97,11 @@ dependencies {
     implementation 'com.umeng.umsdk:common:2.0.0'
 
     //bugly
-    implementation 'com.tencent.bugly:crashreport:3.0.0'
+    implementation 'com.tencent.bugly:crashreport_upgrade:1.4.0'
+    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
+    implementation 'com.tencent.tinker:tinker-android-lib:1.9.9'
+    implementation "com.android.support:multidex:1.0.3"
 
-
-//    compile 'com.tencent.bugly:crashreport_upgrade:1.4.0'
-//    compile 'com.tencent.bugly:nativecrashreport:3.7.1'
 
 }
 repositories {

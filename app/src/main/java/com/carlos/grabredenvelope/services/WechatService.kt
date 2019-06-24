@@ -342,11 +342,13 @@ class WechatService : AccessibilityService() {
             } else if (320 == dpi) {//720p
                 path.moveTo(360f, 780f)
             } else if (480 == dpi) {//1080p
-                path.moveTo(540f, 1309f) //小米mix5
+                path.moveTo(540f, 1465f) //oppo r15,android 9, 小米8 android 9
+//                path.moveTo(540f, 1210f) //小米mix5
             } else if (440 == dpi) {//1080*2160
                 path.moveTo(450f, 1250f)
             } else if (420 == dpi) {//420一加5T
-                path.moveTo(540f, 1330f)
+                path.moveTo(540f, 1213f)
+//                path.moveTo(540f, 1330f)
             }
             val build = GestureDescription.Builder()
             val gestureDescription =

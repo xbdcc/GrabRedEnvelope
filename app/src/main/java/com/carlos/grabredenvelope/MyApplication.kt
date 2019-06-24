@@ -1,6 +1,13 @@
 package com.carlos.grabredenvelope
 
+import android.annotation.TargetApi
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import androidx.multidex.MultiDex
+import com.tencent.bugly.beta.Beta
+import com.tencent.tinker.entry.DefaultApplicationLike
 
 /**
  *                             _ooOoo_
@@ -37,7 +44,18 @@ import android.app.Application
 /**
  * Created by 小不点 on 2016/2/6.
  */
-class MyApplication : Application() {
+class MyApplication (
+    application: Application, tinkerFlags: Int,
+    tinkerLoadVerifyFlag: Boolean, applicationStartElapsedTime: Long,
+    applicationStartMillisTime: Long, tinkerResultIntent: Intent
+) : DefaultApplicationLike(
+    application,
+    tinkerFlags,
+    tinkerLoadVerifyFlag,
+    applicationStartElapsedTime,
+    applicationStartMillisTime,
+    tinkerResultIntent
+) {
 
     override fun onCreate() {
         super.onCreate()
@@ -50,6 +68,7 @@ class MyApplication : Application() {
 
     }
 
+
     private fun initLocal() {
         try {
             val myInitClass = Class.forName("com.carlos.grabredenvelope.local.LocalInit")
@@ -61,9 +80,27 @@ class MyApplication : Application() {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    override fun onBaseContextAttached(base: Context?) {
+        super.onBaseContextAttached(base)
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base)
+
+        // 安装tinker
+        // TinkerManager.installTinker(this); 替换成下面Bugly提供的方法
+        Beta.installTinker(this)
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    fun registerActivityLifecycleCallback(callbacks: Application.ActivityLifecycleCallbacks) {
+        application.registerActivityLifecycleCallbacks(callbacks)
+    }
 
     companion object {
         lateinit var instance: MyApplication
             private set
     }
+
+    val applicationContext = application.applicationContext
+
 }

@@ -18,6 +18,7 @@ import com.carlos.grabredenvelope.old2016.ToastUtils
 import com.carlos.grabredenvelope.old2016.Update
 import com.carlos.grabredenvelope.old2016.Utility
 import com.carlos.grabredenvelope.util.ControlUse
+import com.tencent.bugly.crashreport.CrashReport
 
 /**
  *                             _ooOoo_
@@ -94,7 +95,6 @@ open class MainActivity : BaseActivity() {
                                 this@MainActivity, WechatEnvelopeActivity::class.java
                             )
                         )
-
                     }
                     1 -> {
 
