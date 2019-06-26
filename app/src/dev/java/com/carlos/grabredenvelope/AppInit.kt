@@ -43,34 +43,26 @@ import com.umeng.commonsdk.UMConfigure
  */
 class AppInit {
 
-    private var context: Context = MyApplication.instance.application.applicationContext
+    private var context: Context = MyApplication.instance.applicationContext
 
     init {
 
         initJpush()
 
-        initUment()
+        initUmeng()
 
         initBugly()
 
     }
 
     private fun initJpush() {
-        JPushInterface.setDebugMode(true)
+        JPushInterface.setDebugMode(BuildConfig.DEBUG)
         JPushInterface.init(context)
     }
 
-    private fun initUment() {
-
-        // 打开统计SDK调试模式
-        UMConfigure.setLogEnabled(true)
-//        /**
-//         * 注意: 即使您已经在AndroidManifest.xml中配置过appkey和channel值，也需要在App代码中调
-//         * 用初始化接口（如需要使用AndroidManifest.xml中配置好的appkey和channel值，
-//         * UMConfigure.init调用中appkey和channel参数请置为null）。
-//         */
+    private fun initUmeng() {
+        UMConfigure.setLogEnabled(BuildConfig.DEBUG)
         UMConfigure.init(context, BuildConfig.UMENG_APPKEY_DEV, BuildConfig.VERSION_NAME, UMConfigure.DEVICE_TYPE_PHONE, null)
-        // 选用AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
     }
 

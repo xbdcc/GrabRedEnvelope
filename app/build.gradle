@@ -89,8 +89,8 @@ dependencies {
     implementation 'com.github.xbdcc:Cutils:0.0.15'
 
     //jpush
-    implementation 'cn.jiguang.sdk:jpush:3.1.8'
-    implementation 'cn.jiguang.sdk:jcore:1.2.7'
+    implementation 'cn.jiguang.sdk:jpush:3.3.2'
+    implementation 'cn.jiguang.sdk:jcore:2.1.0'
 
     //umeng
     implementation 'com.umeng.umsdk:analytics:8.0.0'

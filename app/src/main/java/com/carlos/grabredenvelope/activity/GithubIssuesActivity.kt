@@ -52,7 +52,7 @@ class GithubIssuesActivity : WebViewActivity() {
         back()
 
         val webView = findViewById<WebView>(R.id.webview)
-        initSetting(webView)
+        initSettings(webView)
         initWebView(webView)
         webView.loadUrl(address)
     }

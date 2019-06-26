@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.multidex.MultiDex
+import com.carlos.cutils.util.LogUtils
 import com.tencent.bugly.beta.Beta
 import com.tencent.tinker.entry.DefaultApplicationLike
 
@@ -61,6 +62,9 @@ class MyApplication (
         super.onCreate()
 
         instance = this
+        applicationContext = application.applicationContext
+
+        LogUtils.isShowLog = BuildConfig.DEBUG
 
         AppInit()
 
@@ -83,11 +87,7 @@ class MyApplication (
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     override fun onBaseContextAttached(base: Context?) {
         super.onBaseContextAttached(base)
-        // you must install multiDex whatever tinker is installed!
         MultiDex.install(base)
-
-        // 安装tinker
-        // TinkerManager.installTinker(this); 替换成下面Bugly提供的方法
         Beta.installTinker(this)
     }
 
@@ -101,6 +101,6 @@ class MyApplication (
             private set
     }
 
-    val applicationContext = application.applicationContext
+    lateinit var applicationContext : Context
 
 }

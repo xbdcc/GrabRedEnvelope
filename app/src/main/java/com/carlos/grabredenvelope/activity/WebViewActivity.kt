@@ -1,7 +1,9 @@
 package com.carlos.grabredenvelope.activity
 
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.widget.ImageButton
+import android.widget.TextView
+import com.carlos.cutils.base.CBaseWebViewActivity
+import com.carlos.grabredenvelope.R
 
 /**
  *                             _ooOoo_
@@ -38,28 +40,19 @@ import android.webkit.WebViewClient
 /**
  * Created by Carlos on 2019/2/23.
  */
-open class WebViewActivity : BaseActivity() {
+open class WebViewActivity : CBaseWebViewActivity() {
 
-    fun initSetting(webView: WebView) {
-        val webSettings = webView.settings
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setSupportZoom(true);//是否可以缩放，默认false
-        webSettings.setBuiltInZoomControls(false);//是否显示缩放按钮，默认false
-        webSettings.setUseWideViewPort(true);//大视图模式
-        webSettings.setAppCacheEnabled(true);//是否使用缓存
-        webSettings.setDomStorageEnabled(true);
+    private lateinit var mBack: ImageButton
+    private lateinit var tv_title: TextView
 
+    fun back() {
+        mBack = findViewById(R.id.ib_back)
+        mBack.setOnClickListener { finish() }
     }
 
-    fun initWebView(webView: WebView) {
-        webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                if (url.startsWith("http")) {
-                    webView.loadUrl(url)
-                }
-                return true
-            }
-        }
+    fun setMenuTitle(title: String) {
+        tv_title = findViewById(R.id.tv_title)
+        tv_title.text = title
     }
 
 }

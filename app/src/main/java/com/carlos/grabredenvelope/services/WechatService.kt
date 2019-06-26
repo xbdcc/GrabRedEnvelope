@@ -219,7 +219,8 @@ class WechatService : AccessibilityService() {
     private fun monitorChat() {
         LogUtils.d("monitorChat")
         if (!RedEnvelopePreferences.wechatControl.isMonitorChat) return
-        val lists = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_RECT_TITLE_ID)
+        val lists =
+            rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_RECT_TITLE_ID)
         for (envelope in lists) {
             val redEnvelope = envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_TITLE_ID)
             if (redEnvelope.isNotEmpty()) {
@@ -298,7 +299,8 @@ class WechatService : AccessibilityService() {
         LogUtils.d("quitEnvelope")
         if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
 
-        val envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_DETAIL_CLOSE_ID)
+        val envelopes =
+            rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_DETAIL_CLOSE_ID)
         if (envelopes.size < 1) return
 
         if (!isHasOpened) return //如果不是点击进来的则不退出
@@ -334,21 +336,19 @@ class WechatService : AccessibilityService() {
             val metrics = resources.displayMetrics
             val dpi = metrics.densityDpi
             val path = Path()
-            LogUtils.d("dpi:" + dpi)
 
-            LogUtils.d("envent:" + event)
-            if (640 == dpi) { //1440
-                path.moveTo(720f, 1575f)
-            } else if (320 == dpi) {//720p
-                path.moveTo(360f, 780f)
-            } else if (480 == dpi) {//1080p
-                path.moveTo(540f, 1465f) //oppo r15,android 9, 小米8 android 9
-//                path.moveTo(540f, 1210f) //小米mix5
-            } else if (440 == dpi) {//1080*2160
-                path.moveTo(450f, 1250f)
-            } else if (420 == dpi) {//420一加5T
-                path.moveTo(540f, 1213f)
-//                path.moveTo(540f, 1330f)
+            when (dpi) {
+                640 -> //1440
+                    path.moveTo(720f, 1575f)
+                320 -> //720p
+                    path.moveTo(360f, 780f)
+                480 -> //1080p
+                    path.moveTo(540f, 1465f) //oppo r15,android 9, 小米8 android 9
+//                  path.moveTo(540f, 1210f) //小米mix5
+                440 -> //1080*2160
+                    path.moveTo(450f, 1250f)
+                420 -> //420一加5T
+                    path.moveTo(540f, 1213f)
             }
             val build = GestureDescription.Builder()
             val gestureDescription =

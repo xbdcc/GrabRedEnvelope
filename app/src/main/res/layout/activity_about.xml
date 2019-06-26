@@ -39,6 +39,7 @@
             android:paddingRight="15dp"
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
+            android:onClick="donate"
             android:background="@drawable/round_button"
             android:textColor="@drawable/button_text_color"
             android:text="打赏开发者"/>

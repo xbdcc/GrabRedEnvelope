@@ -68,19 +68,39 @@
         <activity android:name=".activity.AboutActivity"/>
         <activity android:name=".activity.DingdingEnvelopeActivity"/>
 
-        <receiver
-            android:name="com.carlos.grabredenvelope.receiver.JpushReceiver"
-            android:enabled="true"
-            android:exported="false">
+        <!--<receiver-->
+            <!--android:name="com.carlos.grabredenvelope.receiver.JpushReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="cn.jpush.android.intent.REGISTRATION"/> &lt;!&ndash;Required  用户注册SDK的intent&ndash;&gt;-->
+                <!--<action android:name="cn.jpush.android.intent.UNREGISTRATION"/>-->
+                <!--<action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/> &lt;!&ndash;Required  用户接收SDK消息的intent&ndash;&gt;-->
+                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/> &lt;!&ndash;Required  用户接收SDK通知栏信息的intent&ndash;&gt;-->
+                <!--<action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/> &lt;!&ndash;Required  用户打开自定义通知栏的intent&ndash;&gt;-->
+                <!--<action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK"/> &lt;!&ndash;Optional 用户接受Rich Push Javascript 回调函数的intent&ndash;&gt;-->
+                <!--<action android:name="cn.jpush.android.intent.CONNECTION"/>&lt;!&ndash; 接收网络变化 连接/断开 since 1.6.3 &ndash;&gt;-->
+                <!--<category android:name="com.carlos.grabredenvelope"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+
+
+        <service android:name=".services.JpushService"
+                 android:enabled="true"
+                 android:exported="false"
+                 android:process=":pushcore">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION"/> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.UNREGISTRATION"/>
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK"/> <!--Optional 用户接受Rich Push Javascript 回调函数的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION"/><!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.carlos.grabredenvelope"/>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".receiver.JpushReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
 

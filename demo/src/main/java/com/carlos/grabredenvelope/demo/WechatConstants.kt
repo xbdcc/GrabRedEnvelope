@@ -12,7 +12,7 @@ object WechatConstants {
     var RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/d02" //抢红包页面点开控件id
 
     fun setVersion(version: String) {
-        LogUtils.d("version:" + version)
+        LogUtils.d("version:$version")
         when(version) {
             "7.0.3" -> {
                 RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aq7"

@@ -29,13 +29,10 @@ class WechatService : AccessibilityService() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
-        LogUtils.d("activitu class111111111 :" + event.toString())
-        LogUtils.d("activitu class111111111 :" +rootInActiveWindow)
         if (event.className.toString().startsWith("com.tencent.mm")) {
             currentClassName = event.className.toString()
         }
         WechatConstants.setVersion(getAppVersionName(baseContext, WECHAT_PACKAGE))
-        LogUtils.d("activitu 222222222222 :" + event.toString())
 
         when (event.eventType) {
             AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> {
@@ -78,28 +75,6 @@ class WechatService : AccessibilityService() {
         AccessibilityServiceUtils.findAndClickFirstOneById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
     }
 
-//    private fun openRedEnvelope(event: AccessibilityEvent) {
-//        //如果当前页面不是微信红包弹出框则不继续往下执行
-//        LogUtils.d("WECHAT_LUCKYMONEY_ACTIVITY 11111 :" + WECHAT_LUCKYMONEY_ACTIVITY)
-//        LogUtils.d("currentClassName 11111 :" + currentClassName)
-//
-//        if (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName) return
-//        val  isExis = AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
-//        LogUtils.d("activitu class|||||||||||| :" + event.className.toString())
-//        LogUtils.d("isExis-----------------:" + isExis)
-//
-//        GlobalScope.launch {
-//            val delayTime = 1000L
-//            delay(delayTime)
-//
-//            val sg = AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
-//            LogUtils.d("sg------------"+sg)
-//            AccessibilityServiceUtils.findAndClickFirstOneById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
-//
-//        }
-////        AccessibilityServiceUtils.findAndClickFirstOneById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
-//    }
-
     override fun onInterrupt() {
     }
 
@@ -113,29 +88,26 @@ class WechatService : AccessibilityService() {
 
     private fun openRedEnvelopeNew(event: AccessibilityEvent) {
 
-        LogUtils.d(" event class2--------:" + event.className)
-        LogUtils.d("WECHAT_LUCKYMONEY_ACTIVITY--------:" + WECHAT_LUCKYMONEY_ACTIVITY)
-
         if (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName) return
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            LogUtils.d("sdk:" + Build.VERSION.SDK_INT)
             val metrics = resources.displayMetrics
             val dpi = metrics.densityDpi
             val path = Path()
-            LogUtils.d("dpi:" + dpi)
 
-            LogUtils.d("envent:" + event)
-            if (640 == dpi) { //1440
-                path.moveTo(720f, 1575f)
-            } else if (320 == dpi) {//720p
-                path.moveTo(360f, 780f)
-            } else if (480 == dpi) {//1080p
-                path.moveTo(540f, 1309f) //小米mix5
-            } else if (440 == dpi) {//1080*2160
-                path.moveTo(450f, 1250f)
-            } else if (420 == dpi) {//420一加5T
-                path.moveTo(540f, 1330f)
+            when (dpi) {
+                640 -> //1440
+                    path.moveTo(720f, 1575f)
+                320 -> //720p
+                    path.moveTo(360f, 780f)
+                480 -> //1080p
+                    path.moveTo(540f, 1465f) //oppo r15,android 9, 小米8 android 9
+//                  path.moveTo(540f, 1210f) //小米mix5
+//                  path.moveTo(540f, 1309f) //小米mix5
+                440 -> //1080*2160
+                    path.moveTo(450f, 1250f)
+                420 -> //420一加5T
+                    path.moveTo(540f, 1213f)
             }
             val build = GestureDescription.Builder()
             val gestureDescription =
@@ -155,12 +127,5 @@ class WechatService : AccessibilityService() {
 
             }, null)
         }
-//        GlobalScope.launch {
-//            val delayTime = 1000L
-//            delay(delayTime)
-//
-//
-//        }
     }
-
 }

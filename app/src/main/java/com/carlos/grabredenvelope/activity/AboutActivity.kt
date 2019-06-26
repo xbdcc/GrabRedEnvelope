@@ -2,7 +2,7 @@ package com.carlos.grabredenvelope.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import com.carlos.grabredenvelope.R
 
 /**
@@ -51,12 +51,10 @@ class AboutActivity : BaseActivity() {
 
         back()
 
+    }
 
-        val b_donate_me = findViewById<Button>(R.id.b_donate_me)
-        b_donate_me.setOnClickListener {
-            startActivity(Intent(this@AboutActivity, RewardActivity::class.java))
-        }
-
+    fun donate(view: View) {
+        startActivity(Intent(this@AboutActivity, RewardActivity::class.java))
     }
 
 }
