@@ -4,8 +4,10 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TextView
+import cn.jpush.android.api.JPushInterface
 import com.carlos.cutils.base.CBaseAccessibilityActivity
 import com.carlos.grabredenvelope.R
+import com.umeng.analytics.MobclickAgent
 
 /**
  *                             _ooOoo_
@@ -52,15 +54,17 @@ open class BaseActivity : CBaseAccessibilityActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        MobclickAgent.onResume(this)
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        MobclickAgent.onPause(this)
-//    }
+    override fun onResume() {
+        super.onResume()
+        JPushInterface.onResume(this)
+        MobclickAgent.onResume(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        JPushInterface.onPause(this)
+        MobclickAgent.onPause(this)
+    }
 
     fun back() {
         mBack = findViewById(R.id.ib_back)

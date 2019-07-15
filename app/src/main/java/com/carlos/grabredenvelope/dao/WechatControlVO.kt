@@ -41,10 +41,9 @@ import kotlinx.serialization.Serializable
 data class WechatControlVO(
     @Transient
     var isMonitorNotification: Boolean = true, //是否监控通知
-    @Transient
     var isMonitorChat: Boolean = true, //是否监控聊天列表页面
     @Transient
-    var delayOpenTime: Int = 1,
+    var delayOpenTime: Int = 0,
     @Transient
-    var delayCloseTime: Int = 1
+    var delayCloseTime: Int = 0
 )

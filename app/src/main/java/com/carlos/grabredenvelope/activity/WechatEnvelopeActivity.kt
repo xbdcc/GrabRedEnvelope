@@ -121,14 +121,13 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         mCbWechatChatControl.isChecked = RedEnvelopePreferences.wechatControl.isMonitorChat
         LogUtils.d("wechatControl:" + RedEnvelopePreferences.wechatControl.toString())
 
-
         wechatControlVO = RedEnvelopePreferences.wechatControl
         t_putong = wechatControlVO.delayOpenTime
         mTvWechatPutong.text = "领取红包延迟时间：" + t_putong + "s"
-        mSbWechatPutong.progress = t_putong - 1
+        mSbWechatPutong.progress = t_putong
 
         t_lingqu = wechatControlVO.delayCloseTime
-        mSbWechatLingqu.progress = t_lingqu - 3
+        mSbWechatLingqu.progress = t_lingqu
         if (t_lingqu == 11) {
             mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"
         } else {
@@ -153,15 +152,20 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
         when (seekBar.id) {
             R.id.sb_qq_putong -> {
-                t_putong = progress + 1
+                LogUtils.d("sb_qq_putong:$progress")
+                t_putong = progress
                 mTvWechatPutong.text = "领取红包延迟时间：" + t_putong + "s"
                 wechatControlVO.delayOpenTime = t_putong
                 RedEnvelopePreferences.wechatControl = wechatControlVO
             }
 
             R.id.sb_qq_lingqu -> {
-                t_lingqu = progress + 2
+                LogUtils.d("sb_qq_lingqu:$progress")
+                t_lingqu = progress
                 mTvWechatLingqu.text = "红包领取页关闭延迟时间：" + t_lingqu + "s"
+                if (t_lingqu == 11) {
+                    mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"
+                }
                 wechatControlVO.delayCloseTime = t_lingqu
                 RedEnvelopePreferences.wechatControl = wechatControlVO
             }

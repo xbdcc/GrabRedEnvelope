@@ -10,12 +10,6 @@
 
         <include layout="@layout/include_title"/>
 
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/margin_top"-->
-            <!--android:text="      当前为测试版本，还在开发完善中，后续正式版出来建议升级到正式版，在线说明后面会补充，可关注："/>-->
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

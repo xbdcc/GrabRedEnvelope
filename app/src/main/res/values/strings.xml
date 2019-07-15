@@ -26,9 +26,8 @@
     <string name="wechat_description">
         使用指南：使用前仔细看APP使用说明。辅助功能开启【抢微信红包】，APP 抢微信红包设置是否监控通知和聊天列表页面，同时可设置延迟时间。代码开源仅供学习使用，请勿用作商业用途。
         \n\n如果有遇到说明里除已知bug外的问题, 欢迎通过 GitHub Issue 反馈:https://github.com/xbdcc/GrabRedEnvelope
+        \n\n主要基于自己手上的OPPO R9测试，因Android机型众多，有些机型可能会有不同未知Bug还未适配，欢迎Fork项目一起改进。
         \n\n ——made by 小不点</string>
-
-
 
     <!--old-->
     <string name="accessibility_description">抢红包工具，支持QQ,部分功能已实现。

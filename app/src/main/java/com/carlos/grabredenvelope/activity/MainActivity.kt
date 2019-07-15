@@ -18,6 +18,7 @@ import com.carlos.grabredenvelope.old2016.ToastUtils
 import com.carlos.grabredenvelope.old2016.Update
 import com.carlos.grabredenvelope.old2016.Utility
 import com.carlos.grabredenvelope.util.ControlUse
+import com.tencent.bugly.beta.Beta
 
 /**
  *                             _ooOoo_
@@ -59,7 +60,7 @@ open class MainActivity : BaseActivity() {
     private lateinit var listView: ListView
     private lateinit var list: Array<String>
     private lateinit var cIntent: Intent
-    private var adapter: ArrayAdapter<String>? = null
+    private lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +92,8 @@ open class MainActivity : BaseActivity() {
                     0 -> {
                         startActivity(
                             cIntent.setClass(
-                                this@MainActivity, WechatEnvelopeActivity::class.java
+                                this@MainActivity,
+                                WechatEnvelopeActivity::class.java
                             )
                         )
                         LogUtils.d(JPushInterface.getRegistrationID(this))
@@ -115,8 +117,10 @@ open class MainActivity : BaseActivity() {
 
                     }
                     3 -> {
-                        val update = Update(this, 2)
-                        update.update()
+//                        val update = Update(this, 2)
+//                        update.update()
+
+                        Beta.autoCheckUpgrade = true
                     }
 
                     4 -> {
@@ -125,37 +129,22 @@ open class MainActivity : BaseActivity() {
                                 this@MainActivity, RewardActivity::class.java
                             )
                         )
-
-//                        cIntent.setClass(this@MainActivity, XiuYiXiu::class.java)
-//                        startActivity(cIntent)
                     }
                     5 -> ToastUtils.showToast(this@MainActivity, "待开发")
                     6 -> {
-                        val registrationId = JPushInterface.getRegistrationID(this)
-                        LogUtils.d("1099" + "run:--------->registrationId： $registrationId")
-
-                        JPushInterface.setAlias(this, 1, "xbd")
-
                         ToastUtils.showToast(applicationContext, "关于")
                         cIntent.setClass(this@MainActivity, About::class.java)
                         startActivity(cIntent)
                     }
                 }
             }
-
         getPermissions()
     }
 
     private fun getPermissions() {
         requestPermission(100, object : PermissionListener {
-            override fun permissionSuccess() {
-
-            }
-
-            override fun permissionFail() {
-
-            }
-
+            override fun permissionSuccess() {}
+            override fun permissionFail() {}
         }, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE)
     }
 
@@ -163,15 +152,7 @@ open class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         //监听AccessibilityService 变化
-//        updateServiceStatus()
-        adapter!!.notifyDataSetChanged()
-        Log.d(TAG, "--->onResume")
-        JPushInterface.onResume(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        JPushInterface.onPause(this)
+        adapter.notifyDataSetChanged()
     }
 
     private fun show_dialog() {

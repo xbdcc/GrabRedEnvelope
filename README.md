@@ -1,4 +1,7 @@
 # GrabRedEnvelope
+[![Gitter](https://badges.gitter.im/xbdcc/GrabRedEnvelope.svg)](https://gitter.im/xbdcc/GrabRedEnvelope?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![api](https://img.shields.io/badge/API-19+-brightgreen.svg)](https://android-arsenal.com/api?level=19)
+
 
 ## 最新版本下载地址：
 http://xbdcc.cn/GrabRedEnvelope/download.html
