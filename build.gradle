@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
