@@ -1,7 +1,7 @@
 # GrabRedEnvelope
 [![Gitter](https://badges.gitter.im/xbdcc/GrabRedEnvelope.svg)](https://gitter.im/xbdcc/GrabRedEnvelope?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![api](https://img.shields.io/badge/API-19+-brightgreen.svg)](https://android-arsenal.com/api?level=19)
-
+[![Build Status](https://travis-ci.org/xbdcc/GrabRedEnvelope.svg?branch=master)](https://travis-ci.org/xbdcc/GrabRedEnvelope)
 
 ## 最新版本下载地址：
 http://xbdcc.cn/GrabRedEnvelope/download.html
@@ -18,16 +18,21 @@ https://github.com/xbdcc/GrabRedEnvelope/blob/master/demo/README.md
 - 辅助功能开启【抢微信红包】，若使用默认参数则通知或聊天列表页面或群聊发现有红包，则会自动点击红包并拆开跳转到详情页自动关闭。
 - 通知监控开关说明：需要微信通知权限开启，此时若开启此功能收到通知有红包消息会自动跳转点击。
 - 聊天列表页监控开关说明：若打开则在微信首页列表也发现红包消息则会跳转到详情页点击。
-- 延迟时间说明：为防止秒抢拉仇恨也为防止微信封号加了延迟功能，延迟可以选择1-9秒。
+- 延迟时间说明：为防止秒抢拉仇恨也为防止微信封号加了延迟功能，延迟可以选择0-9秒。
 
-
-本版本基于微信7.0.3开发，代码开源仅供学习使用，请勿用作商业用途。
+最新版适配微信7.0.3,7.0.4,7.0.5版本，代码开源仅供学习使用，请勿用作商业用途。
 
 ## 打赏
-<center class="half">
-    <img src="images/alipay.jpg" height="600"/>
-    <img src="images/wechat.jpg" height="600" style="margin-left:15px"/>
-</center>
+<table>
+    <tr>
+        <td>
+            <img src="images/alipay.jpg" height="300"/>
+        </td>
+        <td>
+            <img src="images/wechat.jpg" height="300"/>
+        </td>
+    </tr>
+</table>
 
 ## 版本说明
 ### v2.0.1(2019.03.04)

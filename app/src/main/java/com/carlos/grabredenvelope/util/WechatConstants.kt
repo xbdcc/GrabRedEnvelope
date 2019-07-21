@@ -61,6 +61,22 @@ object WechatConstants {
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/cuk" //红包金额id
 
             }
+            "7.0.5" -> {
+
+                RED_ENVELOPE_ID = "com.tencent.mm:id/ar0" //聊天页面红包点击框控件id
+                RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/asa" //聊天页面检测红包已被领控件id
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/asb" //聊天页面区分红包id
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/d4h" //抢红包页面点开控件id
+                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/d0y" //抢红包页面退出控件id
+
+                //下面是点过的
+                RED_ENVELOPE_TITLE = "[微信红包]" //红包文字
+                RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b97" //红包id
+                RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b93" //红包RECT id
+
+                RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/cyw" //红包金额id
+
+            }
         }
     }
 

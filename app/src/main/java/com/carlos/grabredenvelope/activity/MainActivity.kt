@@ -99,8 +99,6 @@ open class MainActivity : BaseActivity() {
                         LogUtils.d(JPushInterface.getRegistrationID(this))
                     }
                     1 -> {
-
-                        ToastUtils.showToast(applicationContext, "关于")
                         startActivity(
                             cIntent.setClass(
                                 this@MainActivity,

@@ -190,8 +190,7 @@ class WechatService : AccessibilityService() {
     private fun monitorChat() {
         LogUtils.d("monitorChat")
         if (!RedEnvelopePreferences.wechatControl.isMonitorChat) return
-        val lists =
-            rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_RECT_TITLE_ID)
+        val lists = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_RECT_TITLE_ID, rootInActiveWindow) ?: return
         for (envelope in lists) {
             val redEnvelope = envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_TITLE_ID)
             if (redEnvelope.isNotEmpty()) {
@@ -211,8 +210,7 @@ class WechatService : AccessibilityService() {
     private fun grabRedEnvelope() {
         LogUtils.d("grabRedEnvelope")
 
-        val envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_ID)
-        if (envelopes.size < 1) return
+        val envelopes = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_ID, rootInActiveWindow) ?: return
 
         /* 发现红包点击进入领取红包页面 */
         for (envelope in envelopes.reversed()) {
@@ -222,7 +220,6 @@ class WechatService : AccessibilityService() {
                 continue
             LogUtils.d("发现红包：$envelope")
             envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-            performGlobalAction(GLOBAL_ACTION_BACK);
             isHasClicked = true
 //            break
         }
@@ -236,7 +233,7 @@ class WechatService : AccessibilityService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
 
-        var envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_OPEN_ID)
+        var envelopes = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow) ?: return
         if (envelopes.isEmpty()) {
             envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
             /* 进入红包页面点击退出按钮 */
