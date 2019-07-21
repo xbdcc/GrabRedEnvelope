@@ -117,6 +117,8 @@ class Update(private val context: Context, private val type: Int) {
                     position = i
                 }
             }
+            LogUtils.d("temp:" + temp)
+            LogUtils.d("versionCode:" + versionCode)
             if (temp > versionCode) {
                 Log.i(TAG, "有新的的版本" + infos[position].versionName)
                 newVersion = true

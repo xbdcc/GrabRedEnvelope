@@ -1,13 +1,13 @@
 # GrabRedEnvelope
 [![Gitter](https://badges.gitter.im/xbdcc/GrabRedEnvelope.svg)](https://gitter.im/xbdcc/GrabRedEnvelope?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![api](https://img.shields.io/badge/API-19+-brightgreen.svg)](https://android-arsenal.com/api?level=19)
+[![api](https://img.shields.io/badge/API-18+-brightgreen.svg)](https://android-arsenal.com/api?level=19)
 [![Build Status](https://travis-ci.org/xbdcc/GrabRedEnvelope.svg?branch=master)](https://travis-ci.org/xbdcc/GrabRedEnvelope)
 
-## 最新版本下载地址：
-http://xbdcc.cn/GrabRedEnvelope/download.html
+## APP下载地址及说明：
+http://xbdcc.cn/GrabRedEnvelope/index.html
 
 ## 实现过程介绍：
-https://github.com/xbdcc/GrabRedEnvelope/blob/master/demo/README.md
+https://www.jianshu.com/p/e1099a94b979
 
 ## Gif图片
 ![gif1](https://github.com/xbdcc/GrabRedEnvelope/blob/master/records/record1.gif)
@@ -35,6 +35,8 @@ https://github.com/xbdcc/GrabRedEnvelope/blob/master/demo/README.md
 </table>
 
 ## 版本说明
+### v2.1.0(2019.07.21)
+适配微信7.0.4,7.0.5，修复bug。
 ### v2.0.1(2019.03.04)
 修复bug。
 ### v2.0.0(2019.02.24)

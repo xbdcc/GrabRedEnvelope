@@ -45,5 +45,5 @@ data class WechatControlVO(
     @Transient
     var delayOpenTime: Int = 0,
     @Transient
-    var delayCloseTime: Int = 0
+    var delayCloseTime: Int = 1
 )

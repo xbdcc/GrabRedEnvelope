@@ -127,7 +127,7 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         mSbWechatPutong.progress = t_putong
 
         t_lingqu = wechatControlVO.delayCloseTime
-        mSbWechatLingqu.progress = t_lingqu
+        mSbWechatLingqu.progress = t_lingqu - 1
         if (t_lingqu == 11) {
             mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"
         } else {
@@ -161,7 +161,7 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
             R.id.sb_qq_lingqu -> {
                 LogUtils.d("sb_qq_lingqu:$progress")
-                t_lingqu = progress
+                t_lingqu = progress + 1
                 mTvWechatLingqu.text = "红包领取页关闭延迟时间：" + t_lingqu + "s"
                 if (t_lingqu == 11) {
                     mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"

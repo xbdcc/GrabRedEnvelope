@@ -18,7 +18,6 @@ import com.carlos.grabredenvelope.old2016.ToastUtils
 import com.carlos.grabredenvelope.old2016.Update
 import com.carlos.grabredenvelope.old2016.Utility
 import com.carlos.grabredenvelope.util.ControlUse
-import com.tencent.bugly.beta.Beta
 
 /**
  *                             _ooOoo_
@@ -115,10 +114,10 @@ open class MainActivity : BaseActivity() {
 
                     }
                     3 -> {
-//                        val update = Update(this, 2)
-//                        update.update()
+                        val update = Update(this, 2)
+                        update.update()
 
-                        Beta.autoCheckUpgrade = true
+//                        Beta.autoCheckUpgrade = true
                     }
 
                     4 -> {

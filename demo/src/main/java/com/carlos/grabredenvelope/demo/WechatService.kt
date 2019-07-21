@@ -16,7 +16,7 @@ import com.carlos.grabredenvelope.demo.WechatConstants.RED_ENVELOPE_OPEN_ID
 
 /**
  * Created by Carlos on 2019/2/25.
- * 基于Android版微信7.0.3测试.
+ * Adapt Wechat 7.0.3,7.0.4,7.0.5.
  */
 class WechatService : AccessibilityService() {
 

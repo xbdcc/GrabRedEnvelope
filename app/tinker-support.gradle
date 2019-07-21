@@ -5,7 +5,7 @@ def bakPath = file("${buildDir}/bakApk/")
 /**
  * 此处填写每次构建生成的基准包目录
  */
-def baseApkDir = "app-0624-15-31-01"
+def baseApkDir = "app-0721-15-40-13"
 
 /**
  * 对于插件各参数的详细解析请参考
@@ -25,19 +25,19 @@ tinkerSupport {
     // 编译补丁包时，必需指定基线版本的apk，默认值为空
     // 如果为空，则表示不是进行补丁包的编译
     // @{link tinkerPatch.oldApk }
-    baseApk = "${bakPath}/${baseApkDir}/app-debug.apk"
+    baseApk = "${bakPath}/${baseApkDir}/GrabRedEnvelope2.1.0.apk"
 
     // 对应tinker插件applyMapping
-    baseApkProguardMapping = "${bakPath}/${baseApkDir}/app-debug-mapping.txt"
+    baseApkProguardMapping = "${bakPath}/${baseApkDir}/app-production-release-mapping.txt"
 
     // 对应tinker插件applyResourceMapping
-    baseApkResourceMapping = "${bakPath}/${baseApkDir}/app-debug-R.txt"
+    baseApkResourceMapping = "${bakPath}/${baseApkDir}/app-production-release-R.txt"
 
     // 构建基准包和补丁包都要指定不同的tinkerId，并且必须保证唯一性
-    tinkerId = "base-2.1.0"
+    tinkerId = "patch-2.1.0"
 
     // 构建多渠道补丁时使用
-    // buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
+     buildAllFlavorsDir = "${bakPath}/${baseApkDir}"
 
     // 是否启用加固模式，默认为false.(tinker-spport 1.0.7起支持）
     // isProtectedApp = true

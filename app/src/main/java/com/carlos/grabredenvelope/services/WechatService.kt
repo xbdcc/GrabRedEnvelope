@@ -70,7 +70,7 @@ import kotlinx.coroutines.launch
 
 /**
  * Created by Carlos on 2019/2/14.
- * Test in Wechat 7.0.3
+ * Adapt Wechat 7.0.3,7.0.4,7.0.5.
  */
 class WechatService : AccessibilityService() {
 
