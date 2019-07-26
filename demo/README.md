@@ -17,10 +17,10 @@ DDMS，AccessibilityService，Kotlin语言
 如我的SDK目录是/Users/caochang/Library/Android/sdk。进入tool文件夹打开monitor分析工具。如果是Eclipse的话可以直接打开DDMS
 - 手机连接电脑打开USB调试，可以通过adb devices命令查看是否连接上，如果连接不成功可以试试adb kill-server然后adb start-server。
 - 手机连接上后选中要看当前页面视图的进程名，如下图选中的当前测试的APP，点击圈中的图标中间就会显示当前顶层Activity视图如下：
-![Monitor主界面](https://github.com/xbdcc/GrabRedEnvelope/blob/master/images/demo/monitor_main.jpg)
+![Monitor主界面](https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_main.jpg)
 - 手机发个红包然后查看视图如下，我们可以找到id和text:
 ![微信群聊收到红包UI](https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_wechat_chat.jpg)
-- 同理我们点击红包，进入红包弹框，可以找到点击拆的ID如图：     
+- 同理我们点击红包，进入红包弹框，可以找到点击拆的ID如图：
 ![拆红包弹框UI](https://github.com/xbdcc/GrabRedEnvelope/raw/master/images/demo/monitor_wechat_open_redenvelope.jpg)
 
 ## 代码实现
@@ -80,6 +80,6 @@ DDMS，AccessibilityService，Kotlin语言
 以上就是实现微信自动抢红包的简单demo，你还可以做些优化做监听通知监听页面判断抢红包，以及延迟点击过滤口令，判断红包是否已抢等。
 
 ## Demo完整代码地址
-https://github.com/xbdcc/GrabRedEnvelope/tree/master/demo
+https://github.com/xbdcc/GrabRedEnvelope/tree/2.0.1/demo
 
 
