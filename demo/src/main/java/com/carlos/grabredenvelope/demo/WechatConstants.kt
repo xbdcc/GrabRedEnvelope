@@ -24,6 +24,17 @@ object WechatConstants {
                 RED_ENVELOPE_ID = "com.tencent.mm:id/ap9"
                 RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/d02"
             }
+            "7.0.5" -> {
+                RED_ENVELOPE_ID = "com.tencent.mm:id/ar0"
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/asb"
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/d4h"
+            }
+            "7.0.8" -> {
+                RED_ENVELOPE_ID = "com.tencent.mm:id/atb"
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aum"
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/dan"
+            }
+
         }
     }
 

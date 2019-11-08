@@ -1,8 +1,8 @@
+<!-- android:packageNames="com.tencent.mm"在9.0中会无法监听通知内容，这里去掉在代码里判断-->
 <accessibility-service
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/wechat_description"
     android:accessibilityEventTypes="typeAllMask"
-    android:packageNames="com.tencent.mm"
     android:accessibilityFeedbackType="feedbackAllMask"
     android:notificationTimeout="100"
     android:settingsActivity="com.carlos.grabredenvelope.activity.WechatEnvelopeActivity"

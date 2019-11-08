@@ -129,7 +129,8 @@ class WechatService : AccessibilityService() {
 
         if (controlUse.stopUse()) return
 
-        if (event.className.toString().startsWith("com.tencent.mm")) {
+        if (WECHAT_PACKAGE != event.packageName) return
+        if (event.className.toString().startsWith(WECHAT_PACKAGE)) {
             currentClassName = event.className.toString()
         }
 
