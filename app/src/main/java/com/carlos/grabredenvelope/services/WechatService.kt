@@ -32,6 +32,7 @@ import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_TITLE_ID
 import com.carlos.grabredenvelope.util.WechatConstants.WECHAT_LUCKYMONEYDETAILUI_ACTIVITY
 import com.carlos.grabredenvelope.util.WechatConstants.WECHAT_LUCKYMONEY_ACTIVITY
 import com.carlos.grabredenvelope.util.WechatConstants.WECHAT_PACKAGE
+import io.sentry.Sentry
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -69,6 +70,7 @@ import kotlinx.coroutines.launch
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/14.
  * Adapt Wechat 7.0.3,7.0.4,7.0.5.
  */
@@ -122,7 +124,7 @@ class WechatService : AccessibilityService() {
     }
 
     override fun onInterrupt() {
-        LogUtils.e("出错")
+        Sentry.capture("WechatService onInterrupt.")
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {

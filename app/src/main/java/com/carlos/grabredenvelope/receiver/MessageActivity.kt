@@ -41,6 +41,7 @@ import com.carlos.grabredenvelope.activity.MainActivity
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/24.
  */
 class MessageActivity : Activity() {

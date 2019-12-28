@@ -42,6 +42,7 @@ import java.util.*
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/6.
  */
 class ControlUse(private val context: Context) {

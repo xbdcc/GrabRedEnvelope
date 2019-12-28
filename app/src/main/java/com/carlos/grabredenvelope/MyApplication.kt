@@ -1,14 +1,10 @@
 package com.carlos.grabredenvelope
 
-import android.annotation.TargetApi
 import android.app.Application
-import android.content.Context
-import android.content.Intent
-import android.os.Build
-import androidx.multidex.MultiDex
 import com.carlos.cutils.util.LogUtils
-import com.tencent.bugly.beta.Beta
-import com.tencent.tinker.entry.DefaultApplicationLike
+import com.carlos.grabredenvelope.execption.MyUncaughtExceptionHandler
+import io.sentry.Sentry
+import io.sentry.android.AndroidSentryClientFactory
 
 /**
  *                             _ooOoo_
@@ -43,26 +39,15 @@ import com.tencent.tinker.entry.DefaultApplicationLike
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/6.
  */
-class MyApplication (
-    application: Application, tinkerFlags: Int,
-    tinkerLoadVerifyFlag: Boolean, applicationStartElapsedTime: Long,
-    applicationStartMillisTime: Long, tinkerResultIntent: Intent
-) : DefaultApplicationLike(
-    application,
-    tinkerFlags,
-    tinkerLoadVerifyFlag,
-    applicationStartElapsedTime,
-    applicationStartMillisTime,
-    tinkerResultIntent
-) {
+class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
         instance = this
-        applicationContext = application.applicationContext
 
         LogUtils.isShowLog = BuildConfig.DEBUG
 
@@ -70,8 +55,15 @@ class MyApplication (
 
         initLocal()
 
+        initSentry()
+
     }
 
+    private fun initSentry() {
+        Sentry.init(BuildConfig.SENTRY_DSN, AndroidSentryClientFactory(applicationContext))
+            .environment = BuildConfig.BUILD_TYPE
+        Thread.setDefaultUncaughtExceptionHandler(MyUncaughtExceptionHandler())
+    }
 
     private fun initLocal() {
         try {
@@ -84,23 +76,9 @@ class MyApplication (
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    override fun onBaseContextAttached(base: Context?) {
-        super.onBaseContextAttached(base)
-        MultiDex.install(base)
-        Beta.installTinker(this)
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    fun registerActivityLifecycleCallback(callbacks: Application.ActivityLifecycleCallbacks) {
-        application.registerActivityLifecycleCallbacks(callbacks)
-    }
-
     companion object {
         lateinit var instance: MyApplication
             private set
     }
-
-    lateinit var applicationContext : Context
 
 }

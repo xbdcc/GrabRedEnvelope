@@ -37,6 +37,7 @@ import com.carlos.grabredenvelope.R
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/23.
  */
 class GithubIssuesActivity : WebViewActivity() {

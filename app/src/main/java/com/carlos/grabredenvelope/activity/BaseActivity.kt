@@ -42,6 +42,7 @@ import com.umeng.analytics.MobclickAgent
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/5/27.
  */
 open class BaseActivity : CBaseAccessibilityActivity() {

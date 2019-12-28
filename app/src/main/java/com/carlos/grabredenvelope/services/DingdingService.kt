@@ -50,6 +50,7 @@ import com.carlos.grabredenvelope.util.ControlUse
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/14.
  */
 class DingdingService : AccessibilityService() {

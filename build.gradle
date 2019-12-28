@@ -4,6 +4,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
@@ -11,7 +12,7 @@ buildscript {
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2' // add plugin
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
 
-        classpath "com.tencent.bugly:tinker-support:1.1.5"
+        classpath 'io.sentry:sentry-android-gradle-plugin:1.7.27'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -24,8 +25,7 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url 'https://dl.bintray.com/umsdk/release' }
         maven { url "https://kotlin.bintray.com/kotlinx" }
-        //Bmob的maven仓库地址--必填
-        maven { url "https://raw.github.com/bmob/bmob-android-sdk/master" }
+        maven { url 'https://dl.bintray.com/xbdcc/maven' }
     }
 }
 task clean(type: Delete) {

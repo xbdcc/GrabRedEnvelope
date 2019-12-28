@@ -39,6 +39,7 @@ import kotlinx.serialization.json.JSON
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/21.
  */
 object RedEnvelopePreferences :

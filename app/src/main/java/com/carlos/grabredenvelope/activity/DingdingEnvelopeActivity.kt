@@ -36,6 +36,7 @@ import com.carlos.grabredenvelope.R
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/24.
  */
 class DingdingEnvelopeActivity : BaseActivity() {

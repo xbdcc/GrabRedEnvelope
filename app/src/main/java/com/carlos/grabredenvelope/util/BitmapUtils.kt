@@ -44,6 +44,7 @@ import java.io.FileOutputStream
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/23.
  */
 object BitmapUtils {

@@ -4,7 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlinx-serialization'
 
-apply from: 'tinker-support.gradle'
+apply plugin: 'io.sentry.android.gradle'
+
 
 def defaultPropertiesFile = rootProject.file("buildsystem/default.properties")
 def defaultProperties = new Properties()
@@ -31,7 +32,7 @@ android {
         applicationId "com.carlos.grabredenvelope"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 8
+        versionCode 6
         versionName "2.1.0"
         flavorDimensions "8" //和versionCode相同
         ndk {
@@ -61,13 +62,16 @@ android {
         dev {          //开发测试版本
             buildConfigField("String", "BUGLY_KEY_DEV", "\"${defaultProperties['BUGLY_KEY_DEV']}\"")
             buildConfigField("String", "UMENG_APPKEY_DEV", "\"${defaultProperties['UMENG_APPKEY_DEV']}\"")
+            buildConfigField("String", "SENTRY_DSN", "\"${defaultProperties['SENTRY_DSN_DEV']}\"")
 
         }
         production {   //正式发布版本
             buildConfigField("String", "BUGLY_KEY", "\"${defaultProperties['BUGLY_KEY']}\"")
             buildConfigField("String", "UMENG_APPKEY", "\"${defaultProperties['UMENG_APPKEY']}\"")
+            buildConfigField("String", "SENTRY_DSN", "\"${defaultProperties['SENTRY_DSN']}\"")
         }
     }
+
 
 }
 
@@ -78,15 +82,24 @@ android.applicationVariants.all { variant ->
     }
 }
 
+sentry {
+    // Disables or enables the automatic configuration of proguard
+    // for Sentry.  This injects a default config for proguard so
+    // you don't need to do it manually.
+    autoProguardConfig true
+
+    // Enables or disables the automatic upload of mapping files
+    // during a build.  If you disable this you'll need to manually
+    // upload the mapping files with sentry-cli when you do a release.
+    autoUpload true
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
 
-    implementation 'com.github.xbdcc:cutils:0.0.19'
+    implementation 'com.github.xbdcc:cutils:0.0.25'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.3.2'
@@ -96,11 +109,8 @@ dependencies {
     implementation 'com.umeng.umsdk:analytics:8.0.0'
     implementation 'com.umeng.umsdk:common:2.0.0'
 
-    //bugly
-    implementation 'com.tencent.bugly:crashreport_upgrade:1.4.0'
-    implementation 'com.tencent.bugly:nativecrashreport:3.7.1'
-    implementation 'com.tencent.tinker:tinker-android-lib:1.9.9'
-    implementation "com.android.support:multidex:1.0.3"
+    implementation 'io.sentry:sentry-android:1.7.27'
+    implementation 'com.liulishuo.filedownloader:library:1.7.7'
 
 
 }

@@ -2,7 +2,7 @@ package com.carlos.grabredenvelope
 
 import android.content.Context
 import cn.jpush.android.api.JPushInterface
-import com.tencent.bugly.Bugly
+import com.carlos.cutils.util.LogUtils
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 
@@ -51,13 +51,14 @@ class AppInit {
 
         initUmeng()
 
-        initBugly()
-
     }
 
     private fun initJpush() {
         JPushInterface.setDebugMode(BuildConfig.DEBUG)
         JPushInterface.init(context)
+
+        val id = JPushInterface.getRegistrationID(context)
+        LogUtils.d("id:" + id)
     }
 
     private fun initUmeng() {
@@ -66,8 +67,5 @@ class AppInit {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
     }
 
-    private fun initBugly() {
-        Bugly.init(context, BuildConfig.BUGLY_KEY_DEV, BuildConfig.DEBUG)
-    }
 
 }

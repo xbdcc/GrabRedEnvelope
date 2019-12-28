@@ -38,6 +38,7 @@ import com.carlos.grabredenvelope.R
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/22.
  */
 class AboutActivity : BaseActivity() {

@@ -38,6 +38,7 @@ import android.os.PowerManager
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/7.
  */
 object WakeupTools {

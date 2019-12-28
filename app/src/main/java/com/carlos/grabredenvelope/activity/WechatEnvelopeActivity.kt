@@ -46,6 +46,7 @@ import com.carlos.grabredenvelope.data.RedEnvelopePreferences
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/5/27.
  */
 class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {

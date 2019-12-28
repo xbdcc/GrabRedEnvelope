@@ -27,10 +27,6 @@
     public static ** valueOf(java.lang.String);
 }
 
-#bugly
--dontwarn com.tencent.bugly.**
--keep public class com.tencent.bugly.**{*;}
-
 
 # ProGuard configurations for Bugtags
 -keepattributes LineNumberTable,SourceFile
@@ -43,3 +39,10 @@
 -dontwarn android.net.http.AndroidHttpClient
 
 # End Bugtags
+
+
+# sentry
+-keepattributes LineNumberTable,SourceFile
+-dontwarn org.slf4j.**
+-dontwarn javax.**
+-keep class io.sentry.event.Event { *; }

@@ -3,6 +3,7 @@ package com.carlos.grabredenvelope.util
 import com.carlos.cutils.util.LogUtils
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019-05-29.
  */
 object WechatConstants {
@@ -77,7 +78,17 @@ object WechatConstants {
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/cyw" //红包金额id
 
             }
-            "7.0.8" -> {
+            "7.0.8","7.0.9" -> {
+                RED_ENVELOPE_ID = "com.tencent.mm:id/atb" //聊天页面红包点击框控件id
+                RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/aul" //聊天页面检测红包已被领控件id
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aum" //聊天页面区分红包id
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/dan" //抢红包页面点开控件id
+                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/d84" //抢红包页面退出控件id
+
+                RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/bal" //红包id
+                RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/bah" //红包RECT id
+            }
+            else -> {
                 RED_ENVELOPE_ID = "com.tencent.mm:id/atb" //聊天页面红包点击框控件id
                 RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/aul" //聊天页面检测红包已被领控件id
                 RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aum" //聊天页面区分红包id

@@ -18,7 +18,6 @@ import com.carlos.grabredenvelope.old2016.ToastUtils
 import com.carlos.grabredenvelope.old2016.Update
 import com.carlos.grabredenvelope.old2016.Utility
 import com.carlos.grabredenvelope.util.ControlUse
-
 /**
  *                             _ooOoo_
  *                            o8888888o
@@ -52,6 +51,7 @@ import com.carlos.grabredenvelope.util.ControlUse
  */
 
 /**
+ * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/14.
  */
 open class MainActivity : BaseActivity() {
@@ -117,7 +117,8 @@ open class MainActivity : BaseActivity() {
                         val update = Update(this, 2)
                         update.update()
 
-//                        Beta.autoCheckUpgrade = true
+//                        UpdateDefaultImpl().updateDefault(this)
+//                        UpdateDefaultImpl().updateGithub(this)
                     }
 
                     4 -> {
@@ -142,7 +143,7 @@ open class MainActivity : BaseActivity() {
         requestPermission(100, object : PermissionListener {
             override fun permissionSuccess() {}
             override fun permissionFail() {}
-        }, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE)
+        }, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
 

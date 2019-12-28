@@ -9,7 +9,6 @@ import android.os.Environment
 import android.os.Handler
 import android.util.Log
 import com.carlos.cutils.util.LogUtils
-import com.carlos.cutils.util.ToastUtil
 import com.carlos.grabredenvelope.util.DownloadAsyncTask
 import com.carlos.grabredenvelope.util.UpdateInfo
 import com.carlos.grabredenvelope.util.UpdateInfoParser
@@ -193,8 +192,11 @@ class Update(private val context: Context, private val type: Int) {
             object : DialogUtils.OnClickSureListener {
 
                 override fun onClickSure() {
-                    ToastUtil.Builder(context).setText("后台下载中...").build()
-                    Download()
+                    val uri = Uri.parse(infos[position].apkUrl)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    context.startActivity(intent)
+//                    ToastUtil.Builder(context).setText("后台下载中...").build()
+//                    Download()
                 }
             },
             object : DialogUtils.OnClickCancelListener {
@@ -214,6 +216,7 @@ class Update(private val context: Context, private val type: Int) {
     fun Download() {
         val filedir = filedir
         file = File(filedir, "QiangHongBao$versionName.apk")
+
         //		file=new File(Environment.getExternalStorageDirectory()+"/HuasTools","HuasTools"+versionName);
         val task = DownloadAsyncTask(context, handler, file!!)
         task.execute(infos[position].apkUrl)
