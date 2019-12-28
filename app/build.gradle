@@ -32,7 +32,7 @@ android {
         applicationId "com.carlos.grabredenvelope"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 6
+        versionCode 8
         versionName "2.1.0"
         flavorDimensions "8" //和versionCode相同
         ndk {
@@ -52,6 +52,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
             signingConfig signingConfigs.release
         }
     }
