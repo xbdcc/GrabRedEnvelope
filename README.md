@@ -9,7 +9,14 @@ http://xbdcc.cn/GrabRedEnvelope/index.html
 ## 实现过程介绍：
 https://www.jianshu.com/p/e1099a94b979
 
-## Gif图片
+## 分析用到的命令相关
+https://github.com/xbdcc/CCommand
+
+## 使用到的工具库
+https://github.com/xbdcc/CUtils
+
+
+## Gif效果图
 ![gif1](https://github.com/xbdcc/GrabRedEnvelope/blob/master/records/record1.gif)
 ![gif2](https://github.com/xbdcc/GrabRedEnvelope/blob/master/records/record2.gif)
 
@@ -51,4 +58,7 @@ https://www.jianshu.com/p/e1099a94b979
 修复抢QQ红包bug，完善推送功能。
 ### v1.0(2016.02.23)
 实现抢QQ红包、QQ特殊口令生成和支付宝咻一咻功能。
+
+## 基于本项目改写的项目
+- https://github.com/gemgao/redenvelopes
 
