@@ -32,9 +32,9 @@ android {
         applicationId "com.carlos.grabredenvelope"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 8
-        versionName "2.1.0"
-        flavorDimensions "8" //和versionCode相同
+        versionCode 9
+        versionName "2.2.0"
+        flavorDimensions "9" //和versionCode相同
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'
@@ -63,13 +63,11 @@ android {
     //多渠道打包
     productFlavors {
         dev {          //开发测试版本
-            buildConfigField("String", "BUGLY_KEY_DEV", "\"${defaultProperties['BUGLY_KEY_DEV']}\"")
             buildConfigField("String", "UMENG_APPKEY_DEV", "\"${defaultProperties['UMENG_APPKEY_DEV']}\"")
             buildConfigField("String", "SENTRY_DSN", "\"${defaultProperties['SENTRY_DSN_DEV']}\"")
 
         }
         production {   //正式发布版本
-            buildConfigField("String", "BUGLY_KEY", "\"${defaultProperties['BUGLY_KEY']}\"")
             buildConfigField("String", "UMENG_APPKEY", "\"${defaultProperties['UMENG_APPKEY']}\"")
             buildConfigField("String", "SENTRY_DSN", "\"${defaultProperties['SENTRY_DSN']}\"")
         }

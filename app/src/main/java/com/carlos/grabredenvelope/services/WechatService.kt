@@ -193,7 +193,10 @@ class WechatService : AccessibilityService() {
     private fun monitorChat() {
         LogUtils.d("monitorChat")
         if (!RedEnvelopePreferences.wechatControl.isMonitorChat) return
-        val lists = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_RECT_TITLE_ID, rootInActiveWindow) ?: return
+        val lists = AccessibilityServiceUtils.getElementsById(
+            RED_ENVELOPE_RECT_TITLE_ID,
+            rootInActiveWindow
+        ) ?: return
         for (envelope in lists) {
             val redEnvelope = envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_TITLE_ID)
             if (redEnvelope.isNotEmpty()) {
@@ -213,7 +216,8 @@ class WechatService : AccessibilityService() {
     private fun grabRedEnvelope() {
         LogUtils.d("grabRedEnvelope")
 
-        val envelopes = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_ID, rootInActiveWindow) ?: return
+        val envelopes =
+            AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_ID, rootInActiveWindow) ?: return
 
         /* 发现红包点击进入领取红包页面 */
         for (envelope in envelopes.reversed()) {
@@ -236,7 +240,9 @@ class WechatService : AccessibilityService() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
 
-        var envelopes = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow) ?: return
+        var envelopes =
+            AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
+                ?: return
         if (envelopes.isEmpty()) {
             envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
             /* 进入红包页面点击退出按钮 */
@@ -301,6 +307,11 @@ class WechatService : AccessibilityService() {
                     path.moveTo(450f, 1250f)
                 420 -> //420一加5T
                     path.moveTo(540f, 1213f)
+                400 ->
+                    path.moveTo(550f, 1200f) //华为mate9
+                else ->
+                    path.moveTo(550f, 1200f)
+
             }
             val build = GestureDescription.Builder()
             val gestureDescription =
