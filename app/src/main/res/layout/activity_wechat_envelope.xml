@@ -147,6 +147,29 @@
                     android:layout_marginTop="10dp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_custom_click"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/cb_custom_click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="开启自定义点击坐标点(x,y)："/>
+                <EditText
+                    android:id="@+id/et_pointX"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:hint="x"/>
+                <EditText
+                    android:id="@+id/et_pointY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:hint="y"/>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

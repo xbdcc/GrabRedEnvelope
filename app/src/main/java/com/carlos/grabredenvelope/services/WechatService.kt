@@ -294,8 +294,9 @@ class WechatService : AccessibilityService() {
             val metrics = resources.displayMetrics
             val dpi = metrics.densityDpi
             val path = Path()
-
-            when (dpi) {
+            if (RedEnvelopePreferences.wechatControl.isCustomClick) {
+                path.moveTo(RedEnvelopePreferences.wechatControl.pointX.toFloat(), RedEnvelopePreferences.wechatControl.pointY.toFloat())
+            }else when (dpi) {
                 640 -> //1440
                     path.moveTo(720f, 1575f)
                 320 -> //720p
@@ -311,7 +312,6 @@ class WechatService : AccessibilityService() {
                     path.moveTo(550f, 1200f) //华为mate9
                 else ->
                     path.moveTo(550f, 1200f)
-
             }
             val build = GestureDescription.Builder()
             val gestureDescription =

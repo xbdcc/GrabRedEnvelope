@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TextView
 import cn.jpush.android.api.JPushInterface
-import com.carlos.cutils.base.CBaseAccessibilityActivity
+import com.carlos.cutils.base.activity.CBaseAccessibilityActivity
 import com.carlos.grabredenvelope.R
 import com.umeng.analytics.MobclickAgent
 

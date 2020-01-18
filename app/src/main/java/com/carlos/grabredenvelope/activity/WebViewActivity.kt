@@ -2,7 +2,7 @@ package com.carlos.grabredenvelope.activity
 
 import android.widget.ImageButton
 import android.widget.TextView
-import com.carlos.cutils.base.CBaseWebViewActivity
+import com.carlos.cutils.base.activity.CBaseWebViewActivity
 import com.carlos.grabredenvelope.R
 
 /**

@@ -1,17 +1,21 @@
 package com.carlos.grabredenvelope.activity
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.View
 import android.view.Window
 import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.dao.WechatControlVO
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
+import kotlinx.android.synthetic.main.activity_wechat_envelope.*
 
 /**
  *                             _ooOoo_
@@ -113,6 +117,32 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         mSbWechatPutong.setOnSeekBarChangeListener(this)
         mSbWechatLingqu.setOnSeekBarChangeListener(this)
 
+        cb_custom_click.setOnCheckedChangeListener { buttonView, isChecked ->
+            wechatControlVO.isCustomClick = isChecked
+            RedEnvelopePreferences.wechatControl = wechatControlVO
+        }
+
+        et_pointX.addTextChangedListener {
+            if (et_pointX.text.isNullOrEmpty()) {
+                wechatControlVO.pointX = 0
+            }else {
+                wechatControlVO.pointX = et_pointX.text.toString().toLong()
+            }
+            RedEnvelopePreferences.wechatControl = wechatControlVO
+        }
+
+        et_pointY.addTextChangedListener {
+            if (et_pointY.text.isNullOrEmpty()) {
+                wechatControlVO.pointY = 0
+            }else {
+                wechatControlVO.pointY = et_pointY.text.toString().toLong()
+            }
+            RedEnvelopePreferences.wechatControl = wechatControlVO
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ll_custom_click.visibility = View.VISIBLE
+        }
     }
 
 
@@ -134,6 +164,9 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
         } else {
             mTvWechatLingqu.text = "红包领取页关闭时间：" + t_lingqu + "s"
         }
+        cb_custom_click.isChecked = RedEnvelopePreferences.wechatControl.isCustomClick
+        et_pointX.setText(RedEnvelopePreferences.wechatControl.pointX.toString())
+        et_pointY.setText(RedEnvelopePreferences.wechatControl.pointY.toString())
     }
 
     private fun addListener() {

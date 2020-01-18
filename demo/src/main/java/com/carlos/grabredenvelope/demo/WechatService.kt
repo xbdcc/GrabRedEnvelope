@@ -107,7 +107,8 @@ class WechatService : AccessibilityService() {
                 440 -> //1080*2160
                     path.moveTo(450f, 1250f)
                 420 -> //420一加5T
-                    path.moveTo(540f, 1213f)
+                    path.moveTo(550f, 1400f)
+//                    path.moveTo(540f, 1213f)
             }
             val build = GestureDescription.Builder()
             val gestureDescription =

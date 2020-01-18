@@ -100,7 +100,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
 
-    implementation 'com.github.xbdcc:cutils:0.0.25'
+    implementation 'com.carlos.cutils:cutils:0.0.25'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.3.2'

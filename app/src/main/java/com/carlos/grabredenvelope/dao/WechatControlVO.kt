@@ -46,5 +46,9 @@ data class WechatControlVO(
     @Transient
     var delayOpenTime: Int = 0,
     @Transient
-    var delayCloseTime: Int = 1
+    var delayCloseTime: Int = 1,
+    @Transient
+    var isCustomClick: Boolean = false,
+    var pointX: Long = 0,
+    var pointY: Long = 0
 )
