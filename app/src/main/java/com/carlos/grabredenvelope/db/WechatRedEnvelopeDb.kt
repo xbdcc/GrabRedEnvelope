@@ -1,7 +1,6 @@
-package com.carlos.grabredenvelope.fragment
+package com.carlos.grabredenvelope.db
 
-import android.view.View
-import com.carlos.cutils.base.fragment.CBaseFragment
+import com.carlos.grabredenvelope.data.GreenDaoManager
 
 /**
  *                             _ooOoo_
@@ -37,14 +36,17 @@ import com.carlos.cutils.base.fragment.CBaseFragment
 
 /**
  * Github: https://github.com/xbdcc/.
- * Created by Carlos on 2020-01-21.
+ * Created by Carlos on 2020-01-22.
  */
-open class BaseFragment(val layoutid: Int) : CBaseFragment() {
+object WechatRedEnvelopeDb {
 
-    override fun initView(view: View) {}
+    private val sQQRedEnvelopeDao = GreenDaoManager.instance.session.wechatRedEnvelopeDao
 
-    override fun layoutId(): Int {
-        return layoutid
+    val allData: List<WechatRedEnvelope>
+        @Synchronized get() = sQQRedEnvelopeDao.loadAll()
+
+    @Synchronized
+    fun insertData(qqRedEnvelope: WechatRedEnvelope) {
+        sQQRedEnvelopeDao.insert(qqRedEnvelope)
     }
-
 }

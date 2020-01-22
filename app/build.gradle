@@ -5,7 +5,7 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlinx-serialization'
 
 apply plugin: 'io.sentry.android.gradle'
-
+apply plugin: 'org.greenrobot.greendao'
 
 def defaultPropertiesFile = rootProject.file("buildsystem/default.properties")
 def defaultProperties = new Properties()
@@ -107,13 +107,21 @@ sentry {
     autoUpload true
 }
 
+greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage 'com.carlos.grabredenvelope.db'//设置DaoMaster、DaoSession、Dao包名
+    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+    //targetGenDirTest：设置生成单元测试目录
+    //generateTests：设置自动生成单元测试用例
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
 
-//    implementation 'com.carlos.cutils:cutils:0.0.26'
-    implementation 'com.github.xbdcc:cutils:0.0.26-SNAPSHOT'
+    implementation 'com.carlos.cutils:cutils:0.0.26'
+//    implementation 'com.github.xbdcc:cutils:0.0.26-SNAPSHOT'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.3.2'
@@ -127,6 +135,7 @@ dependencies {
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
     implementation 'com.google.android.material:material:1.0.0'
 
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
 
 }
 repositories {

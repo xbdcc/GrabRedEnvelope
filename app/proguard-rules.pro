@@ -28,21 +28,19 @@
 }
 
 
-# ProGuard configurations for Bugtags
--keepattributes LineNumberTable,SourceFile
-
--keep class com.bugtags.library.** {*;}
--dontwarn com.bugtags.library.**
--keep class io.bugtags.** {*;}
--dontwarn io.bugtags.**
--dontwarn org.apache.http.**
--dontwarn android.net.http.AndroidHttpClient
-
-# End Bugtags
-
-
 # sentry
 -keepattributes LineNumberTable,SourceFile
 -dontwarn org.slf4j.**
 -dontwarn javax.**
 -keep class io.sentry.event.Event { *; }
+
+
+# greendao
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties {*;}
+# If you do not use SQLCipher:
+-dontwarn net.sqlcipher.database.**
+# If you do not use RxJava:
+-dontwarn rx.**

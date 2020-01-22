@@ -51,9 +51,5 @@ class GuideFragment : BaseFragment(R.layout.fragment_about) {
             mainActivity2.checkItem(4)
         }
     }
-////
-////    fun donate(view: View) {
-////        startActivity(Intent(this@GuideFragment, RewardFragment::class.java))
-////    }
 
 }

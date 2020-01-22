@@ -1,7 +1,8 @@
-package com.carlos.grabredenvelope.fragment
+package com.carlos.grabredenvelope.db;
 
-import android.view.View
-import com.carlos.cutils.base.fragment.CBaseFragment
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  *                             _ooOoo_
@@ -37,14 +38,40 @@ import com.carlos.cutils.base.fragment.CBaseFragment
 
 /**
  * Github: https://github.com/xbdcc/.
- * Created by Carlos on 2020-01-21.
+ * Created by caochang on 2017/8/27.
  */
-open class BaseFragment(val layoutid: Int) : CBaseFragment() {
 
-    override fun initView(view: View) {}
-
-    override fun layoutId(): Int {
-        return layoutid
+@Entity
+public class WechatRedEnvelope {
+    @Id(autoincrement = true)
+    private Long id;
+    private long time = System.currentTimeMillis();
+    private String count = "";
+    @Generated(hash = 1534010414)
+    public WechatRedEnvelope(Long id, long time, String count) {
+        this.id = id;
+        this.time = time;
+        this.count = count;
     }
-
+    @Generated(hash = 1019243491)
+    public WechatRedEnvelope() {
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public long getTime() {
+        return this.time;
+    }
+    public void setTime(long time) {
+        this.time = time;
+    }
+    public String getCount() {
+        return this.count;
+    }
+    public void setCount(String count) {
+        this.count = count;
+    }
 }

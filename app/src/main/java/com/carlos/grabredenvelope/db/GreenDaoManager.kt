@@ -1,7 +1,7 @@
-package com.carlos.grabredenvelope.fragment
-
-import android.view.View
-import com.carlos.cutils.base.fragment.CBaseFragment
+package com.carlos.grabredenvelope.data
+import com.carlos.grabredenvelope.MyApplication
+import com.carlos.grabredenvelope.db.DaoMaster
+import com.carlos.grabredenvelope.db.DaoSession
 
 /**
  *                             _ooOoo_
@@ -37,14 +37,27 @@ import com.carlos.cutils.base.fragment.CBaseFragment
 
 /**
  * Github: https://github.com/xbdcc/.
- * Created by Carlos on 2020-01-21.
+ * Created by caochang on 2017/8/27.
  */
-open class BaseFragment(val layoutid: Int) : CBaseFragment() {
 
-    override fun initView(view: View) {}
+class GreenDaoManager {
+    var master: DaoMaster //以一定的模式管理Dao类的数据库对象
+    var session: DaoSession //管理制定模式下的所有可用Dao对象
+    var newSession: DaoSession? = null
+        get() {
+            session = master.newSession()
+            return session
+        }
 
-    override fun layoutId(): Int {
-        return layoutid
+    init {
+        val devOpenHelper = DaoMaster.DevOpenHelper(MyApplication.instance.applicationContext, "grabredenvelope", null)
+        master = DaoMaster(devOpenHelper.writableDatabase)
+        session = master.newSession()
     }
 
+    companion object {
+        val instance by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+            GreenDaoManager()
+        }
+    }
 }

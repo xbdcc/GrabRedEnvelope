@@ -1,7 +1,14 @@
 package com.carlos.grabredenvelope.fragment
 
+import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.view.View
-import com.carlos.cutils.base.fragment.CBaseFragment
+import android.widget.ArrayAdapter
+import com.carlos.cutils.util.DateUtils
+import com.carlos.grabredenvelope.R
+import com.carlos.grabredenvelope.db.WechatRedEnvelopeDb
+import kotlinx.android.synthetic.main.fragment_record.*
 
 /**
  *                             _ooOoo_
@@ -37,14 +44,40 @@ import com.carlos.cutils.base.fragment.CBaseFragment
 
 /**
  * Github: https://github.com/xbdcc/.
- * Created by Carlos on 2020-01-21.
+ * Created by Carlos on 2020-01-22.
  */
-open class BaseFragment(val layoutid: Int) : CBaseFragment() {
+class RecordFragment : BaseFragment(R.layout.fragment_record) {
 
-    override fun initView(view: View) {}
+    var list = ArrayList<String>()
+    lateinit var arrayAdapter: ArrayAdapter<String>
 
-    override fun layoutId(): Int {
-        return layoutid
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        init(view)
+        getData()
+    }
+
+    private fun init(view: View) {
+        arrayAdapter = ArrayAdapter(view.context,R.layout.item_wechat_record, R.id.tv_item_wechat_record, list)
+        lv_wechat_record.adapter = arrayAdapter
+    }
+
+    private fun getData() {
+        Thread {
+            list.clear()
+            val wechatRedEnvelopes = WechatRedEnvelopeDb.allData
+            for (wechatRedEnvelope in wechatRedEnvelopes) {
+                list.add("${DateUtils.formatDate(wechatRedEnvelope.time)} 助你抢到了 ${wechatRedEnvelope.count}元")
+            }
+            handler.sendEmptyMessage(0)
+        }.run()
+    }
+
+    val handler = object: Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            arrayAdapter.notifyDataSetChanged()
+        }
     }
 
 }

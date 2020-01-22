@@ -39,7 +39,6 @@ object WechatConstants {
                 RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/cyf" //抢红包页面点开控件id
                 RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/cv0" //抢红包页面退出控件id
 
-                RED_ENVELOPE_TITLE = "[微信红包]" //红包文字
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b5q" //红包id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b5m" //红包RECT id
 
@@ -55,7 +54,6 @@ object WechatConstants {
                 RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/cwm" //抢红包页面退出控件id
 
                 //下面是点过的
-                RED_ENVELOPE_TITLE = "[微信红包]" //红包文字
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b6g" //红包id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b6c" //红包RECT id
 
@@ -71,7 +69,6 @@ object WechatConstants {
                 RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/d0y" //抢红包页面退出控件id
 
                 //下面是点过的
-                RED_ENVELOPE_TITLE = "[微信红包]" //红包文字
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/b97" //红包id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b93" //红包RECT id
 
@@ -87,6 +84,8 @@ object WechatConstants {
 
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/bal" //红包id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/bah" //红包RECT id
+                RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/d62"  //红包金额id
+
             }
             else -> {
                 RED_ENVELOPE_ID = "com.tencent.mm:id/atb" //聊天页面红包点击框控件id
@@ -97,6 +96,7 @@ object WechatConstants {
 
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/bal" //红包id
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/bah" //红包RECT id
+                RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/d62"  //红包金额id
             }
         }
     }

@@ -18,11 +18,14 @@ import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.activity.MainActivity
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
+import com.carlos.grabredenvelope.db.WechatRedEnvelope
+import com.carlos.grabredenvelope.db.WechatRedEnvelopeDb
 import com.carlos.grabredenvelope.util.ControlUse
 import com.carlos.grabredenvelope.util.WakeupTools
 import com.carlos.grabredenvelope.util.WechatConstants
 import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_BEEN_GRAB_ID
 import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_CLOSE_ID
+import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_COUNT_ID
 import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_FLAG_ID
 import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_ID
 import com.carlos.grabredenvelope.util.WechatConstants.RED_ENVELOPE_OPEN_ID
@@ -72,7 +75,7 @@ import kotlinx.coroutines.launch
 /**
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/14.
- * Adapt Wechat 7.0.3,7.0.4,7.0.5.
+ * Adapt Wechat 7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10.
  */
 class WechatService : AccessibilityService() {
 
@@ -275,6 +278,7 @@ class WechatService : AccessibilityService() {
         if (!isHasOpened) return //如果不是点击进来的则不退出
 
         GlobalScope.launch {
+            saveData()
             val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayCloseTime
             LogUtils.d("delay close time:$delayTime")
             if (delayTime != 11000L) {
@@ -333,5 +337,14 @@ class WechatService : AccessibilityService() {
         }
         isHasOpened = true
         isHasClicked = false
+    }
+
+    private fun saveData() {
+        val count = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_COUNT_ID, rootInActiveWindow)
+        count?.get(0)?.let {
+            val wechatRedEnvelope = WechatRedEnvelope()
+            wechatRedEnvelope.count = it.text.toString()
+            WechatRedEnvelopeDb.insertData(wechatRedEnvelope)
+        }
     }
 }
