@@ -26,8 +26,12 @@ allprojects {
         maven { url 'https://dl.bintray.com/umsdk/release' }
         maven { url "https://kotlin.bintray.com/kotlinx" }
         maven { url 'https://dl.bintray.com/xbdcc/maven' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
 }
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+
+

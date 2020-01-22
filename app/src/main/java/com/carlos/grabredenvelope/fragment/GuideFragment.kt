@@ -1,9 +1,10 @@
-package com.carlos.grabredenvelope.activity
+package com.carlos.grabredenvelope.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.carlos.grabredenvelope.R
+import com.carlos.grabredenvelope.activity.MainActivity
+import kotlinx.android.synthetic.main.fragment_about.*
 
 /**
  *                             _ooOoo_
@@ -41,21 +42,18 @@ import com.carlos.grabredenvelope.R
  * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/22.
  */
-class AboutActivity : BaseActivity() {
+class GuideFragment : BaseFragment(R.layout.fragment_about) {
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
-
-        setMenuTitle("使用说明")
-
-        back()
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        b_donate_me.setOnClickListener {
+            val mainActivity2 = activity as MainActivity
+            mainActivity2.checkItem(4)
+        }
     }
-
-    fun donate(view: View) {
-        startActivity(Intent(this@AboutActivity, RewardActivity::class.java))
-    }
+////
+////    fun donate(view: View) {
+////        startActivity(Intent(this@GuideFragment, RewardFragment::class.java))
+////    }
 
 }

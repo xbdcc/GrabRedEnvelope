@@ -1,9 +1,6 @@
-package com.carlos.grabredenvelope.activity
+package com.carlos.grabredenvelope.fragment
 
-import android.widget.ImageButton
-import android.widget.TextView
-import com.carlos.cutils.base.activity.CBaseWebViewActivity
-import com.carlos.grabredenvelope.R
+import com.carlos.cutils.base.fragment.CBaseWebFragment
 
 /**
  *                             _ooOoo_
@@ -41,19 +38,4 @@ import com.carlos.grabredenvelope.R
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/23.
  */
-open class WebViewActivity : CBaseWebViewActivity() {
-
-    private lateinit var mBack: ImageButton
-    private lateinit var tv_title: TextView
-
-    fun back() {
-        mBack = findViewById(R.id.ib_back)
-        mBack.setOnClickListener { finish() }
-    }
-
-    fun setMenuTitle(title: String) {
-        tv_title = findViewById(R.id.tv_title)
-        tv_title.text = title
-    }
-
-}
+open class AboutFragment : CBaseWebFragment("http://xbdcc.cn/GrabRedEnvelope/index.html")

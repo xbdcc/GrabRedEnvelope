@@ -24,6 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.carlos.grabredenvelope.activity.MainActivity"
+            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -59,13 +60,10 @@
         </service>
 
         <!--<activity android:name="com.carlos.grabredenvelope.old.HongBaoRecrodActivity"/>-->
-        <activity android:name="com.carlos.grabredenvelope.activity.WechatEnvelopeActivity"/>
+        <activity android:name="com.carlos.grabredenvelope.fragment.ControlFragment"/>
         <activity android:name="com.carlos.grabredenvelope.old2016.XiuYiXiu"/>
         <activity android:name="com.carlos.grabredenvelope.old2016.About"/>
         <activity android:name="com.carlos.grabredenvelope.receiver.MessageActivity"/>
-        <activity android:name=".activity.GithubIssuesActivity"/>
-        <activity android:name=".activity.RewardActivity"/>
-        <activity android:name=".activity.AboutActivity"/>
         <activity android:name=".activity.DingdingEnvelopeActivity"/>
 
         <!--<receiver-->

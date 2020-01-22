@@ -4,7 +4,8 @@
     android:layout_height="match_parent">
 
     <include
-        layout="@layout/include_title"/>
+        layout="@layout/include_title"
+        android:visibility="gone"/>
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -112,7 +113,7 @@
                     android:gravity="center"
                     android:layout_marginBottom="10dp"
                     android:textSize="@dimen/text_size_small"
-                    android:text="QQ防封号延迟抢红包设置"
+                    android:text="微信防拉仇恨延迟抢红包设置"
                     />
                 <TextView
                     android:id="@+id/tv_qq_putong"
@@ -155,18 +156,20 @@
                     android:id="@+id/cb_custom_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="开启自定义点击坐标点(x,y)："/>
+                    android:text="自定义拆红包按钮坐标："/>
                 <EditText
                     android:id="@+id/et_pointX"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
+                    android:maxLength="3"
                     android:hint="x"/>
                 <EditText
                     android:id="@+id/et_pointY"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
+                    android:maxLength="3"
                     android:hint="y"/>
             </LinearLayout>
 

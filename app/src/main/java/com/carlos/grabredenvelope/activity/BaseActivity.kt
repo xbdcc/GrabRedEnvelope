@@ -1,12 +1,13 @@
 package com.carlos.grabredenvelope.activity
 
-import android.content.pm.ActivityInfo
+import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.TextView
 import cn.jpush.android.api.JPushInterface
 import com.carlos.cutils.base.activity.CBaseAccessibilityActivity
 import com.carlos.grabredenvelope.R
+import com.carlos.grabredenvelope.util.ControlUse
 import com.umeng.analytics.MobclickAgent
 
 /**
@@ -52,7 +53,7 @@ open class BaseActivity : CBaseAccessibilityActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        controlUse()
     }
 
     override fun onResume() {
@@ -75,6 +76,20 @@ open class BaseActivity : CBaseAccessibilityActivity() {
     fun setMenuTitle(title: String) {
         tv_title = findViewById(R.id.tv_title)
         tv_title.text = title
+    }
+
+    fun controlUse() {
+        val controlUse = ControlUse(this)
+        if (controlUse.stopUse()) {
+            val dialog = AlertDialog.Builder(this).setTitle("提示")
+                .setMessage("本软件设定使用时限已到时间，谢谢使用，请点击确定退出。如想继续用可联系小不点，谢谢！").setCancelable(false)
+                .setPositiveButton("确定") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .create()
+            //		dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            dialog.show()
+        }
     }
 
 }

@@ -23,5 +23,7 @@
     <!--分割线高度-->
     <dimen name="line_height">0.1dp</dimen>
 
+    <!-- 控件高度-->
+    <dimen name="menu_main">60dp</dimen>
 
 </resources>

@@ -4,8 +4,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <include layout="@layout/include_title"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -16,19 +14,21 @@
             android:layout_marginBottom="5dp"
             android:layout_centerInParent="true"
             android:textColor="@color/blue_light"
-            android:text="如果有帮到你就支持下吧，你的打赏是对我最大的鼓励！"/>
+            android:text="感谢支持，您的打赏是对我开发最大的动力！"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        >
 
         <ImageView
             android:id="@+id/iv_alipay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/tv_alipay"
+            android:layout_centerHorizontal="true"
             android:src="@mipmap/alipay"/>
 
         <TextView
@@ -36,10 +36,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/b_alipay_reward"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text="长按图片保存二维码"/>
         <Button
-            android:onClick="alipay"
             android:id="@+id/b_alipay_reward"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
@@ -68,13 +67,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/tv_wechat"
-            android:src="@mipmap/wechat"/>
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/wechat_reward"/>
         <TextView
             android:id="@+id/tv_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/b_wechat_reward"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:text="长按图片保存二维码"/>
         <Button
             android:onClick="wechatPay"

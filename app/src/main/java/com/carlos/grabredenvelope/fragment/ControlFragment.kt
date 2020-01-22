@@ -1,21 +1,19 @@
-package com.carlos.grabredenvelope.activity
+package com.carlos.grabredenvelope.fragment
 
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.view.Window
-import android.widget.CheckBox
 import android.widget.SeekBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
+import com.carlos.grabredenvelope.activity.MainActivity
 import com.carlos.grabredenvelope.dao.WechatControlVO
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
-import kotlinx.android.synthetic.main.activity_wechat_envelope.*
+import kotlinx.android.synthetic.main.fragment_control.*
 
 /**
  *                             _ooOoo_
@@ -53,69 +51,41 @@ import kotlinx.android.synthetic.main.activity_wechat_envelope.*
  * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/5/27.
  */
-class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
-
-    private val WECHAT_SERVICE_NAME = "com.carlos.grabredenvelope/.services.WechatService"
-
-    private lateinit var mCbWechatControl: CheckBox
-    private lateinit var mCbWechatNotificationControl: CheckBox
-    private lateinit var mCbWechatChatControl: CheckBox
-    private lateinit var mTvWechatPutong: TextView
-    private lateinit var mSbWechatPutong: SeekBar
-    private lateinit var mTvWechatLingqu: TextView
-    private lateinit var mSbWechatLingqu: SeekBar
+class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekBarChangeListener {
 
     private var wechatControlVO = WechatControlVO()
     private var t_putong: Int = 0
     private var t_lingqu: Int = 0
+    var hasInit = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_wechat_envelope)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        back()
-
-        setMenuTitle("抢微信红包设置")
-
-        initView()
+        init(view)
 
         loadSaveData()
-
-        addListener()
-
-
     }
 
-    private fun initView() {
-        mCbWechatControl = findViewById(R.id.cb_qq_control)
-        mCbWechatNotificationControl = findViewById(R.id.cb_wechat_notification_control)
-        mCbWechatChatControl = findViewById(R.id.cb_wechat_chat_control)
-
-        mTvWechatPutong = findViewById(R.id.tv_qq_putong)
-        mSbWechatPutong = findViewById(R.id.sb_qq_putong)
-        mTvWechatLingqu = findViewById(R.id.tv_qq_lingqu)
-        mSbWechatLingqu = findViewById(R.id.sb_qq_lingqu)
-
-        mCbWechatControl.setOnCheckedChangeListener { buttonView, isChecked ->
-            mCbWechatControl.isChecked = !isChecked
+    private fun init(view: View) {
+        cb_qq_control.setOnCheckedChangeListener { buttonView, isChecked ->
+            cb_qq_control.isChecked = !isChecked
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-            Toast.makeText(this@WechatEnvelopeActivity, "辅助功能找到（抢微信红包）开启或关闭。", Toast.LENGTH_SHORT)
+            Toast.makeText(view.context, "辅助功能找到（抢微信红包）开启或关闭。", Toast.LENGTH_SHORT)
                 .show()
         }
 
-        mCbWechatNotificationControl.setOnCheckedChangeListener { buttonView, isChecked ->
+        cb_wechat_notification_control.setOnCheckedChangeListener { buttonView, isChecked ->
             wechatControlVO.isMonitorNotification = isChecked
             RedEnvelopePreferences.wechatControl = wechatControlVO
         }
-        mCbWechatChatControl.setOnCheckedChangeListener { buttonView, isChecked ->
+        cb_wechat_chat_control.setOnCheckedChangeListener { buttonView, isChecked ->
             wechatControlVO.isMonitorChat = isChecked
             LogUtils.d("ismotior:" + isChecked)
             RedEnvelopePreferences.wechatControl = wechatControlVO
         }
 
-        mSbWechatPutong.setOnSeekBarChangeListener(this)
-        mSbWechatLingqu.setOnSeekBarChangeListener(this)
+        sb_qq_putong.setOnSeekBarChangeListener(this)
+        sb_qq_lingqu.setOnSeekBarChangeListener(this)
 
         cb_custom_click.setOnCheckedChangeListener { buttonView, isChecked ->
             wechatControlVO.isCustomClick = isChecked
@@ -142,45 +112,42 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             ll_custom_click.visibility = View.VISIBLE
+        }else {
+            ll_custom_click.visibility = View.GONE
         }
+        hasInit = true
     }
 
 
     private fun loadSaveData() {
-        mCbWechatNotificationControl.isChecked =
+        cb_wechat_notification_control.isChecked =
             RedEnvelopePreferences.wechatControl.isMonitorNotification
-        mCbWechatChatControl.isChecked = RedEnvelopePreferences.wechatControl.isMonitorChat
+        cb_wechat_chat_control.isChecked = RedEnvelopePreferences.wechatControl.isMonitorChat
         LogUtils.d("wechatControl:" + RedEnvelopePreferences.wechatControl.toString())
 
         wechatControlVO = RedEnvelopePreferences.wechatControl
         t_putong = wechatControlVO.delayOpenTime
-        mTvWechatPutong.text = "领取红包延迟时间：" + t_putong + "s"
-        mSbWechatPutong.progress = t_putong
+        tv_qq_putong.text = "领取红包延迟时间：" + t_putong + "s"
+        sb_qq_putong.progress = t_putong
 
         t_lingqu = wechatControlVO.delayCloseTime
-        mSbWechatLingqu.progress = t_lingqu - 1
+        sb_qq_lingqu.progress = t_lingqu - 1
         if (t_lingqu == 11) {
-            mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"
+            tv_qq_lingqu.text = "红包领取页关闭时间：" + "不关闭"
         } else {
-            mTvWechatLingqu.text = "红包领取页关闭时间：" + t_lingqu + "s"
+            tv_qq_lingqu.text = "红包领取页关闭时间：" + t_lingqu + "s"
         }
         cb_custom_click.isChecked = RedEnvelopePreferences.wechatControl.isCustomClick
         et_pointX.setText(RedEnvelopePreferences.wechatControl.pointX.toString())
         et_pointY.setText(RedEnvelopePreferences.wechatControl.pointY.toString())
+
+        val mainActivity = activity as MainActivity
+        updateControlView(mainActivity.checkStatus())
     }
 
-    private fun addListener() {
-        addAccessibilityServiceListener(object : AccessibilityServiceListeners {
-            override fun updateStatus(boolean: Boolean) {
-                updateControlView(boolean)
-            }
-        }, WECHAT_SERVICE_NAME)
-        updateControlView(checkStatus())
-    }
-
-    private fun updateControlView(boolean: Boolean) {
-        if (boolean) mCbWechatControl.setButtonDrawable(R.mipmap.switch_on)
-        else mCbWechatControl.setButtonDrawable(R.mipmap.switch_off)
+    fun updateControlView(boolean: Boolean) {
+        if (boolean) cb_qq_control.setButtonDrawable(R.mipmap.switch_on)
+        else cb_qq_control.setButtonDrawable(R.mipmap.switch_off)
     }
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -188,7 +155,7 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             R.id.sb_qq_putong -> {
                 LogUtils.d("sb_qq_putong:$progress")
                 t_putong = progress
-                mTvWechatPutong.text = "领取红包延迟时间：" + t_putong + "s"
+                tv_qq_putong.text = "领取红包延迟时间：" + t_putong + "s"
                 wechatControlVO.delayOpenTime = t_putong
                 RedEnvelopePreferences.wechatControl = wechatControlVO
             }
@@ -196,9 +163,9 @@ class WechatEnvelopeActivity : BaseActivity(), SeekBar.OnSeekBarChangeListener {
             R.id.sb_qq_lingqu -> {
                 LogUtils.d("sb_qq_lingqu:$progress")
                 t_lingqu = progress + 1
-                mTvWechatLingqu.text = "红包领取页关闭延迟时间：" + t_lingqu + "s"
+                tv_qq_lingqu.text = "红包领取页关闭延迟时间：" + t_lingqu + "s"
                 if (t_lingqu == 11) {
-                    mTvWechatLingqu.text = "红包领取页关闭时间：" + "不关闭"
+                    tv_qq_lingqu.text = "红包领取页关闭时间：" + "不关闭"
                 }
                 wechatControlVO.delayCloseTime = t_lingqu
                 RedEnvelopePreferences.wechatControl = wechatControlVO

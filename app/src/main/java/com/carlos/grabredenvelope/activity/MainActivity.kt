@@ -1,23 +1,15 @@
 package com.carlos.grabredenvelope.activity
 
 import android.Manifest
-import android.app.AlertDialog
-import android.content.ContentValues.TAG
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import cn.jpush.android.api.JPushInterface
+import androidx.fragment.app.Fragment
+import com.carlos.cutils.base.adapter.CBaseMyPagerAdapter
 import com.carlos.cutils.listener.PermissionListener
-import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.old2016.About
-import com.carlos.grabredenvelope.old2016.ToastUtils
+import com.carlos.grabredenvelope.fragment.*
 import com.carlos.grabredenvelope.old2016.Update
-import com.carlos.grabredenvelope.old2016.Utility
-import com.carlos.grabredenvelope.util.ControlUse
+import kotlinx.android.synthetic.main.activity_main.*
+
 /**
  *                             _ooOoo_
  *                            o8888888o
@@ -56,87 +48,39 @@ import com.carlos.grabredenvelope.util.ControlUse
  */
 open class MainActivity : BaseActivity() {
 
-    private lateinit var listView: ListView
-    private lateinit var list: Array<String>
-    private lateinit var cIntent: Intent
-    private lateinit var adapter: ArrayAdapter<String>
+    private val WECHAT_SERVICE_NAME = "com.carlos.grabredenvelope/.services.WechatService"
+
+    var fragments = mutableListOf<Fragment>(ControlFragment(), GuideFragment(), AboutFragment(),
+        CodeFragment(), RewardFragment()
+    )
+    var titles = mutableListOf("控制", "教程", "说明", "源码", "打赏")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
+        setContentView(R.layout.activity_main)
 
-        val controlUse = ControlUse(this)
-        if (controlUse.stopUse()) {
-            show_dialog()
-        }
+        val adapter = CBaseMyPagerAdapter(supportFragmentManager, fragments, titles)
+        viewpager.adapter = adapter
+        sliding_tabs.setupWithViewPager(viewpager)
 
+        getPermissions()
+        checkVersion()
+        addListener()
+    }
+
+    private fun checkVersion() {
         val update = Update(this, 1)
         update.update()
-//        val check_update = "https://api.github.com/repos/xbdcc/GrabRedEnvelope/releases/latest"
-//        val check_update = "https://xbdcc.cn/GrabRedEnvelope/update.xml"
-//        UpdateDefaultImpl().updateDefault(this,check_update)
+    }
 
-        Log.d(TAG, "oncreate")
-
-        listView = findViewById(R.id.listview)
-        list = resources.getStringArray(R.array.list)
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
-        listView.adapter = adapter
-        Utility.setListViewHeightBasedOnChildren(listView)
-
-        listView.onItemClickListener =
-            AdapterView.OnItemClickListener { parent, view, position, id ->
-                cIntent = Intent()
-                when (position) {
-                    0 -> {
-                        startActivity(
-                            cIntent.setClass(
-                                this@MainActivity,
-                                WechatEnvelopeActivity::class.java
-                            )
-                        )
-                        LogUtils.d(JPushInterface.getRegistrationID(this))
-                    }
-                    1 -> {
-                        startActivity(
-                            cIntent.setClass(
-                                this@MainActivity,
-                                AboutActivity::class.java
-                            )
-                        )
-                    }
-                    2 -> {
-                        startActivity(
-                            cIntent.setClass(
-                                this@MainActivity, GithubIssuesActivity::class.java
-                            )
-                        )
-
-                    }
-                    3 -> {
-                        val update = Update(this, 2)
-                        update.update()
-
-//                        UpdateDefaultImpl().updateDefault(this)
-//                        UpdateDefaultImpl().updateGithub(this)
-                    }
-
-                    4 -> {
-                        startActivity(
-                            cIntent.setClass(
-                                this@MainActivity, RewardActivity::class.java
-                            )
-                        )
-                    }
-                    5 -> ToastUtils.showToast(this@MainActivity, "待开发")
-                    6 -> {
-                        ToastUtils.showToast(applicationContext, "关于")
-                        cIntent.setClass(this@MainActivity, About::class.java)
-                        startActivity(cIntent)
-                    }
-                }
+    private fun addListener() {
+        addAccessibilityServiceListener(object :
+            AccessibilityServiceListeners {
+            override fun updateStatus(boolean: Boolean) {
+                val controlFragment = fragments[0] as ControlFragment
+                controlFragment.updateControlView(boolean)
             }
-        getPermissions()
+        }, WECHAT_SERVICE_NAME)
     }
 
     private fun getPermissions() {
@@ -146,24 +90,8 @@ open class MainActivity : BaseActivity() {
         }, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        //监听AccessibilityService 变化
-        adapter.notifyDataSetChanged()
+    fun checkItem(item: Int) {
+        viewpager.currentItem = item
     }
-
-    private fun show_dialog() {
-        val dialog = AlertDialog.Builder(this).setTitle("提示")
-            .setMessage("本软件设定使用时限已到时间，谢谢使用，请点击确定退出。如想继续用可联系小不点，谢谢！").setCancelable(false)
-            .setPositiveButton("确定") { dialog, which ->
-                // TODO 自动生成的方法存根
-                finish()
-            }
-            .create()
-        //		dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        dialog.show()
-    }
-
 
 }

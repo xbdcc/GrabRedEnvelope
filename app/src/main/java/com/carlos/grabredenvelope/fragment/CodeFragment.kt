@@ -1,8 +1,6 @@
-package com.carlos.grabredenvelope.activity
+package com.carlos.grabredenvelope.fragment
 
-import android.os.Bundle
-import android.webkit.WebView
-import com.carlos.grabredenvelope.R
+import com.carlos.cutils.base.fragment.CBaseWebFragment
 
 /**
  *                             _ooOoo_
@@ -40,21 +38,4 @@ import com.carlos.grabredenvelope.R
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/23.
  */
-class GithubIssuesActivity : WebViewActivity() {
-
-    private val address = "https://github.com/xbdcc/GrabRedEnvelope/issues"
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_github_issues)
-
-        setMenuTitle("Github意见反馈")
-
-        back()
-
-        val webView = findViewById<WebView>(R.id.webview)
-        initSettings(webView)
-        initWebView(webView)
-        webView.loadUrl(address)
-    }
-}
+class CodeFragment : CBaseWebFragment("https://github.com/xbdcc/GrabRedEnvelope")

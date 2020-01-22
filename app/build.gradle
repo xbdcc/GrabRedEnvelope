@@ -76,6 +76,18 @@ android {
 
 }
 
+
+configurations.all {
+
+    /**
+     * 用于控制SNAPSHOT版本下载刷新频率，默认每隔24小时，gradle会检查一次依赖
+     * Release版本如果本地已下载则不会主动从镜像下载
+     */
+    // release check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+
+}
+
 //修改APK名字
 android.applicationVariants.all { variant ->
     variant.outputs.all {
@@ -100,7 +112,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.9.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
 
-    implementation 'com.carlos.cutils:cutils:0.0.25'
+//    implementation 'com.carlos.cutils:cutils:0.0.26'
+    implementation 'com.github.xbdcc:cutils:0.0.26-SNAPSHOT'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.3.2'
@@ -112,6 +125,7 @@ dependencies {
 
     implementation 'io.sentry:sentry-android:1.7.27'
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
+    implementation 'com.google.android.material:material:1.0.0'
 
 
 }

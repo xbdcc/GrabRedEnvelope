@@ -1,16 +1,16 @@
-package com.carlos.grabredenvelope.activity
+package com.carlos.grabredenvelope.fragment
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.Toast
 import com.carlos.cutils.thirdparty.AlipayReward
 import com.carlos.cutils.thirdparty.WechatReward
+import com.carlos.cutils.util.ToastUtil
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.util.BitmapUtils
+import kotlinx.android.synthetic.main.fragment_reward.*
 import java.io.File
 
 /**
@@ -49,7 +49,37 @@ import java.io.File
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/23.
  */
-class RewardActivity : BaseActivity() {
+class RewardFragment : BaseFragment(R.layout.fragment_reward) {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        b_alipay_reward.setOnClickListener {
+            AlipayReward(view.context)
+        }
+        b_wechat_reward.setOnClickListener {
+            WechatReward(view.context)
+        }
+        iv_alipay.setOnLongClickListener {
+            val filedir = filedir
+            val output = File(filedir, "xbd_alipay.jpg")
+            if (!output.exists()) {
+                val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.alipay)
+                BitmapUtils.saveBitmap(view.context, output, bitmap)
+            }
+            ToastUtil.Builder(view.context).setLongToast().setText("已保存到:" + output.absolutePath).build()
+            true
+        }
+        iv_wechat.setOnLongClickListener {
+            val filedir = filedir
+            val output = File(filedir, "xbd_wechat.jpg")
+            if (!output.exists()) {
+                val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.wechat)
+                BitmapUtils.saveBitmap(view.context, output, bitmap)
+            }
+            ToastUtil.Builder(view.context).setLongToast().setText("已保存到:" + output.absolutePath).build()
+            true
+        }
+    }
 
     /**
      * 得到安装路径
@@ -67,48 +97,4 @@ class RewardActivity : BaseActivity() {
             return filedir
         }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_reward)
-
-        setMenuTitle("捐赠打赏")
-
-        back()
-
-
-        val ivAlipay = findViewById<ImageView>(R.id.iv_alipay)
-        val ivWechat = findViewById<ImageView>(R.id.iv_wechat)
-
-        ivAlipay.setOnLongClickListener {
-            val filedir = filedir
-            val output = File(filedir, "xbd_alipay.jpg")
-            if (!output.exists()) {
-                val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.alipay)
-                BitmapUtils.saveBitmap(this@RewardActivity, output, bitmap)
-            }
-            Toast.makeText(this@RewardActivity, "已保存到:" + output.absolutePath, Toast.LENGTH_LONG)
-                .show()
-            true
-        }
-
-        ivWechat.setOnLongClickListener {
-            val filedir = filedir
-            val output = File(filedir, "xbd_wechat.jpg")
-            if (!output.exists()) {
-                val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.wechat)
-                BitmapUtils.saveBitmap(this@RewardActivity, output, bitmap)
-            }
-            Toast.makeText(this@RewardActivity, "已保存到:" + output.absolutePath, Toast.LENGTH_LONG)
-                .show()
-            true
-        }
-    }
-
-    fun alipay(view: View) {
-        AlipayReward(this)
-    }
-
-    fun wechatPay(view: View) {
-        WechatReward(this)
-    }
 }

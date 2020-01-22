@@ -78,7 +78,7 @@ object WechatConstants {
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/cyw" //红包金额id
 
             }
-            "7.0.8","7.0.9" -> {
+            "7.0.8","7.0.9","7.0.10" -> {
                 RED_ENVELOPE_ID = "com.tencent.mm:id/atb" //聊天页面红包点击框控件id
                 RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/aul" //聊天页面检测红包已被领控件id
                 RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aum" //聊天页面区分红包id
