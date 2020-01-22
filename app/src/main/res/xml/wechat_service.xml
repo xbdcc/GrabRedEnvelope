@@ -5,7 +5,7 @@
     android:accessibilityEventTypes="typeAllMask"
     android:accessibilityFeedbackType="feedbackAllMask"
     android:notificationTimeout="100"
-    android:settingsActivity="com.carlos.grabredenvelope.activity.WechatEnvelopeActivity"
+    android:settingsActivity="com.carlos.grabredenvelope.activity.MainActivity"
     android:canRequestEnhancedWebAccessibility = "true"
     android:accessibilityFlags="flagDefault"
     android:canPerformGestures = "true"
