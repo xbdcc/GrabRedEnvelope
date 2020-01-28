@@ -50,6 +50,8 @@ class RecordFragment : BaseFragment(R.layout.fragment_record) {
 
     var list = ArrayList<String>()
     lateinit var arrayAdapter: ArrayAdapter<String>
+    var startTime = DateUtils.formatDate(System.currentTimeMillis())
+    var total = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,17 +67,23 @@ class RecordFragment : BaseFragment(R.layout.fragment_record) {
     private fun getData() {
         Thread {
             list.clear()
+            total = 0.0
             val wechatRedEnvelopes = WechatRedEnvelopeDb.allData
             for (wechatRedEnvelope in wechatRedEnvelopes) {
+                total += wechatRedEnvelope.count.toDouble()
                 list.add("${DateUtils.formatDate(wechatRedEnvelope.time)} 助你抢到了 ${wechatRedEnvelope.count}元")
             }
-            handler.sendEmptyMessage(0)
+            if (wechatRedEnvelopes.isNotEmpty()) {
+                startTime = DateUtils.formatDate(wechatRedEnvelopes[0].time)
+                handler.sendEmptyMessage(0)
+            }
         }.run()
     }
 
     val handler = object: Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
+            tv_record_title.text = "从${startTime}至今已助你抢到${total}元"
             arrayAdapter.notifyDataSetChanged()
         }
     }
