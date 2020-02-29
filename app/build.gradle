@@ -121,7 +121,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
 
     implementation 'com.carlos.cutils:cutils:0.0.26'
-//    implementation 'com.github.xbdcc:cutils:0.0.26-SNAPSHOT'
+//    implementation 'com.github.xbdcc:cutils:0.0.28.1-SNAPSHOT'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.3.2'

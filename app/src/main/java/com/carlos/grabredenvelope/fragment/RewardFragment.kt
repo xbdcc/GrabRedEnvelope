@@ -73,7 +73,7 @@ class RewardFragment : BaseFragment(R.layout.fragment_reward) {
             val filedir = filedir
             val output = File(filedir, "xbd_wechat.jpg")
             if (!output.exists()) {
-                val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.wechat)
+                val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.wechat_reward)
                 BitmapUtils.saveBitmap(view.context, output, bitmap)
             }
             ToastUtil.Builder(view.context).setLongToast().setText("已保存到:" + output.absolutePath).build()
