@@ -9,7 +9,7 @@ import com.carlos.cutils.extend.doubleCount
 import com.carlos.cutils.extend.getYearToMinute
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.db.WechatRedEnvelopeDb
+import com.carlos.grabredenvelope.db.DingDingRedEnvelopeDb
 import kotlinx.android.synthetic.main.fragment_record.*
 
 /**
@@ -46,9 +46,9 @@ import kotlinx.android.synthetic.main.fragment_record.*
 
 /**
  * Github: https://github.com/xbdcc/.
- * Created by Carlos on 2020-01-22.
+ * Created by Carlos on 2020/3/2.
  */
-class RecordFragment : BaseFragment(R.layout.fragment_record) {
+class RecordDingDIngFragment : BaseFragment(R.layout.fragment_record_dingding) {
 
     var list = ArrayList<String>()
     lateinit var arrayAdapter: ArrayAdapter<String>
@@ -70,14 +70,14 @@ class RecordFragment : BaseFragment(R.layout.fragment_record) {
         Thread {
             list.clear()
             total = 0.0
-            val wechatRedEnvelopes = WechatRedEnvelopeDb.allData
-            for (wechatRedEnvelope in wechatRedEnvelopes.asReversed()) {
-                total = total.doubleCount(wechatRedEnvelope.count.toDouble())
-                list.add("${getYearToMinute(wechatRedEnvelope.time)} 助你抢到了 ${wechatRedEnvelope.count}元")
+            val dingDingRedEnvelopes = DingDingRedEnvelopeDb.allData
+            for (dingDingRedEnvelope in dingDingRedEnvelopes.asReversed()) {
+                total = total.doubleCount(dingDingRedEnvelope.count.toDouble())
+                list.add("${getYearToMinute(dingDingRedEnvelope.time)} 助你抢到了 ${dingDingRedEnvelope.count}元")
                 LogUtils.d("total:" + total)
             }
-            if (wechatRedEnvelopes.isNotEmpty()) {
-                startTime = getYearToMinute(wechatRedEnvelopes[0].time)
+            if (dingDingRedEnvelopes.isNotEmpty()) {
+                startTime = getYearToMinute(dingDingRedEnvelopes[0].time)
                 handler.sendEmptyMessage(0)
             }
         }.run()
