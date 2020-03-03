@@ -1,7 +1,5 @@
 package com.carlos.grabredenvelope.db
 
-import com.carlos.grabredenvelope.data.GreenDaoManager
-
 /**
  *                             _ooOoo_
  *                            o8888888o

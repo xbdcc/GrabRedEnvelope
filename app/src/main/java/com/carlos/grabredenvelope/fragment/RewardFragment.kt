@@ -53,9 +53,8 @@ class RewardFragment : BaseFragment(R.layout.fragment_reward) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        b_alipay_reward.setOnClickListener {
-            AlipayReward(view.context)
-        }
+        b_alipay_reward.setOnClickListener { AlipayReward(view.context) }
+        b_alipay_reward.setOnClickListener { AlipayReward(view.context) }
         b_wechat_reward.setOnClickListener {
             WechatReward(view.context)
         }
@@ -66,7 +65,8 @@ class RewardFragment : BaseFragment(R.layout.fragment_reward) {
                 val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.alipay)
                 BitmapUtils.saveBitmap(view.context, output, bitmap)
             }
-            ToastUtil.Builder(view.context).setLongToast().setText("已保存到:" + output.absolutePath).build()
+            ToastUtil.Builder(view.context).setLongToast().setText("已保存到:" + output.absolutePath)
+                .build()
             true
         }
         iv_wechat.setOnLongClickListener {
@@ -76,7 +76,8 @@ class RewardFragment : BaseFragment(R.layout.fragment_reward) {
                 val bitmap = BitmapFactory.decodeResource(resources, R.mipmap.wechat_reward)
                 BitmapUtils.saveBitmap(view.context, output, bitmap)
             }
-            ToastUtil.Builder(view.context).setLongToast().setText("已保存到:" + output.absolutePath).build()
+            ToastUtil.Builder(view.context).setLongToast().setText("已保存到:" + output.absolutePath)
+                .build()
             true
         }
     }

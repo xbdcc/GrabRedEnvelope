@@ -102,16 +102,16 @@ class WechatService : AccessibilityService() {
         val notificationIntent = Intent(this, MainActivity::class.java)
 
         builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, 0))
-            .setLargeIcon(
-                BitmapFactory.decodeResource(
-                    this.resources,
-                    R.mipmap.ic_launcher
-                )
-            ) // set the large icon in the drop down list.
-            .setContentTitle("RedEnvelope") // set the caption in the drop down list.
-            .setSmallIcon(R.mipmap.ic_launcher) // set the small icon in state.
-            .setContentText("RedEnvelope") // set context content.
-            .setWhen(System.currentTimeMillis()) // set the time for the notification to occur.
+                .setLargeIcon(
+                        BitmapFactory.decodeResource(
+                                this.resources,
+                                R.mipmap.ic_launcher
+                        )
+                ) // set the large icon in the drop down list.
+                .setContentTitle("RedEnvelope") // set the caption in the drop down list.
+                .setSmallIcon(R.mipmap.ic_launcher) // set the small icon in state.
+                .setContentText("RedEnvelope") // set context content.
+                .setWhen(System.currentTimeMillis()) // set the time for the notification to occur.
 
         val notification = builder.build()
         notification.defaults = Notification.DEFAULT_SOUND// set default sound.
@@ -196,9 +196,9 @@ class WechatService : AccessibilityService() {
     private fun monitorChat() {
         LogUtils.d("monitorChat")
         if (!RedEnvelopePreferences.wechatControl.isMonitorChat) return
-        val lists = AccessibilityServiceUtils.getElementsById(
-            RED_ENVELOPE_RECT_TITLE_ID,
-            rootInActiveWindow
+        val lists = AccessibilityServiceUtils.getNodeInfosByViewId(
+                RED_ENVELOPE_RECT_TITLE_ID,
+                rootInActiveWindow
         ) ?: return
         for (envelope in lists) {
             val redEnvelope = envelope.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_TITLE_ID)
@@ -220,13 +220,14 @@ class WechatService : AccessibilityService() {
         LogUtils.d("grabRedEnvelope")
 
         val envelopes =
-            AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_ID, rootInActiveWindow) ?: return
+                AccessibilityServiceUtils.getNodeInfosByViewId(RED_ENVELOPE_ID, rootInActiveWindow)
+                        ?: return
 
         /* 发现红包点击进入领取红包页面 */
         for (envelope in envelopes.reversed()) {
-            if (AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_BEEN_GRAB_ID, envelope))
+            if (AccessibilityServiceUtils.isExistNodeInfosByViewId(RED_ENVELOPE_BEEN_GRAB_ID, envelope))
                 continue
-            if (!AccessibilityServiceUtils.isExistElementById(RED_ENVELOPE_FLAG_ID, envelope))
+            if (!AccessibilityServiceUtils.isExistNodeInfosByViewId(RED_ENVELOPE_FLAG_ID, envelope))
                 continue
             LogUtils.d("发现红包：$envelope")
             envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
@@ -244,8 +245,8 @@ class WechatService : AccessibilityService() {
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
 
         var envelopes =
-            AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
-                ?: return
+                AccessibilityServiceUtils.getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID, rootInActiveWindow)
+                        ?: return
         if (envelopes.isEmpty()) {
             envelopes = rootInActiveWindow.findAccessibilityNodeInfosByViewId(RED_ENVELOPE_CLOSE_ID)
             /* 进入红包页面点击退出按钮 */
@@ -300,7 +301,7 @@ class WechatService : AccessibilityService() {
             val path = Path()
             if (RedEnvelopePreferences.wechatControl.isCustomClick) {
                 path.moveTo(RedEnvelopePreferences.wechatControl.pointX.toFloat(), RedEnvelopePreferences.wechatControl.pointY.toFloat())
-            }else when (dpi) {
+            } else when (dpi) {
                 640 -> //1440
                     path.moveTo(720f, 1575f)
                 320 -> //720p
@@ -319,7 +320,7 @@ class WechatService : AccessibilityService() {
             }
             val build = GestureDescription.Builder()
             val gestureDescription =
-                build.addStroke(GestureDescription.StrokeDescription(path, 500, 100)).build()
+                    build.addStroke(GestureDescription.StrokeDescription(path, 500, 100)).build()
 
             dispatchGesture(gestureDescription, object : GestureResultCallback() {
 
@@ -340,7 +341,7 @@ class WechatService : AccessibilityService() {
     }
 
     private fun saveData() {
-        val count = AccessibilityServiceUtils.getElementsById(RED_ENVELOPE_COUNT_ID, rootInActiveWindow)
+        val count = AccessibilityServiceUtils.getNodeInfosByViewId(RED_ENVELOPE_COUNT_ID, rootInActiveWindow)
         count?.get(0)?.let {
             val wechatRedEnvelope = WechatRedEnvelope()
             wechatRedEnvelope.count = it.text.toString()

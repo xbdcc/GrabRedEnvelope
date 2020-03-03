@@ -189,13 +189,13 @@ class DingdingService : AccessibilityService() {
         LogUtils.d("grabRedEnvelope")
 
         val envelopes =
-            AccessibilityServiceUtils.getElementsById(DINGDING_CHAT_ITEM_ID, rootInActiveWindow)
+            AccessibilityServiceUtils.getNodeInfosByViewId(DINGDING_CHAT_ITEM_ID, rootInActiveWindow)
                 ?: return
 
         /* 发现红包点击进入领取红包页面 */
         for (envelope in envelopes.reversed()) {
             //已领取
-            if (AccessibilityServiceUtils.isExistElementById(
+            if (AccessibilityServiceUtils.isExistNodeInfosByViewId(
                     DINGDING_REDENVELOPE_COVER,
                     envelope
                 )
@@ -203,7 +203,7 @@ class DingdingService : AccessibilityService() {
                 continue
             }
             //不是红包
-            if (!AccessibilityServiceUtils.isExistElementById(
+            if (!AccessibilityServiceUtils.isExistNodeInfosByViewId(
                     DINGDING_RED_ENVELOPE_TYPE_ID,
                     envelope
                 )
@@ -226,7 +226,7 @@ class DingdingService : AccessibilityService() {
         if (event.className != DINGDING_RED_ENVELOPE_ACTIVITY) return
         if (!isHasClicked) return
         val elememnts =
-            AccessibilityServiceUtils.getElementsById(DINGDING_PICK_BOTTOM, rootInActiveWindow)
+            AccessibilityServiceUtils.getNodeInfosByViewId(DINGDING_PICK_BOTTOM, rootInActiveWindow)
         if (elememnts.isNullOrEmpty()) return
         val rect = Rect()
         elememnts.reversed().first().getBoundsInScreen(rect)
@@ -267,7 +267,7 @@ class DingdingService : AccessibilityService() {
 
 
     private fun saveData() {
-        val count = AccessibilityServiceUtils.getElementsById(DINGDING_REDENVELOPE_MONEY, rootInActiveWindow)
+        val count = AccessibilityServiceUtils.getNodeInfosByViewId(DINGDING_REDENVELOPE_MONEY, rootInActiveWindow)
         count?.get(0)?.let {
             val dingDingRedEnvelope = DingDingRedEnvelope()
             dingDingRedEnvelope.count = it.text.toString()

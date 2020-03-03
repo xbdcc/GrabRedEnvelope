@@ -1,8 +1,11 @@
-package com.carlos.grabredenvelope.db;
+package com.carlos.grabredenvelope.db
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteDatabase.CursorFactory
+import com.carlos.cutils.thirdparty.database.MigrationHelper
+import com.carlos.grabredenvelope.db.DaoMaster.OpenHelper
+import org.greenrobot.greendao.AbstractDao
 
 /**
  *                             _ooOoo_
@@ -37,40 +40,29 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 
 /**
- * Github: https://github.com/xbdcc/.
- * Created by Carlos on 2020/3/2.
+ * Created by Carlos on 2020/3/3.
  */
-@Entity
-public class DingDingRedEnvelope {
-    @Id(autoincrement = true)
-    private Long id;
-    private long time = System.currentTimeMillis();
-    private String count = "";
-    @Generated(hash = 404457864)
-    public DingDingRedEnvelope(Long id, long time, String count) {
-        this.id = id;
-        this.time = time;
-        this.count = count;
+//link:https://stackoverflow.com/questions/13373170/greendao-schema-update-and-data-migration/30334668#30334668
+class UpgradeHelper(
+    context: Context?,
+    name: String?,
+    factory: CursorFactory?,
+    vararg daoClasses: Class<out AbstractDao<*, *>?>
+//     daoClasses: Class<out AbstractDao<*, *>?>
+) : OpenHelper(context, name, factory) {
+    private val mClasses: Array<Class<out AbstractDao<*, *>?>>
+    init {
+        mClasses = daoClasses as Array<Class<out AbstractDao<*, *>?>>
     }
-    @Generated(hash = 1551771541)
-    public DingDingRedEnvelope() {
-    }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public long getTime() {
-        return this.time;
-    }
-    public void setTime(long time) {
-        this.time = time;
-    }
-    public String getCount() {
-        return this.count;
-    }
-    public void setCount(String count) {
-        this.count = count;
+
+    override fun onUpgrade(
+        sqLiteDatabase: SQLiteDatabase,
+        oldVersion: Int,
+        newVersion: Int
+    ) {
+        MigrationHelper.migrate(
+            sqLiteDatabase,
+            *mClasses
+        )
     }
 }

@@ -108,7 +108,7 @@ sentry {
 }
 
 greendao {
-    schemaVersion 1//数据库版本号
+    schemaVersion 2//数据库版本号
     daoPackage 'com.carlos.grabredenvelope.db'//设置DaoMaster、DaoSession、Dao包名
     targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
     //targetGenDirTest：设置生成单元测试目录
@@ -123,7 +123,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
 //    implementation 'com.carlos.cutils:cutils:0.0.26'
-    implementation 'com.github.xbdcc:cutils:0.0.28.1-SNAPSHOT'
+    implementation 'com.github.xbdcc:cutils:0.0.28.3-SNAPSHOT'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.3.2'
@@ -137,7 +137,7 @@ dependencies {
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
     implementation 'com.google.android.material:material:1.0.0'
 
-    implementation 'org.greenrobot:greendao:3.2.2' // add library
+//    implementation 'org.greenrobot:greendao:3.2.2' // add library
 
 }
 repositories {
