@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">抢红包</string>
     <string name="app_name_dev">抢红包DEV</string>
+    <string name="app_content">小不点</string>
 
     <string name="grab_wechat_envelope">抢微信红包</string>
     <string name="grab_dingding_envelope">抢钉钉红包</string>

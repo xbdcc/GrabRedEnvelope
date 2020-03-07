@@ -1,4 +1,4 @@
-package com.carlos.cposed
+package com.carlos.grabredenvelope.util
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -12,7 +12,6 @@ import com.carlos.cutils.util.LogUtils
 import com.carlos.cutils.util.NetUtils
 import com.carlos.grabredenvelope.BuildConfig
 import com.carlos.grabredenvelope.MyApplication
-import com.carlos.grabredenvelope.util.UpdateInfoParser
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException

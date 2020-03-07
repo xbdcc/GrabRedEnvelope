@@ -1,28 +1,13 @@
 package com.carlos.grabredenvelope.services
 
-import android.accessibilityservice.AccessibilityService
-import android.accessibilityservice.AccessibilityServiceInfo
-import android.accessibilityservice.GestureDescription
-import android.app.Notification
-import android.app.PendingIntent
-import android.app.Service
-import android.content.Intent
-import android.graphics.BitmapFactory
-import android.graphics.Path
-import android.graphics.Rect
-import android.os.Build
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
-import androidx.annotation.RequiresApi
-import com.carlos.cutils.util.AccessibilityServiceUtils
+import com.carlos.cutils.extend.back
+import com.carlos.cutils.extend.findAndClickFirstNodeInfoByViewId
+import com.carlos.cutils.extend.gestureViewCenter
+import com.carlos.cutils.extend.getNodeInfosByViewId
 import com.carlos.cutils.util.LogUtils
-import com.carlos.grabredenvelope.MyApplication
-import com.carlos.grabredenvelope.R
-import com.carlos.grabredenvelope.activity.MainActivity
-import com.carlos.grabredenvelope.db.DingDingRedEnvelopeDb
 import com.carlos.grabredenvelope.db.DingDingRedEnvelope
-import com.carlos.grabredenvelope.util.ControlUse
-import io.sentry.Sentry
+import com.carlos.grabredenvelope.db.DingDingRedEnvelopeDb
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -61,125 +46,40 @@ import kotlinx.coroutines.launch
 /**
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/14.
+ * Dingding Version 5.0.5.
  */
-class DingdingService : AccessibilityService() {
+class DingdingService : BaseAccessibilityService() {
 
-    private lateinit var controlUse: ControlUse
-    var isStopUse: Boolean = false
+    override var monitorPackageName = DINGDING_PACKAGE
 
-    private val DINGDING_PACKAGE = "com.alibaba.android.rimet"
+    companion object {
+        private const val DINGDING_PACKAGE = "com.alibaba.android.rimet"
 
-    private val DINGDING_RED_ENVELOPE_ACTIVITY =
-        "com.alibaba.android.dingtalk.redpackets.activities.FestivalRedPacketsPickActivity" //钉钉红包弹框
+        private const val DINGDING_RED_ENVELOPE_ACTIVITY =
+            "com.alibaba.android.dingtalk.redpackets.activities.FestivalRedPacketsPickActivity" //钉钉红包弹框
 
-    private val DINGDING_CHAT_ITEM_ID =
-        "com.alibaba.android.rimet:id/chatting_content_view_stub" //钉钉聊天页面可点击列表
-    private val DINGDING_RED_ENVELOPE_TYPE_ID =
-        "com.alibaba.android.rimet:id/tv_redpackets_type" //钉钉聊天页面红包类型
-    private val DINGDING_REDENVELOPE_COVER =
-        "com.alibaba.android.rimet:id/iv_cover" //钉钉聊天页面红包已领取
+        private const val DINGDING_CHAT_ITEM_ID =
+            "com.alibaba.android.rimet:id/chatting_content_view_stub" //钉钉聊天页面可点击列表
+        private const val DINGDING_RED_ENVELOPE_TYPE_ID =
+            "com.alibaba.android.rimet:id/tv_redpackets_type" //钉钉聊天页面红包类型
+        private const val DINGDING_REDENVELOPE_COVER =
+            "com.alibaba.android.rimet:id/iv_cover" //钉钉聊天页面红包已领取
 
-    private val DINGDING_PICK_BOTTOM = "com.alibaba.android.rimet:id/iv_pick_bottom" //钉钉拆红包底部弹框
-    private val DINGDING_REDENVELOPE_DETAIL_ACTIVITY =
-        "com.alibaba.android.dingtalk.redpackets.activities.RedPacketsDetailActivity" //钉钉拆红包底部弹框
-    private val DINGDING_REDENVELOPE_MONEY =
-        "com.alibaba.android.rimet:id/redpackets_money" //钉钉红包金额
-
-    private var isHasClicked: Boolean = false//true点击红包弹出红包框
-    private var isHasOpened: Boolean = false//true点击了拆开红包按钮
-
-    override fun onCreate() {
-        super.onCreate()
-        LogUtils.d("service oncreate.")
-        controlUse = ControlUse(applicationContext)
+        private const val DINGDING_PICK_BOTTOM =
+            "com.alibaba.android.rimet:id/iv_pick_bottom" //钉钉拆红包底部弹框
+        private const val DINGDING_REDENVELOPE_DETAIL_ACTIVITY =
+            "com.alibaba.android.dingtalk.redpackets.activities.RedPacketsDetailActivity" //钉钉拆红包底部弹框
+        private const val DINGDING_REDENVELOPE_MONEY =
+            "com.alibaba.android.rimet:id/redpackets_money" //钉钉红包金额
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        var flags = flags
-        LogUtils.d("service onstartcommand.")
-        val builder = Notification.Builder(MyApplication.instance.applicationContext)
-        val notificationIntent = Intent(this, MainActivity::class.java)
-
-        builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, 0))
-            .setLargeIcon(
-                BitmapFactory.decodeResource(
-                    this.resources,
-                    R.mipmap.ic_launcher
-                )
-            ) // set the large icon in the drop down list.
-            .setContentTitle("RedEnvelope") // set the caption in the drop down list.
-            .setSmallIcon(R.mipmap.ic_launcher) // set the small icon in state.
-            .setContentText("RedEnvelope") // set context content.
-            .setWhen(System.currentTimeMillis()) // set the time for the notification to occur.
-
-        val notification = builder.build()
-        notification.defaults = Notification.DEFAULT_SOUND// set default sound.
-
-        startForeground(110, notification)
-        flags = Service.START_FLAG_REDELIVERY
-        return super.onStartCommand(intent, flags, startId)
+    override fun monitorContentChanged(event: AccessibilityEvent) {
+        grabRedEnvelope()
     }
 
-    override fun onServiceConnected() {
-        super.onServiceConnected()
-        val accessibilityServiceInfo = AccessibilityServiceInfo()
-        accessibilityServiceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK
-        accessibilityServiceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC
-        accessibilityServiceInfo.packageNames = arrayOf(DINGDING_PACKAGE)
-        accessibilityServiceInfo.notificationTimeout = 100
-        accessibilityServiceInfo.flags =
-            serviceInfo.flags or AccessibilityServiceInfo.FLAG_REQUEST_ENHANCED_WEB_ACCESSIBILITY
-        serviceInfo = accessibilityServiceInfo
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        LogUtils.d("service ondestroy.")
-    }
-
-    override fun onInterrupt() {
-        LogUtils.e("出错")
-    }
-
-    override fun onAccessibilityEvent(event: AccessibilityEvent) {
-
-        try {
-
-            if (controlUse.stopUse()) return
-
-            if (DINGDING_PACKAGE != event.packageName) return
-            if (event.className.toString().startsWith(DINGDING_PACKAGE)) {
-//                currentClassName = event.className.toString()
-            }
-
-            if (rootInActiveWindow == null)
-                return
-
-//            LogUtils.d("data:" + RedEnvelopePreferences.wechatControl)
-//            LogUtils.d("" + event.className + "-" + event.eventType)
-
-            when (event.eventType) {
-                AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED -> {
-                    LogUtils.d("通知改变" + event.text)
-                }
-                AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
-                    LogUtils.d("界面改变" + event.className)
-                    openRedEnvelope(event)
-                    quitEnvelope(event)
-                }
-                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
-                    LogUtils.d("内容改变")
-                    grabRedEnvelope()
-//                    monitorChat()
-                }
-            }
-        } catch (e: Exception) {
-            LogUtils.e("error:", e)
-            Sentry.capture(e)
-        } finally {
-
-        }
-
+    override fun monitorWindowChanged(event: AccessibilityEvent) {
+        openRedEnvelope(event)
+        quitEnvelope(event)
     }
 
     /**
@@ -188,67 +88,32 @@ class DingdingService : AccessibilityService() {
     private fun grabRedEnvelope() {
         LogUtils.d("grabRedEnvelope")
 
-        val envelopes =
-            AccessibilityServiceUtils.getNodeInfosByViewId(DINGDING_CHAT_ITEM_ID, rootInActiveWindow)
-                ?: return
-
-        /* 发现红包点击进入领取红包页面 */
-        for (envelope in envelopes.reversed()) {
-            //已领取
-            if (AccessibilityServiceUtils.isExistNodeInfosByViewId(
-                    DINGDING_REDENVELOPE_COVER,
-                    envelope
-                )
-            ) {
-                continue
-            }
-            //不是红包
-            if (!AccessibilityServiceUtils.isExistNodeInfosByViewId(
-                    DINGDING_RED_ENVELOPE_TYPE_ID,
-                    envelope
-                )
-            ) {
-                continue
-            }
-            LogUtils.d("发现红包：$envelope")
-            envelope.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-            isHasClicked = true
+        val envelopes = getNodeInfosByViewId(DINGDING_CHAT_ITEM_ID) ?: return
+        if (status != WAIT_NEW) {
+            return
         }
 
+        /* 发现红包点击进入领取红包页面 */
+        if (findAndClickFirstNodeInfoByViewId(
+                DINGDING_CHAT_ITEM_ID,
+                DINGDING_RED_ENVELOPE_TYPE_ID,
+                DINGDING_REDENVELOPE_COVER,
+                true
+            )
+        ) {
+            status = HAS_CLICKED
+        }
     }
 
 
     /**
      * 拆开红包
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun openRedEnvelope(event: AccessibilityEvent) {
         if (event.className != DINGDING_RED_ENVELOPE_ACTIVITY) return
-        if (!isHasClicked) return
-        val elememnts =
-            AccessibilityServiceUtils.getNodeInfosByViewId(DINGDING_PICK_BOTTOM, rootInActiveWindow)
-        if (elememnts.isNullOrEmpty()) return
-        val rect = Rect()
-        elememnts.reversed().first().getBoundsInScreen(rect)
-        val path = Path()
-        path.moveTo(rect.centerX().toFloat(), rect.centerY().toFloat())
-        LogUtils.d("" + rect.centerX().toFloat() + "-" + rect.centerY().toFloat())
-        val gestureDescription = GestureDescription.Builder()
-            .addStroke(GestureDescription.StrokeDescription(path, 500, 300)).build()
-        dispatchGesture(gestureDescription, object : GestureResultCallback() {
-            override fun onCompleted(gestureDescription: GestureDescription?) {
-                super.onCompleted(gestureDescription)
-                isHasOpened = true
-                isHasClicked = false
-                LogUtils.d("onCompleted")
-            }
-
-            override fun onCancelled(gestureDescription: GestureDescription?) {
-                super.onCancelled(gestureDescription)
-                LogUtils.d("onCancelled")
-            }
-        }, null)
-
+        if (status != HAS_CLICKED) return
+        gestureViewCenter(DINGDING_PICK_BOTTOM)
+        status = HAS_OPENED
     }
 
     /**
@@ -257,17 +122,17 @@ class DingdingService : AccessibilityService() {
     private fun quitEnvelope(event: AccessibilityEvent) {
         LogUtils.d("quitEnvelope")
         if (event.className != DINGDING_REDENVELOPE_DETAIL_ACTIVITY) return
-        if (!isHasOpened) return
+        if (status != HAS_OPENED) return
         GlobalScope.launch {
             saveData()
-            performGlobalAction(GLOBAL_ACTION_BACK)
+            back()
         }
-        isHasOpened = false
+        status = WAIT_NEW
     }
 
 
     private fun saveData() {
-        val count = AccessibilityServiceUtils.getNodeInfosByViewId(DINGDING_REDENVELOPE_MONEY, rootInActiveWindow)
+        val count = getNodeInfosByViewId(DINGDING_REDENVELOPE_MONEY)
         count?.get(0)?.let {
             val dingDingRedEnvelope = DingDingRedEnvelope()
             dingDingRedEnvelope.count = it.text.toString()
@@ -275,34 +140,33 @@ class DingdingService : AccessibilityService() {
         }
     }
 
-    /**
-     * 递归遍历出WebView节点
-     */
-    private var accessibilityNodeInfoWebView: AccessibilityNodeInfo? = null
-
-    private fun findWebViewNode(rootNode: AccessibilityNodeInfo) {
-        for (i in 0 until rootNode.childCount) {
-            val child = rootNode.getChild(i)
-            if (child == null) continue
-            if ("android.webkit.WebView" == child.className) {
-                accessibilityNodeInfoWebView = child
-                LogUtils.d("findWebViewNode--找到webView" + accessibilityNodeInfoWebView)
-                return
-            }
-            if (child.childCount > 0) {
-                findWebViewNode(child)
-            }
-        }
-    }
-
-
-    fun getNodes(accessibilityNodeInfo: AccessibilityNodeInfo) {
-        for (index in 0 until accessibilityNodeInfo.childCount) {
-            val nodeInfo = accessibilityNodeInfo.getChild(index)
-            LogUtils.d("nodeinfo:$nodeInfo")
-            if (nodeInfo != null)
-                getNodes(nodeInfo)
-        }
-    }
+//    /**
+//     * 递归遍历出WebView节点
+//     */
+//    private var accessibilityNodeInfoWebView: AccessibilityNodeInfo? = null
+//
+//    private fun findWebViewNode(rootNode: AccessibilityNodeInfo) {
+//        for (i in 0 until rootNode.childCount) {
+//            val child = rootNode.getChild(i)
+//            if (child == null) continue
+//            if ("android.webkit.WebView" == child.className) {
+//                accessibilityNodeInfoWebView = child
+//                LogUtils.d("findWebViewNode--找到webView" + accessibilityNodeInfoWebView)
+//                return
+//            }
+//            if (child.childCount > 0) {
+//                findWebViewNode(child)
+//            }
+//        }
+//    }
+//
+//    fun getNodes(accessibilityNodeInfo: AccessibilityNodeInfo) {
+//        for (index in 0 until accessibilityNodeInfo.childCount) {
+//            val nodeInfo = accessibilityNodeInfo.getChild(index)
+//            LogUtils.d("nodeinfo:$nodeInfo")
+//            if (nodeInfo != null)
+//                getNodes(nodeInfo)
+//        }
+//    }
 
 }
