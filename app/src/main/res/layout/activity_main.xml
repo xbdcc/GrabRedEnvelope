@@ -12,22 +12,22 @@
         layout="@layout/include_toolbar" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_below="@id/sliding_tabs"
+        android:layout_below="@id/slidingTabs"
         android:background="#ffffff"
         android:flipInterval="30"
         android:persistentDrawingCache="animation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sliding_tabs"
+        app:layout_constraintTop_toBottomOf="@id/slidingTabs"
         app:layout_constraintBottom_toBottomOf="parent"/>
     <!--    <View-->
     <!--        android:id="@+id/v_menu_line"-->
     <!--        style="@style/menu_line"-->
     <!--        />-->
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/sliding_tabs"
+        android:id="@+id/slidingTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray_light"

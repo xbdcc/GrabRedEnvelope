@@ -32,9 +32,9 @@ android {
         applicationId "com.carlos.grabredenvelope"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 10
-        versionName "3.0.0"
-        flavorDimensions "10" //和versionCode相同
+        versionCode 11
+        versionName "3.1.0"
+        flavorDimensions "11" //和versionCode相同
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi-v7a', 'x86'
@@ -58,8 +58,8 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            shrinkResources true
-            minifyEnabled true
+            shrinkResources false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -79,6 +79,9 @@ android {
         }
     }
 
+    viewBinding {
+        enabled = true
+    }
 
 }
 
@@ -128,8 +131,8 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
 
-//    implementation 'com.carlos.cutils:cutils:0.0.26'
-    implementation 'com.github.xbdcc:cutils:0.0.28.7-SNAPSHOT'
+    implementation 'com.carlos.cutils:cutils:0.0.28'
+//    implementation 'com.github.xbdcc:cutils:0.0.28.7-SNAPSHOT'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.5.8'
@@ -142,7 +145,7 @@ dependencies {
     implementation 'io.sentry:sentry-android:1.7.27'
     implementation 'com.google.android.material:material:1.0.0'
 
-//    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
 
 }
 repositories {

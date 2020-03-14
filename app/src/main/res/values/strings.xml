@@ -7,7 +7,7 @@
     <string name="grab_dingding_envelope">抢钉钉红包</string>
 
     <string name="how_to_use">
-        该版本适配微信7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11,7.0.12，其他版本下可能无效，最好在已适配的微信版本下使用，长时间后台可能被杀，如果失效请重新开启无障碍服务。
+        该版本适配微信7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11,7.0.12，其他版本未适配可能无效。长时间服务后台可能被杀，如果服务被杀需要重新开启无障碍服务。
         \n\n控制说明：
         \n1.微信红包监控开关：点击进入设置找到无障碍服务辅助功能开启【抢微信红包】，开启后下面操作才有效；
         \n2.通知监控开关：开启后通知收到微信红包则会自动点击该通知，若开启后无效请确认通知权限是否开启；
@@ -32,10 +32,10 @@
 
     <string name="wechat_description">
         使用指南：使用前仔细看APP使用说明。辅助功能开启【抢微信红包】，APP 抢微信红包设置是否监控通知和聊天列表页面，同时可设置延迟时间。代码开源仅供学习使用，请勿用作商业用途。
-        \n\n如果有遇到说明里除已知bug外的问题, 欢迎通过 GitHub Issue 反馈:https://github.com/xbdcc/GrabRedEnvelope
-        \n\n主要基于自己手上的Android机测试，因Android机型众多，可能有些机型没设备适配，待后续完善。
+        \n\n如果有遇到说明里除已知bug外的问题, 欢迎通过 GitHub Issue 反馈:https://github.com/xbdcc/GrabRedEnvelope。
+        \n\n有问题也可联系偶尔会使用的微信：xbdcc1。
         \n\n ——made by 小不点</string>
-    <string name="dingding_description">待开发。</string>
+    <string name="dingding_description">基于钉钉5.0.5版本开发，不做版本适配，只监听当前对话页面红包</string>
 
 
     <string name="sure">确定</string>

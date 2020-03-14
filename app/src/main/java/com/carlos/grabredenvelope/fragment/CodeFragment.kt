@@ -38,4 +38,4 @@ import com.carlos.cutils.base.fragment.CBaseWebFragment
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/23.
  */
-class CodeFragment : CBaseWebFragment("https://github.com/xbdcc/GrabRedEnvelope")
+class CodeFragment : CBaseWebFragment("https://github.com/xbdcc/GrabRedEnvelope", false)

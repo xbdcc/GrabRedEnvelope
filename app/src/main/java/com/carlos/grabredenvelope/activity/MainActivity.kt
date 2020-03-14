@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.carlos.cutils.base.adapter.CBaseMyPagerAdapter
 import com.carlos.cutils.listener.PermissionListener
-import com.carlos.grabredenvelope.R
+import com.carlos.grabredenvelope.databinding.ActivityMainBinding
 import com.carlos.grabredenvelope.fragment.*
 import com.carlos.grabredenvelope.util.Update
 import kotlinx.android.synthetic.main.activity_main.*
@@ -48,6 +48,8 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 open class MainActivity : BaseActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     private val WECHAT_SERVICE_NAME = "com.carlos.grabredenvelope/.services.WechatService"
 
     var fragments = mutableListOf<Fragment>(ControlFragment(), GuideFragment(), AboutFragment(),
@@ -57,11 +59,13 @@ open class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val adapter = CBaseMyPagerAdapter(supportFragmentManager, fragments, titles)
-        viewpager.adapter = adapter
-        sliding_tabs.setupWithViewPager(viewpager)
+        binding.viewPager.adapter = adapter
+        binding.slidingTabs.setupWithViewPager(viewPager)
 
         getPermissions()
         checkVersion()
@@ -91,7 +95,7 @@ open class MainActivity : BaseActivity() {
     }
 
     fun checkItem(item: Int) {
-        viewpager.currentItem = item
+        viewPager.currentItem = item
     }
 
 }
