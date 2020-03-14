@@ -17,6 +17,10 @@ object WechatConstants {
 
     var RED_ENVELOPE_TITLE = "[微信红包]" //红包关键字
 
+    /* 微信聊天列表页控件 */
+    var RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/bah" //Item可点击控件id
+    var RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/bal" //Item内容控件id，通过关键字判断
+
     /* 微信对话页控件 */
     var RED_ENVELOPE_ID = "com.tencent.mm:id/atb" // 红包框可点击控件id
     var RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/aum" // 红包框左下角'微信红包'控件id
@@ -25,10 +29,6 @@ object WechatConstants {
     /* 红包弹框控件*/
     var RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/dan" // 红包点开控件id
     var RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/d84" // 红包弹框关闭控件id
-
-    /* 微信聊天列表页控件 */
-    var RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/bah" //Item可点击控件id
-    var RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/bal" //Item内容控件id，通过关键字判断
 
     /* 红包详情页控件 */
     var RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/d62" //红包金额id
@@ -94,6 +94,20 @@ object WechatConstants {
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/bal" //Item内容控件id，通过关键字判断
                 /* 红包详情页控件 */
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/d62" //红包金额id
+            }
+            "7.0.12" -> {
+                /* 微信聊天列表页控件 */
+                RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/b1t" //Item可点击控件id
+                RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/cto" //Item内容控件id，通过关键字判断
+                /* 微信对话页控件 */
+                RED_ENVELOPE_ID = "com.tencent.mm:id/ajp" // 红包框可点击控件id
+                RED_ENVELOPE_FLAG_ID = "com.tencent.mm:id/r2" // 红包框左下角'微信红包'控件id，等待
+                RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/qr" // 红包框中间文字'已领取'控件id
+                /* 红包弹框控件*/
+                RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/d_4" // 红包点开控件id
+                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/d_3" // 红包弹框关闭控件id
+                /* 红包详情页控件 */
+                RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/d4y" //红包金额id
             }
         }
     }

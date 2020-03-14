@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.old2016
+package com.carlos.grabredenvelope.util
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -9,7 +9,6 @@ import android.os.Environment
 import android.os.Handler
 import android.util.Log
 import com.carlos.cutils.util.LogUtils
-import com.carlos.grabredenvelope.util.*
 import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection

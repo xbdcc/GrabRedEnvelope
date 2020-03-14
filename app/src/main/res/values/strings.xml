@@ -7,7 +7,7 @@
     <string name="grab_dingding_envelope">抢钉钉红包</string>
 
     <string name="how_to_use">
-        该版本适配微信7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10，其他版本下可能无效，最好在已适配的微信版本下使用，长时间后台可能被杀，如果失效请重新开启无障碍服务。
+        该版本适配微信7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11,7.0.12，其他版本下可能无效，最好在已适配的微信版本下使用，长时间后台可能被杀，如果失效请重新开启无障碍服务。
         \n\n控制说明：
         \n1.微信红包监控开关：点击进入设置找到无障碍服务辅助功能开启【抢微信红包】，开启后下面操作才有效；
         \n2.通知监控开关：开启后通知收到微信红包则会自动点击该通知，若开启后无效请确认通知权限是否开启；
@@ -35,35 +35,12 @@
         \n\n如果有遇到说明里除已知bug外的问题, 欢迎通过 GitHub Issue 反馈:https://github.com/xbdcc/GrabRedEnvelope
         \n\n主要基于自己手上的Android机测试，因Android机型众多，可能有些机型没设备适配，待后续完善。
         \n\n ——made by 小不点</string>
-
-    <!--old-->
-    <string name="accessibility_description">抢红包工具，支持QQ,部分功能已实现。
-        打开辅助功能找到抢红包开启服务，QQ设置里面通知栏消息和锁屏显示消息都开启。
-        停在某一具体聊天页有效，停在消息列表页无效。为防封号，增加了延迟抢功能。其他功能开发完善中，如有问题关闭重新开启服务或仔细看关于或联系我。</string>
-    <string name="menu_service">开启服务</string>
-    <string name="menu_hongbao_record">红包记录</string>
-    <string name="menu_qq_hongbao">QQ红包（完善中）</string>
-    <string name="menu_weixin_hongbao">微信红包（待完善）</string>
-    <string name="menu_zhifubao_xiuyixiu">支付宝咻一咻（待完善）</string>
-    <string name="menu_qq_shuayishua">QQ刷一刷（待开发）</string>
-    <string name="about">待开发。</string>
-    <string name="advice">意见反馈（待开发）</string>
-    <string name="update">检测更新</string>
-
-    <string-array name="list">
-        <item>抢微信红包设置</item>
-        <item>使用说明</item>
-        <item>GitHub意见反馈</item>
-        <item>检测更新</item>
-        <item>捐赠打赏</item>
-    </string-array>
+    <string name="dingding_description">待开发。</string>
 
 
     <string name="sure">确定</string>
     <string name="cancel">取消</string>
     <string name="unkonown_error">服务端异常或网络超时，请稍后再试！</string>
     <string name="no_net">网络异常，请检查网络连接</string>
-    <string name="error">网络或服务异常，请检查网络或服务器后点击重试!</string>
-    <string name="retry">点击重试</string>
 
 </resources>

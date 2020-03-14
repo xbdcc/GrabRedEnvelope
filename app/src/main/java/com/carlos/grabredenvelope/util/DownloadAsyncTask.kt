@@ -6,7 +6,6 @@ import android.os.AsyncTask
 import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
-import com.carlos.grabredenvelope.old2016.Update
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

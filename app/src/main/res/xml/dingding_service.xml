@@ -1,6 +1,6 @@
 <accessibility-service
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:description="@string/about"
+    android:description="@string/dingding_description"
     android:accessibilityEventTypes="typeAllMask"
     android:accessibilityFeedbackType="feedbackAllMask"
     android:packageNames="com.alibaba.android.rimet"

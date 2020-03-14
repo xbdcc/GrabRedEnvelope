@@ -62,7 +62,7 @@ import kotlinx.coroutines.launch
 /**
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/14.
- * Adapt Wechat 7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11.
+ * Adapt Wechat 7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11,7.0.12.
  */
 class WechatService : BaseAccessibilityService() {
 
@@ -72,7 +72,7 @@ class WechatService : BaseAccessibilityService() {
     override fun onCreate() {
         super.onCreate()
         LogUtils.d("service oncreate.")
-        WechatConstants.setVersion(AppUtils.getVersionName(baseContext, WECHAT_PACKAGE))
+        WechatConstants.setVersion(AppUtils.getVersionName(WECHAT_PACKAGE))
     }
 
     override fun monitorNotificationChanged(event: AccessibilityEvent) {

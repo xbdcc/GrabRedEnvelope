@@ -63,7 +63,13 @@ class AppInit {
 
     private fun initUmeng() {
         UMConfigure.setLogEnabled(BuildConfig.DEBUG)
-        UMConfigure.init(context, BuildConfig.UMENG_APPKEY_DEV, BuildConfig.VERSION_NAME, UMConfigure.DEVICE_TYPE_PHONE, null)
+        UMConfigure.init(
+            context,
+            BuildConfig.UMENG_APPKEY_DEV,
+            BuildConfig.VERSION_NAME,
+            UMConfigure.DEVICE_TYPE_PHONE,
+            null
+        )
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
     }
 

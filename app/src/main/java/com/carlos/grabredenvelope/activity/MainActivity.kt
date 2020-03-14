@@ -7,7 +7,7 @@ import com.carlos.cutils.base.adapter.CBaseMyPagerAdapter
 import com.carlos.cutils.listener.PermissionListener
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.fragment.*
-import com.carlos.grabredenvelope.old2016.Update
+import com.carlos.grabredenvelope.util.Update
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**

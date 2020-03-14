@@ -69,8 +69,10 @@ object RedEnvelopePreferences :
 
     var useStatus: Boolean
         get() = getBoolean(USE_STATUS, true)
-        set(value) = setBoolean(USE_STATUS, value)
-
+        set(value) {
+            setBoolean(USE_STATUS, value)
+        }
 }
+
 
 

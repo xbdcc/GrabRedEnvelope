@@ -129,7 +129,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
 //    implementation 'com.carlos.cutils:cutils:0.0.26'
-    implementation 'com.github.xbdcc:cutils:0.0.28.5-SNAPSHOT'
+    implementation 'com.github.xbdcc:cutils:0.0.28.7-SNAPSHOT'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.5.8'
@@ -140,7 +140,6 @@ dependencies {
     implementation 'com.umeng.umsdk:common:2.0.0'
 
     implementation 'io.sentry:sentry-android:1.7.27'
-    implementation 'com.liulishuo.filedownloader:library:1.7.7'
     implementation 'com.google.android.material:material:1.0.0'
 
 //    implementation 'org.greenrobot:greendao:3.2.2' // add library

@@ -1,6 +1,7 @@
 package com.carlos.grabredenvelope
 
 import android.app.Application
+import com.carlos.cutils.CUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.execption.MyUncaughtExceptionHandler
 import io.sentry.Sentry
@@ -51,9 +52,9 @@ class MyApplication : Application() {
 
         LogUtils.isShowLog = BuildConfig.DEBUG
 
-        AppInit()
+        CUtils.init(this)
 
-        initLocal()
+        AppInit()
 
         initSentry()
 
@@ -63,17 +64,6 @@ class MyApplication : Application() {
         Sentry.init(BuildConfig.SENTRY_DSN, AndroidSentryClientFactory(applicationContext))
             .environment = BuildConfig.BUILD_TYPE
         Thread.setDefaultUncaughtExceptionHandler(MyUncaughtExceptionHandler())
-    }
-
-    private fun initLocal() {
-        try {
-            val myInitClass = Class.forName("com.carlos.grabredenvelope.local.LocalInit")
-            val initBuglyMethod = myInitClass.getMethod("init")
-            val myInitObject = myInitClass.newInstance()
-            initBuglyMethod.invoke(myInitObject)
-        } catch (e: Exception) {
-//            LogUtils.e("local init error:", e)
-        }
     }
 
     companion object {
