@@ -50,11 +50,8 @@ import kotlinx.coroutines.launch
  */
 class DingdingService : BaseAccessibilityService() {
 
-    override var monitorPackageName = DINGDING_PACKAGE
 
     companion object {
-        private const val DINGDING_PACKAGE = "com.alibaba.android.rimet"
-
         private const val DINGDING_RED_ENVELOPE_ACTIVITY =
             "com.alibaba.android.dingtalk.redpackets.activities.FestivalRedPacketsPickActivity" //钉钉红包弹框
 

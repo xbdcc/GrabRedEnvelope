@@ -3,6 +3,7 @@ package com.carlos.grabredenvelope.services
 import android.graphics.Path
 import android.os.Build
 import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import com.carlos.cutils.extend.*
 import com.carlos.cutils.util.AppUtils
 import com.carlos.cutils.util.LogUtils
@@ -66,6 +67,7 @@ import kotlinx.coroutines.launch
 class WechatService : BaseAccessibilityService() {
 
     override var monitorPackageName = WECHAT_PACKAGE
+    override var notificationTitle = RED_ENVELOPE_TITLE
 
     override fun onCreate() {
         super.onCreate()
@@ -87,7 +89,6 @@ class WechatService : BaseAccessibilityService() {
     override fun monitorWindowChanged(event: AccessibilityEvent) {
         LogUtils.d("界面改变:$event")
         openRedEnvelope(event)
-        openRedEnvelopeNew(event)
         quitEnvelope(event)
     }
 
@@ -99,14 +100,13 @@ class WechatService : BaseAccessibilityService() {
 
 
     /**
-     * 监控微信聊天列表页面是否有红包，经测试若聊天页面与通知同时开启聊天页面快，则聊天列表收到就不点击通知,从最上面开始点起
+     * 监控微信聊天列表页面是否有红包，经测试若聊天页面与通知同时开启聊天页面比通知先监听到，聊天列表已点击的情况下就不用去点击通知栏
      */
     private fun monitorChat() {
         LogUtils.d("monitorChat")
         if (RedEnvelopePreferences.wechatControl.isMonitorChat.not()) {
             return
         }
-
         if (findAndClickFirstNodeInfoByViewIdContainsText(
                 RED_ENVELOPE_RECT_TITLE_ID,
                 RED_ENVELOPE_TITLE_ID,
@@ -138,7 +138,6 @@ class WechatService : BaseAccessibilityService() {
      * 拆开红包
      */
     private fun openRedEnvelope(event: AccessibilityEvent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return
         if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
         if (status != HAS_CLICKED) {
             return
@@ -147,39 +146,23 @@ class WechatService : BaseAccessibilityService() {
         if (envelopes.isEmpty()) {
             /* 进入红包页面点击退出按钮 */
             findAndClickFirstNodeInfoByViewId(RED_ENVELOPE_CLOSE_ID, true)
-        } else {
-            /* 进入红包页面点击开按钮 */
-            GlobalScope.launch {
-                val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
-                LogUtils.d("delay open time:$delayTime")
-                delay(delayTime)
-                clickFirstNodeInfo(envelopes, true)
-                status = HAS_OPENED
-            }
-        }
-    }
-
-
-    /**
-     * 退出红包详情页
-     */
-    private fun quitEnvelope(event: AccessibilityEvent) {
-        LogUtils.d("quitEnvelope")
-        if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
-        if (status != HAS_OPENED) {
             return
         }
-
-        GlobalScope.launch {
-            saveData()
-            val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayCloseTime
-            LogUtils.d("delay close time:$delayTime")
-            if (delayTime != 11000L) {
-                delay(delayTime)
-                back()
-            }
+        /* 进入红包页面点击开按钮 */
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            openRedEnvelopeBefore(envelopes)
         }
-        status = WAIT_NEW
+        openRedEnvelopeNew(event)
+    }
+
+    private fun openRedEnvelopeBefore(envelopes: MutableList<AccessibilityNodeInfo>) {
+        GlobalScope.launch {
+            val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
+            LogUtils.d("delay open time:$delayTime")
+            delay(delayTime)
+            clickFirstNodeInfo(envelopes, true)
+            status = HAS_OPENED
+        }
     }
 
     private fun openRedEnvelopeNew(event: AccessibilityEvent) {
@@ -188,7 +171,6 @@ class WechatService : BaseAccessibilityService() {
 
         if (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            LogUtils.d("sdk:" + Build.VERSION.SDK_INT)
             val metrics = resources.displayMetrics
             val dpi = metrics.densityDpi
             val path = Path()
@@ -217,6 +199,29 @@ class WechatService : BaseAccessibilityService() {
             gesturePath(path)
         }
         status = HAS_OPENED
+    }
+
+
+    /**
+     * 退出红包详情页
+     */
+    private fun quitEnvelope(event: AccessibilityEvent) {
+        LogUtils.d("quitEnvelope")
+        if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
+        if (status != HAS_OPENED) {
+            return
+        }
+
+        GlobalScope.launch {
+            saveData()
+            val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayCloseTime
+            LogUtils.d("delay close time:$delayTime")
+            if (delayTime != 11000L) {
+                delay(delayTime)
+                back()
+            }
+        }
+        status = WAIT_NEW
     }
 
     private fun saveData() {

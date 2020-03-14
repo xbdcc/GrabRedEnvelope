@@ -52,11 +52,10 @@ import io.sentry.Sentry
 abstract class BaseAccessibilityService : CBaseAccessibilityService() {
 
     private lateinit var controlUse: ControlUse
+    open var notificationTitle: String = ""
 
-    /* 状态切换，避免人为点击的被误操作，等待红包——点击红包关键字——点击红包——拆红包——等待红包循环 */
+    /* 状态切换，流程更直观，避免人为点击的误操作，等待红包——点击红包关键字——点击红包——拆红包——等待红包循环 */
     var status: Int = WAIT_NEW
-    open var notificationTitle: String? = null
-
     companion object {
         const val WAIT_NEW = 0 //等待新的红包
         const val HAS_RECEIVED = 1 //通知或聊天列表页面收到红包
@@ -108,9 +107,11 @@ abstract class BaseAccessibilityService : CBaseAccessibilityService() {
 
     override fun monitorNotificationChanged(event: AccessibilityEvent) {
         val text = event.text.toString()
+        if (status!= WAIT_NEW) return
         if (text.isEmpty() or notificationTitle.isNullOrEmpty()) {
             return
         }
+        if (text.contains(notificationTitle).not()) return
         val notification = event.parcelableData as Notification
         val pendingIntent = notification.contentIntent
         try {

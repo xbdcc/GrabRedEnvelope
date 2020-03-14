@@ -41,8 +41,6 @@ import io.sentry.Sentry
  */
 class MyUncaughtExceptionHandler : CUncaughtExceptionHandler() {
 
-    private val mUncaughHandler: Thread.UncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
-
     override fun uncaughtException(t: Thread?, e: Throwable?) {
         if (t == null || e == null) return
         Sentry.capture(e)

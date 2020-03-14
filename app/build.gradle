@@ -37,8 +37,8 @@ android {
         flavorDimensions "10" //和versionCode相同
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'
-            // 还可以添加 'x86_64', 'mips', 'mips64'
+            abiFilters 'armeabi-v7a', 'x86'
+            // 还可以添加 'armeabi', 'arm64-v8a', 'x86_64', 'mips', 'mips64'
         }
 
         manifestPlaceholders = [
@@ -47,14 +47,20 @@ android {
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        // 只保留中文
+        resConfigs "zh"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -126,8 +132,8 @@ dependencies {
     implementation 'com.github.xbdcc:cutils:0.0.28.5-SNAPSHOT'
 
     //jpush
-    implementation 'cn.jiguang.sdk:jpush:3.3.2'
-    implementation 'cn.jiguang.sdk:jcore:2.1.0'
+    implementation 'cn.jiguang.sdk:jpush:3.5.8'
+    implementation 'cn.jiguang.sdk:jcore:2.3.0'
 
     //umeng
     implementation 'com.umeng.umsdk:analytics:8.0.0'

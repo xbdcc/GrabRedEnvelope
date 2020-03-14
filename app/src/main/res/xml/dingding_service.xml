@@ -5,7 +5,7 @@
     android:accessibilityFeedbackType="feedbackAllMask"
     android:packageNames="com.alibaba.android.rimet"
     android:notificationTimeout="50"
-    android:settingsActivity="com.carlos.grabredenvelope.activity.DingdingEnvelopeActivity"
+    android:settingsActivity="com.carlos.grabredenvelope.activity.MainActivity"
     android:accessibilityFlags="flagDefault"
     android:canRequestEnhancedWebAccessibility = "true"
     android:canPerformGestures = "true"

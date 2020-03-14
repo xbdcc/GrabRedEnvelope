@@ -9,9 +9,7 @@ import android.os.Environment
 import android.os.Handler
 import android.util.Log
 import com.carlos.cutils.util.LogUtils
-import com.carlos.grabredenvelope.util.DownloadAsyncTask
-import com.carlos.grabredenvelope.util.UpdateInfo
-import com.carlos.grabredenvelope.util.UpdateInfoParser
+import com.carlos.grabredenvelope.util.*
 import java.io.File
 import java.io.IOException
 import java.net.HttpURLConnection

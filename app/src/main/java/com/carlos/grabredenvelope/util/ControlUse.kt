@@ -3,8 +3,7 @@ package com.carlos.grabredenvelope.util
 import android.content.Context
 import android.util.Log
 import com.carlos.cutils.util.LogUtils
-import com.carlos.grabredenvelope.old2016.DialogUtils
-import com.carlos.grabredenvelope.old2016.PreferencesUtils
+import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -81,7 +80,7 @@ class ControlUse(private val context: Context) {
 
     }
 
-    fun stopUse(): Boolean = isStop or !PreferencesUtils.usestatus
+    fun stopUse(): Boolean = isStop or !RedEnvelopePreferences.useStatus
 
     fun showDialog() {
         DialogUtils.show_dialog(context, "提示", message)

@@ -45,7 +45,8 @@ import kotlinx.serialization.json.JSON
 object RedEnvelopePreferences :
     CBasePreferences("redenvelope_preferences", MyApplication.instance.applicationContext) {
 
-    private val WECHAT_CONTROL = "wechat_control"
+    private const val WECHAT_CONTROL = "wechat_control"
+    private const val USE_STATUS = "use_status"
 
     var wechatControl: WechatControlVO
         get() {
@@ -66,6 +67,9 @@ object RedEnvelopePreferences :
             setString(WECHAT_CONTROL, JSON.stringify(WechatControlVO.serializer(), value))
         }
 
+    var useStatus: Boolean
+        get() = getBoolean(USE_STATUS, true)
+        set(value) = setBoolean(USE_STATUS, value)
 
 }
 

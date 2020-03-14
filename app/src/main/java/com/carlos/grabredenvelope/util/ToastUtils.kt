@@ -1,4 +1,4 @@
-package com.carlos.grabredenvelope.old2016
+package com.carlos.grabredenvelope.util
 
 import android.content.Context
 import android.widget.Toast
@@ -19,10 +19,16 @@ object ToastUtils {
     }
 
     fun showNoNet(context: Context) {
-        showToast(context, R.string.no_net)
+        showToast(
+            context,
+            R.string.no_net
+        )
     }
 
     fun showError(context: Context) {
-        showToast(context, R.string.unkonown_error)
+        showToast(
+            context,
+            R.string.unkonown_error
+        )
     }
 }

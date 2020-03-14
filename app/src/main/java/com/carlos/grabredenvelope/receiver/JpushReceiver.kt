@@ -8,7 +8,7 @@ import cn.jpush.android.api.NotificationMessage
 import cn.jpush.android.service.JPushMessageReceiver
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.activity.MainActivity
-import com.carlos.grabredenvelope.old2016.PreferencesUtils
+import com.carlos.grabredenvelope.data.RedEnvelopePreferences
 import org.json.JSONObject
 
 /**
@@ -77,9 +77,9 @@ class JpushReceiver : JPushMessageReceiver() {
             val key = keys.next()
             LogUtils.d("key:" + key +"-value:" + datas.get(key))
             if ("start" == datas.get(key)) {
-                PreferencesUtils.setUseStatus(true)
+                RedEnvelopePreferences.useStatus = true
             } else if ("stop" == datas.get(key)) {
-                PreferencesUtils.setUseStatus(false)
+                RedEnvelopePreferences.useStatus = false
             }
         }
     }
