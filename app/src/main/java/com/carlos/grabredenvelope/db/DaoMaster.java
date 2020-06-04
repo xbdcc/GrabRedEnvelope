@@ -21,14 +21,14 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
-        WechatRedEnvelopeDao.createTable(db, ifNotExists);
         DingDingRedEnvelopeDao.createTable(db, ifNotExists);
+        WechatRedEnvelopeDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
-        WechatRedEnvelopeDao.dropTable(db, ifExists);
         DingDingRedEnvelopeDao.dropTable(db, ifExists);
+        WechatRedEnvelopeDao.dropTable(db, ifExists);
     }
 
     /**
@@ -47,8 +47,8 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
-        registerDaoClass(WechatRedEnvelopeDao.class);
         registerDaoClass(DingDingRedEnvelopeDao.class);
+        registerDaoClass(WechatRedEnvelopeDao.class);
     }
 
     public DaoSession newSession() {
