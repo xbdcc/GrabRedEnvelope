@@ -76,7 +76,7 @@ class WechatService : BaseAccessibilityService() {
     }
 
     override fun monitorNotificationChanged(event: AccessibilityEvent) {
-        LogUtils.d("通知改变:$event")
+//        LogUtils.d("通知改变:$event")
         if (RedEnvelopePreferences.wechatControl.isMonitorNotification.not()) {
             return
         }
@@ -87,13 +87,13 @@ class WechatService : BaseAccessibilityService() {
     }
 
     override fun monitorWindowChanged(event: AccessibilityEvent) {
-        LogUtils.d("界面改变:$event")
+//        LogUtils.d("界面改变:$event")
         openRedEnvelope(event)
         quitEnvelope(event)
     }
 
     override fun monitorContentChanged(event: AccessibilityEvent) {
-        LogUtils.d("内容改变:$event")
+//        LogUtils.d("内容改变:$event")
         grabRedEnvelope()
         monitorChat()
     }
@@ -103,7 +103,7 @@ class WechatService : BaseAccessibilityService() {
      * 监控微信聊天列表页面是否有红包，经测试若聊天页面与通知同时开启聊天页面比通知先监听到，聊天列表已点击的情况下就不用去点击通知栏
      */
     private fun monitorChat() {
-        LogUtils.d("monitorChat")
+//        LogUtils.d("monitorChat")
         if (RedEnvelopePreferences.wechatControl.isMonitorChat.not()) {
             return
         }
@@ -114,6 +114,7 @@ class WechatService : BaseAccessibilityService() {
             )
         ) {
             status = HAS_RECEIVED
+            LogUtils.d("received a redenvelope.")
         }
     }
 
@@ -121,7 +122,7 @@ class WechatService : BaseAccessibilityService() {
      * 对话页面监控点击红包, 从最下面开始点起
      */
     private fun grabRedEnvelope() {
-        LogUtils.d("grabRedEnvelope")
+//        LogUtils.d("grabRedEnvelope")
         /* 发现红包点击进入领取红包页面 */
         if (findAndClickFirstNodeInfoByViewId(
                 RED_ENVELOPE_ID,
@@ -131,6 +132,7 @@ class WechatService : BaseAccessibilityService() {
             )
         ) {
             status = HAS_CLICKED
+            LogUtils.d("received a redenvelope and click.")
         }
     }
 
@@ -158,15 +160,16 @@ class WechatService : BaseAccessibilityService() {
     private fun openRedEnvelopeBefore(envelopes: MutableList<AccessibilityNodeInfo>) {
         GlobalScope.launch {
             val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
-            LogUtils.d("delay open time:$delayTime")
+//            LogUtils.d("delay open time:$delayTime")
             delay(delayTime)
             clickFirstNodeInfo(envelopes, true)
             status = HAS_OPENED
+            LogUtils.d("opened a redenvelope")
         }
     }
 
     private fun openRedEnvelopeNew(event: AccessibilityEvent) {
-        LogUtils.d("Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
+//        LogUtils.d("Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
         if (status != HAS_CLICKED) return
 
         if (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName) return
@@ -199,6 +202,7 @@ class WechatService : BaseAccessibilityService() {
             gesturePath(path)
         }
         status = HAS_OPENED
+        LogUtils.d("opened a redenvelope")
     }
 
 
@@ -206,7 +210,7 @@ class WechatService : BaseAccessibilityService() {
      * 退出红包详情页
      */
     private fun quitEnvelope(event: AccessibilityEvent) {
-        LogUtils.d("quitEnvelope")
+//        LogUtils.d("quitEnvelope")
         if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
         if (status != HAS_OPENED) {
             return
@@ -215,13 +219,14 @@ class WechatService : BaseAccessibilityService() {
         GlobalScope.launch {
             saveData()
             val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayCloseTime
-            LogUtils.d("delay close time:$delayTime")
+//            LogUtils.d("delay close time:$delayTime")
             if (delayTime != 11000L) {
                 delay(delayTime)
                 back()
             }
         }
         status = WAIT_NEW
+        LogUtils.d("quit redenvelop detail page.")
     }
 
     private fun saveData() {
