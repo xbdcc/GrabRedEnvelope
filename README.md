@@ -80,7 +80,3 @@ UI调整，功能完善，适配微信7.0.10。
 
 ## 基于本项目改写的项目
 - https://github.com/gemgao/redenvelopes
-
-
-[cc]:http://xbdcc.cn/xbd/img/GrabRedEnvelope/alipay.jpg
-![][cc]
