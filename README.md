@@ -17,8 +17,8 @@ https://github.com/xbdcc/CUtils
 
 
 ## Gif效果图
-![gif1](https://github.com/xbdcc/GrabRedEnvelope/blob/master/records/record1.gif)
-![gif2](https://github.com/xbdcc/GrabRedEnvelope/blob/master/records/record2.gif)
+![gif1](http://xbdcc.cn/image/GrabRedEnvelope/records/record1.gif)
+![gif2](http://xbdcc.cn/image/GrabRedEnvelope/records/record2.gif)
 
 ## 使用指南
 为正常使用，建议APP权限和通知都打开。Android机型众多，可能有些机型效果好，有些没机型不方便适配的暂时还没适配。
@@ -30,17 +30,29 @@ https://github.com/xbdcc/CUtils
 
 最新版适配微信7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11,7.0.12版本，代码开源仅供学习使用，请勿用作商业用途。
 
+
+
+
 ## 打赏
+<!--
 <table>
     <tr>
         <td>
-            <img src="images/alipay.jpg" height="300"/>
+            <img src="http://xbdcc.cn/image/GrabRedEnvelope/wechat_reward.jpg" height="300"/>
         </td>
         <td>
-            <img src="images/wechat_reward.jpg" height="300"/>
+            <img src="http://xbdcc.cn/image/GrabRedEnvelope/alipay.jpg" height="300"/>
         </td>
     </tr>
 </table>
+-->
+
+如果觉得还不错，欢迎赏我吃碗热干面或奶茶支持继续，谢谢！
+
+|微信赞赏|支付宝打赏|
+|:-:|:-:|
+|![微信赞赏](http://xbdcc.cn/image/GrabRedEnvelope/wechat_reward.jpg)|![支付宝打赏](http://xbdcc.cn/image/GrabRedEnvelope/alipay.jpg)|
+
 
 ## 版本说明
 ### v3.1.0(2020.03.14)
@@ -69,3 +81,6 @@ UI调整，功能完善，适配微信7.0.10。
 ## 基于本项目改写的项目
 - https://github.com/gemgao/redenvelopes
 
+
+[cc]:http://xbdcc.cn/xbd/img/GrabRedEnvelope/alipay.jpg
+![][cc]
