@@ -63,9 +63,7 @@ open class MainActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
 
-        val adapter = CBaseMyPagerAdapter(supportFragmentManager, fragments, titles)
-        binding.viewPager.adapter = adapter
-        binding.slidingTabs.setupWithViewPager(viewPager)
+        initView()
 
         getPermissions()
         checkVersion()
@@ -75,6 +73,13 @@ open class MainActivity : BaseActivity() {
     private fun checkVersion() {
         val update = Update(this, 1)
         update.update()
+    }
+
+    private fun initView() {
+        val adapter = CBaseMyPagerAdapter(supportFragmentManager, fragments, titles)
+        binding.viewPager.adapter = adapter
+        binding.slidingTabs.setupWithViewPager(viewPager)
+        viewPager.offscreenPageLimit = 2
     }
 
     private fun addListener() {

@@ -71,7 +71,7 @@ class WechatService : BaseAccessibilityService() {
 
     override fun onCreate() {
         super.onCreate()
-        LogUtils.d("service oncreate.")
+//        LogUtils.d("service onCreate.")
         WechatConstants.setVersion(AppUtils.getVersionName(WECHAT_PACKAGE))
     }
 
@@ -104,13 +104,12 @@ class WechatService : BaseAccessibilityService() {
      */
     private fun monitorChat() {
 //        LogUtils.d("monitorChat")
+        // 监控关闭则不执行后续操作
         if (RedEnvelopePreferences.wechatControl.isMonitorChat.not()) {
             return
         }
         if (findAndClickFirstNodeInfoByViewIdContainsText(
-                RED_ENVELOPE_RECT_TITLE_ID,
-                RED_ENVELOPE_TITLE_ID,
-                RED_ENVELOPE_TITLE
+                RED_ENVELOPE_RECT_TITLE_ID, RED_ENVELOPE_TITLE_ID, RED_ENVELOPE_TITLE
             )
         ) {
             status = HAS_RECEIVED
@@ -124,11 +123,9 @@ class WechatService : BaseAccessibilityService() {
     private fun grabRedEnvelope() {
 //        LogUtils.d("grabRedEnvelope")
         /* 发现红包点击进入领取红包页面 */
+
         if (findAndClickFirstNodeInfoByViewId(
-                RED_ENVELOPE_ID,
-                RED_ENVELOPE_FLAG_ID,
-                RED_ENVELOPE_BEEN_GRAB_ID,
-                true
+                RED_ENVELOPE_ID, RED_ENVELOPE_FLAG_ID, RED_ENVELOPE_BEEN_GRAB_ID, true
             )
         ) {
             status = HAS_CLICKED
@@ -140,21 +137,22 @@ class WechatService : BaseAccessibilityService() {
      * 拆开红包
      */
     private fun openRedEnvelope(event: AccessibilityEvent) {
-        if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) return
-        if (status != HAS_CLICKED) {
+        // 如果当前不在聊天不是微信红包弹框或者已经没执行点击红包操作，则不执行拆的操作
+        if ((event.className != WECHAT_LUCKYMONEY_ACTIVITY) or (status != HAS_CLICKED)) {
             return
         }
         var envelopes = getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID) ?: return
         if (envelopes.isEmpty()) {
-            /* 进入红包页面点击退出按钮 */
+            // 没有开按钮，则点击退出按钮
             findAndClickFirstNodeInfoByViewId(RED_ENVELOPE_CLOSE_ID, true)
             return
         }
-        /* 进入红包页面点击开按钮 */
+        // 进入红包页面点击开按钮
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             openRedEnvelopeBefore(envelopes)
+        } else {
+            openRedEnvelopeNew(event)
         }
-        openRedEnvelopeNew(event)
     }
 
     private fun openRedEnvelopeBefore(envelopes: MutableList<AccessibilityNodeInfo>) {
@@ -170,9 +168,9 @@ class WechatService : BaseAccessibilityService() {
 
     private fun openRedEnvelopeNew(event: AccessibilityEvent) {
 //        LogUtils.d("Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
-        if (status != HAS_CLICKED) return
-
-        if (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName) return
+        if ((status != HAS_CLICKED) or (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName)) {
+            return
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val metrics = resources.displayMetrics
             val dpi = metrics.densityDpi
@@ -211,8 +209,8 @@ class WechatService : BaseAccessibilityService() {
      */
     private fun quitEnvelope(event: AccessibilityEvent) {
 //        LogUtils.d("quitEnvelope")
-        if (event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) return
-        if (status != HAS_OPENED) {
+        // 如果当前页面不是红包详情页或者没有点开过拆按钮，则不执行退出操作
+        if ((event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) or (status != HAS_OPENED)) {
             return
         }
 
@@ -229,9 +227,11 @@ class WechatService : BaseAccessibilityService() {
         LogUtils.d("quit redenvelop detail page.")
     }
 
+    /**
+     * 记录抢到的金额本地查看记录
+     */
     private fun saveData() {
-        val count = getNodeInfosByViewId(RED_ENVELOPE_COUNT_ID)
-        count?.get(0)?.let {
+        getNodeInfosByViewId(RED_ENVELOPE_COUNT_ID)?.get(0)?.let {
             val wechatRedEnvelope = WechatRedEnvelope()
             wechatRedEnvelope.count = it.text.toString()
             WechatRedEnvelopeDb.insertData(wechatRedEnvelope)

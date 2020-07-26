@@ -11,6 +11,7 @@ import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.db.DingDingRedEnvelopeDb
 import kotlinx.android.synthetic.main.fragment_record.*
+import kotlinx.coroutines.*
 
 /**
  *                             _ooOoo_
@@ -58,36 +59,38 @@ class RecordDingDIngFragment : BaseFragment(R.layout.fragment_record_dingding) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init(view)
-        getData()
+        initData()
     }
 
     private fun init(view: View) {
-        arrayAdapter = ArrayAdapter(view.context,R.layout.item_wechat_record, R.id.tv_item_wechat_record, list)
+        arrayAdapter = ArrayAdapter(
+            view.context, R.layout.item_wechat_record, R.id.tv_item_wechat_record, list
+        )
         lv_wechat_record.adapter = arrayAdapter
     }
 
-    private fun getData() {
-        Thread {
+    private fun initData() {
+        job = GlobalScope.launch(Dispatchers.Main) {
+            getData()
+            if (list.isNullOrEmpty()) return@launch
+            tv_record_title.text = "从${startTime}至今已助你抢到${total}元"
+            arrayAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private suspend fun getData() {
+        withContext(Dispatchers.IO) {
             list.clear()
             total = 0.0
             val dingDingRedEnvelopes = DingDingRedEnvelopeDb.allData
             for (dingDingRedEnvelope in dingDingRedEnvelopes.asReversed()) {
                 total = total.doubleCount(dingDingRedEnvelope.count.toDouble())
                 list.add("${getYearToMinute(dingDingRedEnvelope.time)} 助你抢到了 ${dingDingRedEnvelope.count}元")
-                LogUtils.d("total:" + total)
+//                LogUtils.d("total:" + total)
             }
             if (dingDingRedEnvelopes.isNotEmpty()) {
                 startTime = getYearToMinute(dingDingRedEnvelopes[0].time)
-                handler.sendEmptyMessage(0)
             }
-        }.run()
-    }
-
-    val handler = object: Handler() {
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-            tv_record_title.text = "从${startTime}至今已助你抢到${total}元"
-            arrayAdapter.notifyDataSetChanged()
         }
     }
 

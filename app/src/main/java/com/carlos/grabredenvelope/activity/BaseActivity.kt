@@ -78,7 +78,7 @@ open class BaseActivity : CBaseAccessibilityActivity() {
         tv_title.text = title
     }
 
-    fun controlUse() {
+    private fun controlUse() {
         val controlUse = ControlUse(this)
         if (controlUse.stopUse()) {
             val dialog = AlertDialog.Builder(this).setTitle("提示")
