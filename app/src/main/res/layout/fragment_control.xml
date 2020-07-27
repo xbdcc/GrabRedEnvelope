@@ -105,6 +105,29 @@
                     android:checked="true"
                     android:button="@drawable/switch_course_control"/>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="是否抢自己发的红包："
+                    android:layout_centerHorizontal="true"/>
+                <CheckBox
+                    android:id="@+id/cb_if_grab_self"
+                    android:layout_width="60dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:checked="true"
+                    android:button="@drawable/switch_course_control"/>
+            </LinearLayout>
+
             <View
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"

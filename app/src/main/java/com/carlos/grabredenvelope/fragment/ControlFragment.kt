@@ -80,7 +80,12 @@ class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekB
         }
         cb_wechat_chat_control.setOnCheckedChangeListener { buttonView, isChecked ->
             wechatControlVO.isMonitorChat = isChecked
-            LogUtils.d("ismotior:" + isChecked)
+//            LogUtils.d("ismotior:" + isChecked)
+            RedEnvelopePreferences.wechatControl = wechatControlVO
+        }
+        cb_if_grab_self.setOnCheckedChangeListener { buttonView, isChecked ->
+            wechatControlVO.ifGrabSelf = isChecked
+//            LogUtils.d("ifGrabSelf:" + isChecked)
             RedEnvelopePreferences.wechatControl = wechatControlVO
         }
 
@@ -123,6 +128,7 @@ class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekB
         cb_wechat_notification_control.isChecked =
             RedEnvelopePreferences.wechatControl.isMonitorNotification
         cb_wechat_chat_control.isChecked = RedEnvelopePreferences.wechatControl.isMonitorChat
+        cb_if_grab_self.isChecked = RedEnvelopePreferences.wechatControl.ifGrabSelf
         LogUtils.d("wechatControl:" + RedEnvelopePreferences.wechatControl.toString())
 
         wechatControlVO = RedEnvelopePreferences.wechatControl

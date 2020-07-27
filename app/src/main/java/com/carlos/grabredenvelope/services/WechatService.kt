@@ -123,9 +123,9 @@ class WechatService : BaseAccessibilityService() {
     private fun grabRedEnvelope() {
 //        LogUtils.d("grabRedEnvelope")
         /* 发现红包点击进入领取红包页面 */
-
+        val ifGrabSelf = RedEnvelopePreferences.wechatControl.ifGrabSelf
         if (findAndClickFirstNodeInfoByViewId(
-                RED_ENVELOPE_ID, RED_ENVELOPE_FLAG_ID, RED_ENVELOPE_BEEN_GRAB_ID, true
+                RED_ENVELOPE_ID, RED_ENVELOPE_FLAG_ID, RED_ENVELOPE_BEEN_GRAB_ID, !ifGrabSelf, true
             )
         ) {
             status = HAS_CLICKED

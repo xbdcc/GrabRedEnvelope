@@ -34,7 +34,7 @@ android {
         targetSdkVersion 28
         versionCode 12
         versionName "3.2.0"
-        flavorDimensions "11" //和versionCode相同
+        flavorDimensions "12" //和versionCode相同
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi-v7a', 'x86'
@@ -148,7 +148,6 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2' // add library
 
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
-
 
 }
 repositories {
