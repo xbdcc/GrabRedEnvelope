@@ -62,7 +62,7 @@ import kotlinx.coroutines.launch
 /**
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/14.
- * Adapt Wechat 7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11,7.0.12.
+ * Adapt Wechat 7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11,7.0.12,7.0.16,8.0.0.
  */
 class WechatService : BaseAccessibilityService() {
 
@@ -76,7 +76,7 @@ class WechatService : BaseAccessibilityService() {
     }
 
     override fun monitorNotificationChanged(event: AccessibilityEvent) {
-//        LogUtils.d("通知改变:$event")
+        LogUtils.d("monitorNotificationChanged:$event")
         if (RedEnvelopePreferences.wechatControl.isMonitorNotification.not()) {
             return
         }
@@ -87,13 +87,13 @@ class WechatService : BaseAccessibilityService() {
     }
 
     override fun monitorWindowChanged(event: AccessibilityEvent) {
-//        LogUtils.d("界面改变:$event")
+        LogUtils.d("monitorWindowChanged:$event")
         openRedEnvelope(event)
         quitEnvelope(event)
     }
 
     override fun monitorContentChanged(event: AccessibilityEvent) {
-//        LogUtils.d("内容改变:$event")
+        LogUtils.d("monitorContentChanged:$event")
         grabRedEnvelope()
         monitorChat()
     }
@@ -141,32 +141,38 @@ class WechatService : BaseAccessibilityService() {
         if ((event.className != WECHAT_LUCKYMONEY_ACTIVITY) or (status != HAS_CLICKED)) {
             return
         }
-        var envelopes = getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID) ?: return
-        if (envelopes.isEmpty()) {
-            // 没有开按钮，则点击退出按钮
-            findAndClickFirstNodeInfoByViewId(RED_ENVELOPE_CLOSE_ID, true)
-            return
+
+        GlobalScope.launch {
+            delay(200L)//小米华为等部分手机瞬间获取不到节点，暂时增加延迟避免无法点击开按钮
+
+            var envelopes = getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID) ?: return@launch
+            if (envelopes.isEmpty()) {
+                // 没有开按钮，则点击退出按钮
+                findAndClickFirstNodeInfoByViewId(RED_ENVELOPE_CLOSE_ID, true)
+                return@launch
+            }
+            // 进入红包页面点击开按钮
+            if (RedEnvelopePreferences.wechatControl.isCustomClick) {
+                openRedEnvelopeCustom(event)
+            } else {
+                openRedEnvelopeAuto(envelopes)
+            }
         }
-        // 进入红包页面点击开按钮
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            openRedEnvelopeBefore(envelopes)
-        } else {
-            openRedEnvelopeNew(event)
-        }
+
     }
 
-    private fun openRedEnvelopeBefore(envelopes: MutableList<AccessibilityNodeInfo>) {
+    private fun openRedEnvelopeAuto(envelopes: MutableList<AccessibilityNodeInfo>) {
         GlobalScope.launch {
             val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
 //            LogUtils.d("delay open time:$delayTime")
-            delay(delayTime)
+            delay(delayTime + 500)//小米华为等部分手机瞬间获取不到节点，暂时增加延迟避免无法点击开按钮
             clickFirstNodeInfo(envelopes, true)
             status = HAS_OPENED
             LogUtils.d("opened a redenvelope")
         }
     }
 
-    private fun openRedEnvelopeNew(event: AccessibilityEvent) {
+    private fun openRedEnvelopeCustom(event: AccessibilityEvent) {
 //        LogUtils.d("Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
         if ((status != HAS_CLICKED) or (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName)) {
             return
@@ -224,7 +230,7 @@ class WechatService : BaseAccessibilityService() {
             }
         }
         status = WAIT_NEW
-        LogUtils.d("quit redenvelop detail page.")
+        LogUtils.d("quit redenvelope detail page.")
     }
 
     /**
