@@ -32,9 +32,9 @@ android {
         applicationId "com.carlos.grabredenvelope"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 12
-        versionName "3.2.0"
-        flavorDimensions "12" //和versionCode相同
+        versionCode 13
+        versionName "3.3.0"
+        flavorDimensions "13" //和versionCode相同
         ndk {
             //选择要添加的对应 cpu 类型的 .so 库。
             abiFilters 'armeabi-v7a', 'x86'
@@ -77,8 +77,10 @@ android {
         }
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding {
+            enabled = true
+        }
     }
 
 }
