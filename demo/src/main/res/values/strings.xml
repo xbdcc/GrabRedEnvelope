@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">GrabRedenvelope Demo</string>
     <string name="app_description">demo</string>
+    <string name="wechat_service_demo">抢微信红包demo</string>
+    <string name="emoji_send_demo">自动发表情demo</string>
 </resources>

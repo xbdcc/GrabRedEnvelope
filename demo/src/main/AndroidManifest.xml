@@ -18,7 +18,7 @@
 
         <service
             android:name=".WechatService"
-            android:label="@string/app_name"
+            android:label="@string/wechat_service_demo"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             >
             <intent-filter>
@@ -29,6 +29,18 @@
                 android:resource="@xml/wechat_service"/>
         </service>
 
+        <service
+            android:name=".SendEmojiService"
+            android:label="@string/emoji_send_demo"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            >
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/sendemoji_service"/>
+        </service>
     </application>
 
 </manifest>
