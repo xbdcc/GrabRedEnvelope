@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tv_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/text_size_small"
+            android:text="自动发表情插件（点击跳转开启）"
+            android:textColor="@color/blue_light"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/text_size_small"
+            android:text="可快速自动发送烟花制造聊天对话页连续放烟花的效果，过年庆祝下，平时也可以快速丢炸弹玩。需先找到辅助功能【自动发送表情】开启才有效"
+            />
+
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            style="@style/view_line"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置发送文本，如表情[烟花]："/>
+        <EditText
+            android:id="@+id/et_emoji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="[炸弹]"
+            android:text="[烟花]"
+            android:singleLine="true"
+            />
+
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            style="@style/view_line"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置进入一次聊天页自动发送次数(0为无限)："/>
+        <NumberPicker
+            android:id="@+id/np_times"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            style="@style/view_line"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置每次发送间隔时间(ms)："/>
+        <NumberPicker
+            android:id="@+id/np_interval"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+</ScrollView>
