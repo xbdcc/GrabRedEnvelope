@@ -204,6 +204,17 @@
                     tools:text = "1447"
                     android:hint="y"/>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="不抢的群（填自己设置的备注，如有多个以@符号分割）"/>
+            <EditText
+                android:id="@+id/et_text_filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="小不点"
+                />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

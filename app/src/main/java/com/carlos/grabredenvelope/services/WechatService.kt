@@ -100,17 +100,29 @@ class WechatService : BaseAccessibilityService() {
             return
         }
 
+//        if(WechatFilter.isNotifacationFilter(event.text?.toString())) return
+
         super.monitorNotificationChanged(event)
     }
 
     override fun monitorWindowChanged(event: AccessibilityEvent) {
         LogUtils.d("monitorWindowChanged:$event")
+
+        if(WechatFilter.isRemarkFilter(rootInActiveWindow)) return
+
         openRedEnvelope(event)
         quitEnvelope(event)
     }
 
     override fun monitorContentChanged(event: AccessibilityEvent) {
         LogUtils.d("monitorContentChanged:$event")
+
+
+        if(WechatFilter.isRemarkFilter(rootInActiveWindow)) {
+            LogUtils.d("in filter, not grab")
+            return
+        }
+
         grabRedEnvelope()
         monitorChat()
     }

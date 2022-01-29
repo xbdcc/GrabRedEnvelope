@@ -33,7 +33,7 @@
         </activity>
 
         <service
-            android:name="com.carlos.grabredenvelope.services.WechatService"
+            android:name=".services.WechatService"
             android:label="@string/grab_wechat_envelope"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             >

@@ -51,6 +51,7 @@ object RedEnvelopePreferences :
     private const val EMOJI_TIMES = "emoji_times"
     private const val EMOJI_INTERVAL = "emoji_interval"
     private const val STOP_TIME = "stop_time"
+    private const val GRAB_FILTER = "grab_filter"
 
     var wechatControl: WechatControlVO
         get() {
@@ -100,6 +101,13 @@ object RedEnvelopePreferences :
         set(value) {
             setString(STOP_TIME, value)
         }
+
+    var grabFilter: String
+        get() = getString(GRAB_FILTER, "")
+        set(value) {
+            setString(GRAB_FILTER, value)
+        }
+
 
 }
 

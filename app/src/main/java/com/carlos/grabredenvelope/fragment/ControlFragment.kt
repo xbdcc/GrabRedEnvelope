@@ -119,6 +119,11 @@ class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekB
         }else {
             ll_custom_click.visibility = View.GONE
         }
+
+        et_text_filters.setText(RedEnvelopePreferences.grabFilter)
+        et_text_filters.addTextChangedListener {
+            RedEnvelopePreferences.grabFilter = et_text_filters.text.toString()
+        }
     }
 
 
