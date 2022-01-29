@@ -112,9 +112,9 @@ abstract class BaseAccessibilityService : CBaseAccessibilityService() {
             return
         }
         if (text.contains(notificationTitle).not()) return
-        val notification = event.parcelableData as Notification
-        val pendingIntent = notification.contentIntent
         try {
+            val notification = event.parcelableData as Notification
+            val pendingIntent = notification.contentIntent
             pendingIntent.send()
             status = HAS_RECEIVED
         } catch (e: PendingIntent.CanceledException) {
