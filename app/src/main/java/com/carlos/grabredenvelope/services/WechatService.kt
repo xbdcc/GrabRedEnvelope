@@ -75,6 +75,22 @@ class WechatService : BaseAccessibilityService() {
         WechatConstants.setVersion(AppUtils.getVersionName(WECHAT_PACKAGE))
     }
 
+
+    override fun onAccessibilityEvent(event: AccessibilityEvent) {
+        super.onAccessibilityEvent(event)
+        if (AccessibilityEvent.TYPE_VIEW_CLICKED == event.eventType) {
+            LogUtils.d("monitorViewClicked:$event")
+            if ((status != HAS_CLICKED)) return
+            openRedEnvelope(event)
+        }
+    }
+
+//    override fun monitorViewClicked(event: AccessibilityEvent) {
+//        super.monitorViewClicked(event)
+//        LogUtils.d("monitorViewClicked:$event")
+//        openRedEnvelope(event)
+//    }
+
     override fun monitorNotificationChanged(event: AccessibilityEvent) {
         LogUtils.d("monitorNotificationChanged:$event")
         if (RedEnvelopePreferences.wechatControl.isMonitorNotification.not()) {
@@ -83,6 +99,7 @@ class WechatService : BaseAccessibilityService() {
         if (status == HAS_RECEIVED) {
             return
         }
+
         super.monitorNotificationChanged(event)
     }
 
@@ -138,23 +155,26 @@ class WechatService : BaseAccessibilityService() {
      */
     private fun openRedEnvelope(event: AccessibilityEvent) {
         // 如果当前不在聊天不是微信红包弹框或者已经没执行点击红包操作，则不执行拆的操作
-        if ((event.className != WECHAT_LUCKYMONEY_ACTIVITY) or (status != HAS_CLICKED)) {
+        if (status != HAS_CLICKED) {
             return
         }
 
+        LogUtils.d("openEnvelope")
         GlobalScope.launch {
-            delay(200L)//小米华为等部分手机瞬间获取不到节点，暂时增加延迟避免无法点击开按钮
+            delay(500L)//小米华为等部分手机瞬间获取不到节点，暂时增加延迟避免无法点击开按钮
 
-            var envelopes = getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID) ?: return@launch
-            if (envelopes.isEmpty()) {
-                // 没有开按钮，则点击退出按钮
-                findAndClickFirstNodeInfoByViewId(RED_ENVELOPE_CLOSE_ID, true)
-                return@launch
-            }
             // 进入红包页面点击开按钮
             if (RedEnvelopePreferences.wechatControl.isCustomClick) {
-                openRedEnvelopeCustom(event)
+                LogUtils.d("openRedEnvelopeCustom")
+                openRedEnvelopeCustom()
             } else {
+                LogUtils.d("openRedEnvelopeAuto")
+                var envelopes = getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID) ?: return@launch
+                if (envelopes.isEmpty()) {
+                    // 没有开按钮，则点击退出按钮
+                    findAndClickFirstNodeInfoByViewId(RED_ENVELOPE_CLOSE_ID, true)
+                    return@launch
+                }
                 openRedEnvelopeAuto(envelopes)
             }
         }
@@ -172,39 +192,24 @@ class WechatService : BaseAccessibilityService() {
         }
     }
 
-    private fun openRedEnvelopeCustom(event: AccessibilityEvent) {
-//        LogUtils.d("Build.VERSION.SDK_INT:" + Build.VERSION.SDK_INT)
-        if ((status != HAS_CLICKED) or (WECHAT_LUCKYMONEY_ACTIVITY != currentClassName)) {
+    /**
+     * Android7.0以上有效
+     */
+    private fun openRedEnvelopeCustom() {
+        if (status != HAS_CLICKED) {
             return
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val metrics = resources.displayMetrics
-            val dpi = metrics.densityDpi
-            val path = Path()
-            if (RedEnvelopePreferences.wechatControl.isCustomClick) {
-                path.moveTo(
-                    RedEnvelopePreferences.wechatControl.pointX.toFloat(),
-                    RedEnvelopePreferences.wechatControl.pointY.toFloat()
-                )
-            } else when (dpi) {
-                640 -> //1440
-                    path.moveTo(720f, 1575f)
-                320 -> //720p
-                    path.moveTo(360f, 780f)
-                480 -> //1080p
-                    path.moveTo(540f, 1465f) //oppo r15,android 9, 小米8 android 9
-//                  path.moveTo(540f, 1210f) //小米mix5
-                440 -> //1080*2160
-                    path.moveTo(450f, 1250f)
-                420 -> //420一加5T
-                    path.moveTo(540f, 1213f)
-                400 ->
-                    path.moveTo(550f, 1200f) //华为mate9
-                else ->
-                    path.moveTo(550f, 1200f)
-            }
-            gesturePath(path)
+
+        val path = Path()
+        if (RedEnvelopePreferences.wechatControl.isCustomClick) {
+            path.moveTo(
+                RedEnvelopePreferences.wechatControl.pointX.toFloat(),
+                RedEnvelopePreferences.wechatControl.pointY.toFloat()
+            )
         }
+        val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
+        LogUtils.d("delay open time:$delayTime")
+        gesturePath(path, delayTime)
         status = HAS_OPENED
         LogUtils.d("opened a redenvelope")
     }
