@@ -56,7 +56,6 @@ class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekB
     private var wechatControlVO = WechatControlVO()
     private var t_putong: Int = 0
     private var t_lingqu: Int = 0
-    var hasInit = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -120,7 +119,6 @@ class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekB
         }else {
             ll_custom_click.visibility = View.GONE
         }
-        hasInit = true
     }
 
 
@@ -153,7 +151,7 @@ class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekB
 
     fun updateControlView(boolean: Boolean) {
         if (boolean) cb_qq_control.setButtonDrawable(R.mipmap.switch_on)
-        else cb_qq_control.setButtonDrawable(R.mipmap.switch_off)
+        else cb_qq_control?.setButtonDrawable(R.mipmap.switch_off)
     }
 
     override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
