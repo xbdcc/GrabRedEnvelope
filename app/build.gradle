@@ -136,7 +136,7 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
 //    implementation 'com.carlos.cutils:cutils:0.0.28'
-    implementation 'com.github.xbdcc:cutils:0.0.28.8-SNAPSHOT'
+    implementation 'com.github.xbdcc:cutils:0.0.29-SNAPSHOT'
 
     //jpush
     implementation 'cn.jiguang.sdk:jpush:3.5.8'
