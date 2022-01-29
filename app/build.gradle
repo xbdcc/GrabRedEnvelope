@@ -139,8 +139,8 @@ dependencies {
     implementation 'com.github.xbdcc:cutils:0.0.29-SNAPSHOT'
 
     //jpush
-    implementation 'cn.jiguang.sdk:jpush:3.5.8'
-    implementation 'cn.jiguang.sdk:jcore:2.3.0'
+    implementation 'cn.jiguang.sdk:jpush:4.5.0'
+    implementation 'cn.jiguang.sdk:jcore:3.1.2'
 
     //umeng
     implementation 'com.umeng.umsdk:analytics:8.0.0'
