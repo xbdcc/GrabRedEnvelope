@@ -5,6 +5,9 @@ import cn.jpush.android.api.JPushInterface
 import com.carlos.cutils.util.LogUtils
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  *                             _ooOoo_
@@ -54,11 +57,13 @@ class AppInit {
     }
 
     private fun initJpush() {
-        JPushInterface.setDebugMode(BuildConfig.DEBUG)
-        JPushInterface.init(context)
-
-        val id = JPushInterface.getRegistrationID(context)
-        LogUtils.d("id:" + id)
+        GlobalScope.launch {
+            delay(10000)
+            JPushInterface.setDebugMode(BuildConfig.DEBUG)
+            JPushInterface.init(context)
+            val id = JPushInterface.getRegistrationID(context)
+            LogUtils.d("id:" + id)
+        }
     }
 
     private fun initUmeng() {
