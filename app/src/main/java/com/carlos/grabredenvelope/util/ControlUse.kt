@@ -1,9 +1,14 @@
 package com.carlos.grabredenvelope.util
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.Log
 import com.carlos.cutils.util.LogUtils
+import com.carlos.cutils.util.NetUtils
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,6 +55,7 @@ class ControlUse(private val context: Context) {
     private var isStop = false
 
     init {
+        getStopTime()
         setLimitTime()
     }
 
@@ -64,14 +70,15 @@ class ControlUse(private val context: Context) {
         message = "本软件设定使用时限已到时间，谢谢使用，请点击确定退出。如想继续用可联系小不点，谢谢！"
         //设置使用期限2月25
         //        String stoptime="2016-03-30 00:00:00.000";//大于此时间的才可以使用
-        val stoptime = "2021-12-31 00:00:00.000"//小于此时间的才可以使用
+        val stoptime = "2022-01-31 00:00:00.000"//小于此时间的才可以使用
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         Log.i("停止使用时间", stoptime)
         try {
-            val stopDate = dateFormat.parse(stoptime)
+            var stopDate = dateFormat.parse(stoptime)
+            if (TextUtils.isEmpty(RedEnvelopePreferences.stopTime).not())
+                stopDate = dateFormat.parse(RedEnvelopePreferences.stopTime)
             val currentDate = Date(System.currentTimeMillis())
             if (currentDate.time > stopDate.time) {
-                //                DialogUtils.show_dialog(context, "提示", message);
                 isStop = true
             }
         } catch (e: ParseException) {
@@ -82,8 +89,13 @@ class ControlUse(private val context: Context) {
 
     fun stopUse(): Boolean = isStop or !RedEnvelopePreferences.useStatus
 
-    fun showDialog() {
-        DialogUtils.show_dialog(context, "提示", message)
+
+    fun getStopTime() {
+        GlobalScope.launch {
+            val data = NetUtils().get("http://xbdcc.cn/GrabRedEnvelope/control.json")
+            val stopTime = JSONObject(data).getString("stopTime")
+            RedEnvelopePreferences.stopTime = stopTime
+        }
     }
 
 }
