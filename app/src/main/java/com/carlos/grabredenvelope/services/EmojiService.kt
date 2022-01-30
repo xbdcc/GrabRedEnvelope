@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
+import com.carlos.cutils.extend.findAndClickFirstNodeInfoByViewId
+import com.carlos.cutils.extend.getNodeInfosByText
+import com.carlos.cutils.extend.getNodeInfosByViewId
+import com.carlos.cutils.extend.isExistNodeInfosByViewId
 import com.carlos.cutils.util.AppUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
@@ -50,15 +54,17 @@ import kotlinx.coroutines.launch
 class EmojiService : BaseAccessibilityService() {
 
     private var windowClassName = ""
-    private val CHAT_ACTIVITY = "com.tencent.mm.ui.LauncherUI" //微信红包弹框
     private var text = ""
     private var times = 0
     private var interval = 0
     private var count = 0
+    private var canSend = true
 
     override fun onCreate() {
         super.onCreate()
         WechatConstants.setVersion(AppUtils.getVersionName(WechatConstants.WECHAT_PACKAGE))
+        loadConfig()
+        canSend = true
     }
 
     override fun monitorContentChanged(event: AccessibilityEvent) {
@@ -67,7 +73,8 @@ class EmojiService : BaseAccessibilityService() {
     override fun monitorWindowChanged(event: AccessibilityEvent) {
         LogUtils.d("monitorWindowChanged:$event")
         windowClassName = event.className.toString()
-        loadConfig()
+
+        if (canSend.not()) return
         sendMessage()
     }
 
@@ -86,15 +93,13 @@ class EmojiService : BaseAccessibilityService() {
      * 找到文本框输入表情，找到发送按钮点击循环执行
      */
     private fun sendMessage() {
-        if (windowClassName != CHAT_ACTIVITY) return
+//        if (windowClassName != CHAT_ACTIVITY) return
         if (count >= times && times != 0) {
             return
         }
         LogUtils.d("count:$count")
 
-        val accessibilityNodeInfo =
-            rootInActiveWindow?.findAccessibilityNodeInfosByViewId(WechatConstants.CHAT_EDITTEXT_ID)
-                ?: return
+        val accessibilityNodeInfo = getNodeInfosByViewId(WechatConstants.CHAT_EDITTEXT_ID)?: return
 
         for (editText in accessibilityNodeInfo) {
             if (editText.className == EditText::class.java.name) {
@@ -105,27 +110,20 @@ class EmojiService : BaseAccessibilityService() {
                 )
                 editText.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
 
-                send()
-                break
+                findAndClickFirstNodeInfoByViewId(WechatConstants.SEND_TEXT_ID)
+
+                canSend =false
+
+                count++
+                GlobalScope.launch {
+                    delay(interval.toLong())
+                    sendMessage()
+                }
 
             }
 
         }
 
-        count++
-        GlobalScope.launch {
-            delay(interval.toLong())
-            sendMessage()
-        }
-
-    }
-
-    private fun send() {
-        val accessibilityNodeInfos =
-            rootInActiveWindow?.findAccessibilityNodeInfosByText("发送") ?: return
-        for (accessibilityNodeInfo in accessibilityNodeInfos) {
-            accessibilityNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-        }
     }
 
 

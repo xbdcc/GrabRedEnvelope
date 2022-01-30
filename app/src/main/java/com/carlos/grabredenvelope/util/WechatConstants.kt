@@ -190,7 +190,7 @@ object WechatConstants {
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/gcq" //红包金额id
 
                 CHAT_EDITTEXT_ID = "com.tencent.mm:id/b4a" //聊天文本输入框id
-                CHAT_EDITTEXT_ID = "com.tencent.mm:id/b8k" //发送按钮id
+                SEND_TEXT_ID = "com.tencent.mm:id/b8k" //发送按钮id
             }
         }
     }
