@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
+import com.carlos.cutils.util.AppUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
+import com.carlos.grabredenvelope.util.WechatConstants
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -54,10 +56,16 @@ class EmojiService : BaseAccessibilityService() {
     private var interval = 0
     private var count = 0
 
+    override fun onCreate() {
+        super.onCreate()
+        WechatConstants.setVersion(AppUtils.getVersionName(WechatConstants.WECHAT_PACKAGE))
+    }
+
     override fun monitorContentChanged(event: AccessibilityEvent) {
     }
 
     override fun monitorWindowChanged(event: AccessibilityEvent) {
+        LogUtils.d("monitorWindowChanged:$event")
         windowClassName = event.className.toString()
         loadConfig()
         sendMessage()
@@ -85,7 +93,7 @@ class EmojiService : BaseAccessibilityService() {
         LogUtils.d("count:$count")
 
         val accessibilityNodeInfo =
-            rootInActiveWindow?.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/auj")
+            rootInActiveWindow?.findAccessibilityNodeInfosByViewId(WechatConstants.CHAT_EDITTEXT_ID)
                 ?: return
 
         for (editText in accessibilityNodeInfo) {
