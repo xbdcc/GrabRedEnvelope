@@ -66,7 +66,9 @@ object WechatConstants {
     var RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/d62" //红包金额id
 
     /* 聊天文本输入框控件 */
-    var CHAT_EDITTEXT_ID = "com.tencent.mm:id/b4a" //聊天文本输入框ID
+    var CHAT_EDITTEXT_ID = "com.tencent.mm:id/b4a" //聊天文本输入框id
+    /* 发送按钮控件 */
+    var SEND_TEXT_ID = "com.tencent.mm:id/b8k" //发送按钮id
 
     fun setVersion(version: String) {
         LogUtils.d("version:$version")
@@ -185,8 +187,10 @@ object WechatConstants {
                 RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/gix" //红包点开控件id
                 RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/giw" //红包弹框关闭控件id
                 /* 红包详情页控件 */
-                RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/gj0" //红包金额id
-                CHAT_EDITTEXT_ID = "com.tencent.mm:id/b4a" //聊天文本输入框ID
+                RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/gcq" //红包金额id
+
+                CHAT_EDITTEXT_ID = "com.tencent.mm:id/b4a" //聊天文本输入框id
+                CHAT_EDITTEXT_ID = "com.tencent.mm:id/b8k" //发送按钮id
             }
         }
     }
