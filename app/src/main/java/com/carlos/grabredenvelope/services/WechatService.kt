@@ -166,7 +166,7 @@ class WechatService : BaseAccessibilityService() {
      * 拆开红包
      */
     private fun openRedEnvelope(event: AccessibilityEvent) {
-        // 如果当前不在聊天不是微信红包弹框或者已经没执行点击红包操作，则不执行拆的操作
+        // 如果当前没执行点击红包操作，则不执行拆的操作
         if (status != HAS_CLICKED) {
             return
         }
@@ -181,6 +181,10 @@ class WechatService : BaseAccessibilityService() {
                 openRedEnvelopeCustom()
             } else {
                 LogUtils.d("openRedEnvelopeAuto")
+                // 如果当前不是微信红包弹框，则不执行拆的操作
+                if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) {
+                    return@launch
+                }
                 var envelopes = getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID) ?: return@launch
                 if (envelopes.isEmpty()) {
                     // 没有开按钮，则点击退出按钮
@@ -196,8 +200,8 @@ class WechatService : BaseAccessibilityService() {
     private fun openRedEnvelopeAuto(envelopes: MutableList<AccessibilityNodeInfo>) {
         GlobalScope.launch {
             val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
-//            LogUtils.d("delay open time:$delayTime")
-            delay(delayTime + 500)//小米华为等部分手机瞬间获取不到节点，暂时增加延迟避免无法点击开按钮
+            LogUtils.d("delay open time:$delayTime")
+            delay(delayTime)
             clickFirstNodeInfo(envelopes, true)
             status = HAS_OPENED
             LogUtils.d("opened a redenvelope")
