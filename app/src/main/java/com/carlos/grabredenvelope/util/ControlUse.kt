@@ -3,6 +3,7 @@ package com.carlos.grabredenvelope.util
 import android.content.Context
 import android.text.TextUtils
 import android.util.Log
+import com.carlos.cutils.util.AppUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.cutils.util.NetUtils
 import com.carlos.grabredenvelope.data.RedEnvelopePreferences
@@ -93,8 +94,12 @@ class ControlUse(private val context: Context) {
     fun getStopTime() {
         GlobalScope.launch {
             val data = NetUtils().get("http://xbdcc.cn/GrabRedEnvelope/control.json")
-            val stopTime = JSONObject(data).getString("stopTime")
-            RedEnvelopePreferences.stopTime = stopTime
+            try {
+                val stopTime = JSONObject(data).getString(AppUtils.getVersionName())
+                RedEnvelopePreferences.stopTime = stopTime
+            }catch (e: Exception){
+                LogUtils.e("error:", e)
+            }
         }
     }
 
