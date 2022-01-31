@@ -87,7 +87,8 @@
         <receiver
             android:name=".receiver.JpushReceiver"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false"
+            android:process=":pushcore">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                 <category android:name="${applicationId}" />
