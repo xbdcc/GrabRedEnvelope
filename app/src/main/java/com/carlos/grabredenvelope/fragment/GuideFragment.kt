@@ -1,6 +1,7 @@
 package com.carlos.grabredenvelope.fragment
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import com.carlos.grabredenvelope.R
 import com.carlos.grabredenvelope.activity.MainActivity
@@ -50,6 +51,7 @@ class GuideFragment : BaseFragment(R.layout.fragment_about) {
             val mainActivity2 = activity as MainActivity
             mainActivity2.checkItem(4)
         }
+        tv_use.movementMethod = ScrollingMovementMethod.getInstance()
     }
 
 }
