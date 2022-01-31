@@ -85,13 +85,13 @@ object RedEnvelopePreferences :
         }
 
     var emojiTimes: Int
-        get() = getInt(EMOJI_TIMES, 0)
+        get() = getInt(EMOJI_TIMES, 1)
         set(value) {
             setInt(EMOJI_TIMES, value)
         }
 
     var emojiInterval: Int
-        get() = getInt(EMOJI_INTERVAL, 0)
+        get() = getInt(EMOJI_INTERVAL, 1)
         set(value) {
             setInt(EMOJI_INTERVAL, value)
         }

@@ -55,7 +55,7 @@ class EmojiFragment : BaseFragment(R.layout.fragment_emoji) {
     private fun init() {
         tv_control.setOnClickListener {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-            Toast.makeText(view?.context, "辅助功能找到（抢微信红包）开启或关闭。", Toast.LENGTH_SHORT)
+            Toast.makeText(view?.context, "辅助功能找到（自动发送表情）开启或关闭。", Toast.LENGTH_SHORT)
                 .show()
         }
 

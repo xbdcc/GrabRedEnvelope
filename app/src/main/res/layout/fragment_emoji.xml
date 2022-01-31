@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="@dimen/text_size_small"
-            android:text="可快速自动发送烟花制造聊天对话页连续放烟花的效果，过年庆祝下，平时也可以快速丢炸弹玩。需先找到辅助功能【自动发送表情】开启才有效"
+            android:text="可快速自动发送烟花制造聊天对话页连续放烟花的效果，过年庆祝下，平时也可以快速丢炸弹玩。需先找到辅助功能【自动发送表情】开启才有效
+                          \n开启后次数如果发完了则结束，需关掉无障碍再重新打开重新计算次数 "
             />
 
         <View
