@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/GrabRedEnvelope.iml" filepath="$PROJECT_DIR$/GrabRedEnvelope.iml" group="GrabRedEnvelope" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="GrabRedEnvelope/app" />
-      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" group="GrabRedEnvelope/demo" />
+      <module fileurl="file://$PROJECT_DIR$/GrabRedEnvelope.iml" filepath="$PROJECT_DIR$/GrabRedEnvelope.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/GrabRedEnvelope.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/GrabRedEnvelope.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/GrabRedEnvelope.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/GrabRedEnvelope.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/GrabRedEnvelope.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/GrabRedEnvelope.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/GrabRedEnvelope.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/GrabRedEnvelope.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo/GrabRedEnvelope.demo.iml" filepath="$PROJECT_DIR$/.idea/modules/demo/GrabRedEnvelope.demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo/GrabRedEnvelope.demo.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/demo/GrabRedEnvelope.demo.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo/GrabRedEnvelope.demo.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo/GrabRedEnvelope.demo.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo/GrabRedEnvelope.demo.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/demo/GrabRedEnvelope.demo.unitTest.iml" />
     </modules>
   </component>
 </project>

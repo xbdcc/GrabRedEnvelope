@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlinx-serialization'
 
-apply plugin: 'io.sentry.android.gradle'
+//apply plugin: 'io.sentry.android.gradle'
 apply plugin: 'org.greenrobot.greendao'
 
 def defaultPropertiesFile = rootProject.file("buildsystem/default.properties")
@@ -47,8 +47,7 @@ android {
                 JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        // 只保留中文
-        resConfigs "zh"
+        resConfigs 'zh'
     }
     buildTypes {
         release {
@@ -104,17 +103,17 @@ android.applicationVariants.all { variant ->
     }
 }
 
-sentry {
-    // Disables or enables the automatic configuration of proguard
-    // for Sentry.  This injects a default config for proguard so
-    // you don't need to do it manually.
-    autoProguardConfig true
-
-    // Enables or disables the automatic upload of mapping files
-    // during a build.  If you disable this you'll need to manually
-    // upload the mapping files with sentry-cli when you do a release.
-    autoUpload true
-}
+//sentry {
+//    // Disables or enables the automatic configuration of proguard
+//    // for Sentry.  This injects a default config for proguard so
+//    // you don't need to do it manually.
+//    autoProguardConfig true
+//
+//    // Enables or disables the automatic upload of mapping files
+//    // during a build.  If you disable this you'll need to manually
+//    // upload the mapping files with sentry-cli when you do a release.
+//    autoUpload true
+//}
 
 greendao {
     schemaVersion 2//数据库版本号
