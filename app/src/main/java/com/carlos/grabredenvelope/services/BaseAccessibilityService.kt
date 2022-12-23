@@ -75,7 +75,7 @@ abstract class BaseAccessibilityService : CBaseAccessibilityService() {
     }
 
     override fun onInterrupt() {
-        Sentry.capture("${this.javaClass.name} onInterrupt")
+        Sentry.captureMessage("${this.javaClass.name} onInterrupt")
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {

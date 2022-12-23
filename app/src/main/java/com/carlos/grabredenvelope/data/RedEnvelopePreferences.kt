@@ -4,7 +4,9 @@ import com.carlos.cutils.base.CBasePreferences
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.MyApplication
 import com.carlos.grabredenvelope.dao.WechatControlVO
-import kotlinx.serialization.json.JSON
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 /**
  *                             _ooOoo_
@@ -58,18 +60,18 @@ object RedEnvelopePreferences :
             val data = getString(WECHAT_CONTROL, "")
             if (data.isNullOrEmpty()) return WechatControlVO()
             return try {
-                JSON.parse(WechatControlVO.serializer(), data)
+                Json.decodeFromString(data)
             } catch (e: Exception) {
                 LogUtils.e("error:", e)
                 setString(
                     WECHAT_CONTROL,
-                    JSON.stringify(WechatControlVO.serializer(), WechatControlVO())
+                    Json.encodeToString(WechatControlVO())
                 )
                 WechatControlVO()
             }
         }
         set(value) {
-            setString(WECHAT_CONTROL, JSON.stringify(WechatControlVO.serializer(), value))
+            setString(WECHAT_CONTROL, Json.encodeToString(value))
         }
 
     var useStatus: Boolean
@@ -107,7 +109,6 @@ object RedEnvelopePreferences :
         set(value) {
             setString(GRAB_FILTER, value)
         }
-
 
 }
 

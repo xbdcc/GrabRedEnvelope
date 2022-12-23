@@ -8,7 +8,6 @@ import com.carlos.cutils.CUtils
 import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.execption.MyUncaughtExceptionHandler
 import io.sentry.Sentry
-import io.sentry.android.AndroidSentryClientFactory
 
 
 /**
@@ -66,8 +65,10 @@ class MyApplication : Application() {
     }
 
     private fun initSentry() {
-        Sentry.init(BuildConfig.SENTRY_DSN, AndroidSentryClientFactory(applicationContext))
-            .environment = BuildConfig.BUILD_TYPE
+        Sentry.init {
+            it.dsn = BuildConfig.SENTRY_DSN
+            it.environment = BuildConfig.BUILD_TYPE
+        }
         Thread.setDefaultUncaughtExceptionHandler(MyUncaughtExceptionHandler())
     }
 

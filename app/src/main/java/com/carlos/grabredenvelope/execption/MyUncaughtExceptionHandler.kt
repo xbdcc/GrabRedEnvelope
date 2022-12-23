@@ -43,7 +43,7 @@ class MyUncaughtExceptionHandler : CUncaughtExceptionHandler() {
 
     override fun uncaughtException(t: Thread?, e: Throwable?) {
         if (t == null || e == null) return
-        Sentry.capture(e)
+        Sentry.captureException(e)
     }
 
 }
