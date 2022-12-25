@@ -65,16 +65,18 @@ abstract class BaseAccessibilityService : CBaseAccessibilityService() {
 
     override fun onCreate() {
         super.onCreate()
+        LogUtils.d("Service onCreate.")
         controlUse = ControlUse(applicationContext)
         if (controlUse.stopUse()) isMonitor = false
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        LogUtils.d("service ondestroy.")
+        LogUtils.d("Service onDestroy.")
     }
 
     override fun onInterrupt() {
+        LogUtils.e("Service onInterrupt.")
         Sentry.captureMessage("${this.javaClass.name} onInterrupt")
     }
 

@@ -8,7 +8,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -19,7 +20,7 @@
             android:name=".WechatService"
             android:label="@string/wechat_service_demo"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
             </intent-filter>
@@ -32,7 +33,7 @@
             android:name=".SendEmojiService"
             android:label="@string/emoji_send_demo"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
             </intent-filter>
