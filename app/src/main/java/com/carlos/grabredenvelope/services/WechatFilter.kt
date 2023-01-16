@@ -52,7 +52,7 @@ object WechatFilter {
         return false
     }
 
-    fun isRemarkFilter(accessibilityNodeInfo: AccessibilityNodeInfo) : Boolean{
+    fun isRemarkFilter(accessibilityNodeInfo: AccessibilityNodeInfo?) : Boolean{
         val grabNots = RedEnvelopePreferences.grabFilter.split("@")
         for (grabNot in grabNots) {
             if(AccessibilityServiceUtils.isExistNodeInfosByText(grabNot, accessibilityNodeInfo))
