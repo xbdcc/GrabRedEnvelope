@@ -79,12 +79,10 @@ class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekB
         }
         cb_wechat_chat_control.setOnCheckedChangeListener { buttonView, isChecked ->
             wechatControlVO.isMonitorChat = isChecked
-//            LogUtils.d("ismotior:" + isChecked)
             RedEnvelopePreferences.wechatControl = wechatControlVO
         }
         cb_if_grab_self.setOnCheckedChangeListener { buttonView, isChecked ->
             wechatControlVO.ifGrabSelf = isChecked
-//            LogUtils.d("ifGrabSelf:" + isChecked)
             RedEnvelopePreferences.wechatControl = wechatControlVO
         }
 
@@ -155,7 +153,7 @@ class ControlFragment : BaseFragment(R.layout.fragment_control), SeekBar.OnSeekB
     }
 
     fun updateControlView(boolean: Boolean) {
-        if (boolean) cb_qq_control.setButtonDrawable(R.mipmap.switch_on)
+        if (boolean) cb_qq_control?.setButtonDrawable(R.mipmap.switch_on)
         else cb_qq_control?.setButtonDrawable(R.mipmap.switch_off)
     }
 
