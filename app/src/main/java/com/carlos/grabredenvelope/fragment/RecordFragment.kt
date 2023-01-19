@@ -72,16 +72,17 @@ class RecordFragment : BaseFragment(R.layout.fragment_record) {
 
     private fun initData() {
         job = GlobalScope.launch(Dispatchers.Main) {
-            getData()
+            list.clear()
+            list.addAll(getData())
             if (list.isNullOrEmpty()) return@launch
             tv_record_title.text = "从${startTime}至今已助你抢到${total}元"
             arrayAdapter.notifyDataSetChanged()
         }
     }
 
-    private suspend fun getData() {
-        withContext(Dispatchers.IO) {
-            list.clear()
+    private suspend fun getData(): ArrayList<String> {
+        return withContext(Dispatchers.IO) {
+            var list = ArrayList<String>()
             total = 0.0
             val wechatRedEnvelopes = WechatRedEnvelopeDb.allData
             for (wechatRedEnvelope in wechatRedEnvelopes.asReversed()) {
@@ -91,6 +92,7 @@ class RecordFragment : BaseFragment(R.layout.fragment_record) {
             if (wechatRedEnvelopes.isNotEmpty()) {
                 startTime = getYearToMinute(wechatRedEnvelopes[0].time)
             }
+            return@withContext list
         }
     }
 
