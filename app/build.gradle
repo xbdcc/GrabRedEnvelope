@@ -121,7 +121,6 @@ greendao {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3'
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
@@ -133,8 +132,8 @@ dependencies {
     implementation 'com.github.xbdcc:cutils:0.0.30-SNAPSHOT'
 
     //jpush
-    implementation 'cn.jiguang.sdk:jpush:4.5.0'
-    implementation 'cn.jiguang.sdk:jcore:3.1.2'
+    implementation 'cn.jiguang.sdk:jcore:4.0.0'
+    implementation 'cn.jiguang.sdk:jpush:4.8.5'
 
     //umeng
     implementation 'com.umeng.umsdk:analytics:8.0.0'
