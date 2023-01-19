@@ -1,7 +1,7 @@
 package com.carlos.grabredenvelope
 
 import com.carlos.grabredenvelope.dao.WechatControlVO
-import kotlinx.serialization.json.JSON
+import kotlinx.serialization.json.Json
 import org.junit.Test
 
 /**
@@ -14,16 +14,12 @@ class SerializableTest {
 
         val wechatControlVO = WechatControlVO()
 
-        val json = JSON.stringify(WechatControlVO.serializer(), wechatControlVO)
+        val json = Json.encodeToString(WechatControlVO.serializer(), wechatControlVO)
         println("json:$json")
 
 
-        val data = JSON.parse(WechatControlVO.serializer(), json)
+        val data = Json.decodeFromString(WechatControlVO.serializer(), json)
         println("isMonitor:${data.isMonitorChat}")
-
-
-        var json2 = JSON.parse(WechatControlVO.serializer(), "")
-        println("json2:$json2")
 
     }
 

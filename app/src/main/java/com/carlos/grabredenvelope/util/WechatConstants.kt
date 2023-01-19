@@ -202,7 +202,7 @@ object WechatConstants {
                 RED_ENVELOPE_BEEN_GRAB_ID = "com.tencent.mm:id/xs" //红包框中间文字'已领取'控件id
                 /* 红包弹框控件*/
                 RED_ENVELOPE_OPEN_ID = "com.tencent.mm:id/giq" //红包点开控件id
-                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/glp" //红包弹框关闭控件id
+                RED_ENVELOPE_CLOSE_ID = "com.tencent.mm:id/gip" //红包弹框关闭控件id
                 /* 红包详情页控件 */
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/git" //红包金额id
 

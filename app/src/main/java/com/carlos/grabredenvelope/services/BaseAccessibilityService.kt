@@ -114,11 +114,13 @@ abstract class BaseAccessibilityService : CBaseAccessibilityService() {
             return
         }
         if (text.contains(notificationTitle).not()) return
+        LogUtils.d("Notification contains redenvelope.")
         try {
             val notification = event.parcelableData as Notification
             val pendingIntent = notification.contentIntent
             pendingIntent.send()
             status = HAS_RECEIVED
+            LogUtils.d("click redenvelope notification.")
         } catch (e: PendingIntent.CanceledException) {
             e.printStackTrace()
         }

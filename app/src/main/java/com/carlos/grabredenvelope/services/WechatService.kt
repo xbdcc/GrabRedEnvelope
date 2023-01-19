@@ -1,9 +1,7 @@
 package com.carlos.grabredenvelope.services
 
 import android.graphics.Path
-import android.os.Build
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import com.carlos.cutils.extend.*
 import com.carlos.cutils.util.AppUtils
 import com.carlos.cutils.util.LogUtils
@@ -71,25 +69,8 @@ class WechatService : BaseAccessibilityService() {
 
     override fun onCreate() {
         super.onCreate()
-//        LogUtils.d("service onCreate.")
         WechatConstants.setVersion(AppUtils.getVersionName(WECHAT_PACKAGE))
     }
-
-
-    override fun onAccessibilityEvent(event: AccessibilityEvent) {
-        super.onAccessibilityEvent(event)
-        if (AccessibilityEvent.TYPE_VIEW_CLICKED == event.eventType) {
-            LogUtils.d("monitorViewClicked:$event")
-            if ((status != HAS_CLICKED)) return
-            openRedEnvelope(event)
-        }
-    }
-
-//    override fun monitorViewClicked(event: AccessibilityEvent) {
-//        super.monitorViewClicked(event)
-//        LogUtils.d("monitorViewClicked:$event")
-//        openRedEnvelope(event)
-//    }
 
     override fun monitorNotificationChanged(event: AccessibilityEvent) {
         LogUtils.d("monitorNotificationChanged:$event")
@@ -132,7 +113,6 @@ class WechatService : BaseAccessibilityService() {
      * 监控微信聊天列表页面是否有红包，经测试若聊天页面与通知同时开启聊天页面比通知先监听到，聊天列表已点击的情况下就不用去点击通知栏
      */
     private fun monitorChat() {
-//        LogUtils.d("monitorChat")
         // 监控关闭则不执行后续操作
         if (RedEnvelopePreferences.wechatControl.isMonitorChat.not()) {
             return
@@ -150,7 +130,6 @@ class WechatService : BaseAccessibilityService() {
      * 对话页面监控点击红包, 从最下面开始点起
      */
     private fun grabRedEnvelope() {
-//        LogUtils.d("grabRedEnvelope")
         /* 发现红包点击进入领取红包页面 */
         val ifGrabSelf = RedEnvelopePreferences.wechatControl.ifGrabSelf
         if (findAndClickFirstNodeInfoByViewId(
@@ -166,39 +145,36 @@ class WechatService : BaseAccessibilityService() {
      * 拆开红包
      */
     private fun openRedEnvelope(event: AccessibilityEvent) {
-        // 如果当前没执行点击红包操作，则不执行拆的操作
-        if (status != HAS_CLICKED) {
+        // 进入红包页面点击开按钮
+        if (RedEnvelopePreferences.wechatControl.isCustomClick) {
+            LogUtils.d("openRedEnvelopeCustom:" + event.className)
+            openRedEnvelopeCustom()
+        } else {
+            LogUtils.d("openRedEnvelopeAuto:" + event.className)
+            openRedEnvelopeAuto(event)
+        }
+    }
+
+    /**
+     * 自动点击开按钮，高版本系统微信加载有过程查找开按钮不会马上找到，加入延迟防止不自动点击开按钮
+     */
+    private fun openRedEnvelopeAuto(event: AccessibilityEvent) {
+        // 如果当前不在聊天不是微信红包弹框或者已经没执行点击红包操作，则不执行拆的操作
+        if ((event.className != WECHAT_LUCKYMONEY_ACTIVITY) or (status != HAS_CLICKED)) {
             return
         }
 
-        LogUtils.d("openEnvelope")
         GlobalScope.launch {
-            delay(500L)//小米华为等部分手机瞬间获取不到节点，暂时增加延迟避免无法点击开按钮
-
-            // 进入红包页面点击开按钮
-            if (RedEnvelopePreferences.wechatControl.isCustomClick) {
-                LogUtils.d("openRedEnvelopeCustom")
-                openRedEnvelopeCustom()
-            } else {
-                LogUtils.d("openRedEnvelopeAuto")
-                // 如果当前不是微信红包弹框，则不执行拆的操作
-                if (event.className != WECHAT_LUCKYMONEY_ACTIVITY) {
-                    return@launch
-                }
-                var envelopes = getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID) ?: return@launch
-                if (envelopes.isEmpty()) {
-                    // 没有开按钮，则点击退出按钮
-                    findAndClickFirstNodeInfoByViewId(RED_ENVELOPE_CLOSE_ID, true)
-                    return@launch
-                }
-                openRedEnvelopeAuto(envelopes)
+            LogUtils.d("start find open id")
+            val envelopes = getNodeInfosByViewId(RED_ENVELOPE_OPEN_ID,300, 5)
+            LogUtils.d("end find open id")
+            if (envelopes.isNullOrEmpty()) {
+                // 没有开按钮，则点击退出按钮
+                findAndClickFirstNodeInfoByViewId(RED_ENVELOPE_CLOSE_ID, true)
+                LogUtils.d("not has open button:$envelopes")
+                return@launch
             }
-        }
 
-    }
-
-    private fun openRedEnvelopeAuto(envelopes: MutableList<AccessibilityNodeInfo>) {
-        GlobalScope.launch {
             val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
             LogUtils.d("delay open time:$delayTime")
             delay(delayTime)
@@ -209,7 +185,7 @@ class WechatService : BaseAccessibilityService() {
     }
 
     /**
-     * Android7.0以上有效
+     * Android7.0以上有效，坐标点点击开按钮
      */
     private fun openRedEnvelopeCustom() {
         if (status != HAS_CLICKED) {
@@ -224,18 +200,16 @@ class WechatService : BaseAccessibilityService() {
             )
         }
         val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
-        LogUtils.d("delay open time:$delayTime")
-        gesturePath(path, delayTime)
+        LogUtils.d("delay custom open time:$delayTime")
+        gesturePath(path,  delayTime, interval = 500, times = 3)
         status = HAS_OPENED
         LogUtils.d("opened a redenvelope")
     }
-
 
     /**
      * 退出红包详情页
      */
     private fun quitEnvelope(event: AccessibilityEvent) {
-//        LogUtils.d("quitEnvelope")
         // 如果当前页面不是红包详情页或者没有点开过拆按钮，则不执行退出操作
         if ((event.className != WECHAT_LUCKYMONEYDETAILUI_ACTIVITY) or (status != HAS_OPENED)) {
             return
@@ -244,7 +218,7 @@ class WechatService : BaseAccessibilityService() {
         GlobalScope.launch {
             saveData()
             val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayCloseTime
-//            LogUtils.d("delay close time:$delayTime")
+            LogUtils.d("delay close time:$delayTime")
             if (delayTime != 11000L) {
                 delay(delayTime)
                 back()
@@ -258,9 +232,10 @@ class WechatService : BaseAccessibilityService() {
      * 记录抢到的金额本地查看记录
      */
     private fun saveData() {
-        getNodeInfosByViewId(RED_ENVELOPE_COUNT_ID)?.get(0)?.let {
+        getNodeInfosByViewId(RED_ENVELOPE_COUNT_ID)?.let {
+            if (it.isNullOrEmpty())return
             val wechatRedEnvelope = WechatRedEnvelope()
-            wechatRedEnvelope.count = it.text.toString()
+            wechatRedEnvelope.count = it[0].text.toString()
             WechatRedEnvelopeDb.insertData(wechatRedEnvelope)
         }
     }
