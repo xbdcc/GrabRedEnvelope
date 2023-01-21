@@ -72,6 +72,18 @@ class WechatService : BaseAccessibilityService() {
         WechatConstants.setVersion(AppUtils.getVersionName(WECHAT_PACKAGE))
     }
 
+    /**
+     * 部分手机特殊场景下偶现出现红包框但是不走TYPE_WINDOW_STATE_CHANGED的情况，导致不会点击开，手动在点击后调一次避免此问题
+     */
+    override fun onAccessibilityEvent(event: AccessibilityEvent) {
+        super.onAccessibilityEvent(event)
+        if (AccessibilityEvent.TYPE_VIEW_CLICKED == event.eventType) {
+            LogUtils.d("monitorViewClicked:$event")
+            if ((status != HAS_CLICKED)) return
+            openRedEnvelope(event)
+        }
+    }
+
     override fun monitorNotificationChanged(event: AccessibilityEvent) {
         LogUtils.d("monitorNotificationChanged:$event")
         if (RedEnvelopePreferences.wechatControl.isMonitorNotification.not()) {
@@ -104,7 +116,10 @@ class WechatService : BaseAccessibilityService() {
             return
         }
 
-        grabRedEnvelope()
+        GlobalScope.launch {
+            delay(300L)
+            grabRedEnvelope()
+        }
         monitorChat()
     }
 
@@ -175,7 +190,7 @@ class WechatService : BaseAccessibilityService() {
                 return@launch
             }
 
-            val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
+            val delayTime = 500L + 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
             LogUtils.d("delay open time:$delayTime")
             delay(delayTime)
             clickFirstNodeInfo(envelopes, true)
@@ -199,7 +214,7 @@ class WechatService : BaseAccessibilityService() {
                 RedEnvelopePreferences.wechatControl.pointY.toFloat()
             )
         }
-        val delayTime = 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
+        val delayTime = 500L + 1000L * RedEnvelopePreferences.wechatControl.delayOpenTime
         LogUtils.d("delay custom open time:$delayTime")
         gesturePath(path,  delayTime, interval = 500, times = 3)
         status = HAS_OPENED
