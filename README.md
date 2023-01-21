@@ -7,7 +7,7 @@
 http://xbdcc.cn/GrabRedEnvelope/index.html
 
 ## 实现过程介绍：
-https://www.jianshu.com/p/e1099a94b979
+https://github.com/xbdcc/GrabRedEnvelope/blob/master/demo/README.md
 
 ## 分析用到的命令相关
 https://github.com/xbdcc/CCommand
@@ -57,6 +57,8 @@ https://github.com/xbdcc/CUtils
 
 
 ## 版本说明
+### v3.5.0(2023.01.21)
+适配微信8.0.31,8.0.32，功能优化。
 ### v3.4.0(2022.01.31)
 适配微信8.0.18,8.0.19，增加不抢的群或人功能。
 ### v3.3.0(2021.02.09)
