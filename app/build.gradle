@@ -146,5 +146,7 @@ dependencies {
 
     implementation 'org.greenrobot:greendao:3.2.2' // add library
 
+    implementation 'androidx.multidex:multidex:2.0.1'
+
 }
 
