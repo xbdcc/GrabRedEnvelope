@@ -1,6 +1,7 @@
 package com.carlos.grabredenvelope
 
 import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.carlos.cutils.CUtils
 import com.carlos.cutils.util.LogUtils
 
@@ -41,7 +42,7 @@ import com.carlos.cutils.util.LogUtils
  * Github: https://github.com/xbdcc/.
  * Created by 小不点 on 2016/2/6.
  */
-class MyApplication : Application() {
+class MyApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
