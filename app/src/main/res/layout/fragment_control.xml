@@ -186,7 +186,7 @@
                     android:id="@+id/cb_custom_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="自定义拆红包按钮坐标："/>
+                    android:hint="自定义拆红包按钮坐标："/>
                 <EditText
                     android:id="@+id/et_pointX"
                     android:layout_width="wrap_content"
@@ -208,7 +208,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="不抢的群（填自己设置的备注，如有多个以@符号分割）"/>
+                android:hint="不抢的群（填自己设置的备注，如有多个以@符号分割）"/>
             <EditText
                 android:id="@+id/et_text_filters"
                 android:layout_width="match_parent"

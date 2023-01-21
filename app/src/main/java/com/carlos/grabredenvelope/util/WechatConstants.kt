@@ -192,7 +192,7 @@ object WechatConstants {
                 CHAT_EDITTEXT_ID = "com.tencent.mm:id/b4a" //聊天文本输入框id
                 SEND_TEXT_ID = "com.tencent.mm:id/b8k" //发送按钮id
             }
-            else -> { //8.0.31
+            else -> { //8.0.31,8.0.32
                 /* 微信聊天列表页控件 */
                 RED_ENVELOPE_RECT_TITLE_ID = "com.tencent.mm:id/bth" //Item可点击控件id
                 RED_ENVELOPE_TITLE_ID = "com.tencent.mm:id/fhs" //Item内容控件id，通过关键字判断
