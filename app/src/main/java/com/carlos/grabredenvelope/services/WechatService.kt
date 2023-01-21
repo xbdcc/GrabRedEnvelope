@@ -110,11 +110,7 @@ class WechatService : BaseAccessibilityService() {
     override fun monitorContentChanged(event: AccessibilityEvent) {
         LogUtils.d("monitorContentChanged:$event")
 
-
-        if(WechatFilter.isRemarkFilter(rootInActiveWindow)) {
-            LogUtils.d("in filter, not grab")
-            return
-        }
+        if(WechatFilter.isRemarkFilter(rootInActiveWindow)) return
 
         GlobalScope.launch {
             delay(300L)
