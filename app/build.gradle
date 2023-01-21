@@ -136,15 +136,14 @@ dependencies {
     implementation 'cn.jiguang.sdk:jpush:4.8.5'
 
     //umeng
-    implementation 'com.umeng.umsdk:analytics:8.0.0'
-    implementation 'com.umeng.umsdk:common:2.0.0'
+    implementation 'com.umeng.umsdk:common:9.5.0'// 必选
+    implementation 'com.umeng.umsdk:asms:1.4.1'// 必选
+    implementation 'com.umeng.umsdk:apm:1.7.0' // 错误分析模块改为独立库，看crash和性能数据请一定集成
 
     implementation 'io.sentry:sentry-android:6.10.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.5.0'
 
     implementation 'org.greenrobot:greendao:3.2.2' // add library
-
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
 
 }
 
