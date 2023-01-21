@@ -48,6 +48,7 @@ android {
         ]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs 'zh'
+        multiDexEnabled true
     }
     buildTypes {
         release {
