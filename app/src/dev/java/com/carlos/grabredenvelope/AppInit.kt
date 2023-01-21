@@ -1,13 +1,5 @@
 package com.carlos.grabredenvelope
 
-import android.app.ActivityManager
-import android.content.Context
-import android.os.Process
-import cn.jpush.android.api.JPushInterface
-import com.carlos.cutils.util.LogUtils
-import com.umeng.analytics.MobclickAgent
-import com.umeng.commonsdk.UMConfigure
-
 /**
  *                             _ooOoo_
  *                            o8888888o
@@ -45,49 +37,8 @@ import com.umeng.commonsdk.UMConfigure
  */
 class AppInit {
 
-    private var context: Context = MyApplication.instance.applicationContext
-
     init {
 
-        if ("com.carlos.grabredenvelope:pushcore" == getCurrentProcessName()) {
-            initJpush()
-        }
-
-        initUmeng()
-    }
-
-    private fun initJpush() {
-        JPushInterface.setDebugMode(BuildConfig.DEBUG)
-        JPushInterface.init(context)
-        val id = JPushInterface.getRegistrationID(context)
-        LogUtils.d("id:" + id)
-    }
-
-    private fun initUmeng() {
-        UMConfigure.setLogEnabled(BuildConfig.DEBUG)
-        UMConfigure.init(
-            context,
-            BuildConfig.UMENG_APPKEY_DEV,
-            BuildConfig.VERSION_NAME,
-            UMConfigure.DEVICE_TYPE_PHONE,
-            null
-        )
-        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
-    }
-
-    /**
-     * 获取当前进程名
-     */
-    private fun getCurrentProcessName(): String? {
-        val pid = Process.myPid()
-        var processName = ""
-        val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        for (process in manager.runningAppProcesses) {
-            if (process.pid == pid) {
-                processName = process.processName
-            }
-        }
-        return processName
     }
 
 }

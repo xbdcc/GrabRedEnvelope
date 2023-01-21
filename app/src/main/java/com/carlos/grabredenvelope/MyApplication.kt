@@ -1,13 +1,8 @@
 package com.carlos.grabredenvelope
 
-import android.app.ActivityManager
 import android.app.Application
-import android.content.Context
-import android.os.Process
 import com.carlos.cutils.CUtils
 import com.carlos.cutils.util.LogUtils
-import com.carlos.grabredenvelope.execption.MyUncaughtExceptionHandler
-import io.sentry.Sentry
 
 
 /**
@@ -54,22 +49,10 @@ class MyApplication : Application() {
 
         instance = this
 
-        LogUtils.isShowLog = BuildConfig.DEBUG
-
         CUtils.init(this)
 
         AppInit()
 
-        initSentry()
-
-    }
-
-    private fun initSentry() {
-        Sentry.init {
-            it.dsn = BuildConfig.SENTRY_DSN
-            it.environment = BuildConfig.BUILD_TYPE
-        }
-        Thread.setDefaultUncaughtExceptionHandler(MyUncaughtExceptionHandler())
     }
 
     companion object {
