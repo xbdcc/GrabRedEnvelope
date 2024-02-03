@@ -223,8 +223,8 @@ object WechatConstants {
                 /* 红包详情页控件 */
                 RED_ENVELOPE_COUNT_ID = "com.tencent.mm:id/iyw" //红包金额id
 
-                CHAT_EDITTEXT_ID = "com.tencent.mm:id/b4a" //聊天文本输入框id
-                SEND_TEXT_ID = "com.tencent.mm:id/b8k" //发送按钮id
+                CHAT_EDITTEXT_ID = "com.tencent.mm:id/bkk" //聊天文本输入框id
+                SEND_TEXT_ID = "com.tencent.mm:id/bql" //发送按钮id
             }
         }
     }

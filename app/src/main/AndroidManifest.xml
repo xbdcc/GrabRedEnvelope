@@ -42,6 +42,7 @@
         <service
             android:name=".services.EmojiService"
             android:label="@string/auto_send_emoji"
+            android:icon="@mipmap/ic_launcher"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="true">
             <intent-filter>
