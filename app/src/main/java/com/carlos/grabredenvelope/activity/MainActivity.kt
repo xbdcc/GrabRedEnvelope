@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.carlos.cutils.base.adapter.CBaseMyPagerAdapter
 import com.carlos.cutils.listener.PermissionListener
+import com.carlos.cutils.util.LogUtils
 import com.carlos.grabredenvelope.databinding.ActivityMainBinding
 import com.carlos.grabredenvelope.fragment.*
 import com.carlos.grabredenvelope.util.Update
@@ -86,6 +87,7 @@ open class MainActivity : BaseActivity() {
         addAccessibilityServiceListener(object :
             AccessibilityServiceListeners {
             override fun updateStatus(boolean: Boolean) {
+                LogUtils.d("updateStatus:$boolean")
                 val controlFragment = fragments[0] as ControlFragment
                 controlFragment.updateControlView(boolean)
             }

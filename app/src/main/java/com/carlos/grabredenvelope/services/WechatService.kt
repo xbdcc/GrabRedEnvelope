@@ -60,7 +60,6 @@ import kotlinx.coroutines.launch
 /**
  * Github: https://github.com/xbdcc/.
  * Created by Carlos on 2019/2/14.
- * Adapt Wechat 7.0.3,7.0.4,7.0.5,7.0.8,7.0.9,7.0.10,7.0.11,7.0.12,7.0.16,8.0.0.
  */
 class WechatService : BaseAccessibilityService() {
 
@@ -92,8 +91,6 @@ class WechatService : BaseAccessibilityService() {
         if (status == HAS_RECEIVED) {
             return
         }
-
-//        if(WechatFilter.isNotifacationFilter(event.text?.toString())) return
 
         super.monitorNotificationChanged(event)
     }
