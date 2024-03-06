@@ -92,3 +92,4 @@ UI调整，功能完善，适配微信7.0.10。
 
 ## 基于本项目改写的项目
 - https://github.com/gemgao/redenvelopes
+- https://github.com/internlm/huixiangdou 基于 LLM RAG 的技术助手，论文见 arxiv2401.08772
